@@ -1,12 +1,97 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class PaymentsScreen extends StatelessWidget {
-  const PaymentsScreen({super.key});
+class PaymentScreen extends StatelessWidget {
+  const PaymentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Payments'));
+    return Scaffold(
+
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                // Top section with two cards arranged horizontally
+                Text(
+                  'Available Balance',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 16, color: Colors.green,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+                ),
+                SizedBox(height: 30,),
+
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              Icon(Icons.monetization_on_outlined, size: 40.0, color: Colors.green),
+                              SizedBox(height: 8.0),
+                              Text('Withdraw'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16.0), // Add some horizontal space
+                    Expanded(
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              Icon(Icons.account_balance_wallet_outlined, size: 40.0, color: Colors.green),
+                              SizedBox(height: 8.0),
+                              Text('Payment History'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0), // Add some vertical space
+
+                // Tab bar for Pending & Received
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () => {/* handle Pending tab selection */},
+                      child: const Text('Pending'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => {/* handle Received tab selection */},
+                      child: const Text('Received'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black, textStyle: const TextStyle(fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Your content based on the selected tab (replace with your widgets)
+                const Text(
+                  'Content for the selected tab will be displayed here.',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -16,7 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _screens = [
     HomeScreen(),
     BookingScreen(),
-    PaymentsScreen(),
+    PaymentScreen(),
     CatalogueScreen(),
   ];
 
