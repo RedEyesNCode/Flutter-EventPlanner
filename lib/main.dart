@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +11,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    return MaterialApp(
+      title: 'FoodNinja',
+      home: LoginScreen(), // Your login_screen.dart goes here
+    );
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
