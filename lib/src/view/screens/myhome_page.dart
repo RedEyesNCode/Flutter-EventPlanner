@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/catalogue_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/payments_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/image_text_row.dart';
+import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/view/widgets/two_text_card.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -13,11 +15,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+
   static const List<Widget> _screens = [
     HomeScreen(),
     BookingScreen(),
     PaymentScreen(),
-    CatalogueScreen(),
+    CatalogueScreen(initialData: {
+      "event_name":"",
+      "event_type":"",
+      "start_date":"",
+
+      "end_date":"",
+      "location_id":"",
+      "description":"",
+      "Status":""
+
+    },)
   ];
 
   void _onItemTapped(int index) {
@@ -40,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedItemColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Booking'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month), label: 'Booking'),
           BottomNavigationBarItem(icon: Icon(Icons.payment), label: 'Payments'),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Catalogue'),
         ],
@@ -57,73 +71,128 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-
-      children: [
-        Text(
-          'Bookings',
-          textAlign: TextAlign.start,
-          style: TextStyle(fontSize: 16, color: Colors.green,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
-        ),
-        SizedBox(height: 20,),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-
-          children: <Widget>[
-            Expanded(  // Wrap each 'TwoTextCard' within an 'Expanded' widget
-              child: TwoTextCard(text1: 'Pending', text2: '3577'),
-            ),
-            Expanded(
-              child: TwoTextCard(text1: 'Confirmed', text2: '3577'),
-            ),
-            Expanded(
-              child: TwoTextCard(text1: 'Delivered', text2: '3577'),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          // Define the direction of the gradient
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          // List the colors of the gradient
+          colors: [
+            Colors.white,
+            Colors.white,
           ],
+          // Define stops for each color
+          stops: [0.0, 1.0],
         ),
-        SizedBox(height: 20,),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ImageAndTextRow(
+                icon: Icons.my_location_outlined, text: 'Welcome Back !'),
+          ),
 
-        Text(
-          'Business Overview',
-          textAlign: TextAlign.start,
-          style: TextStyle(fontSize: 16, color: Colors.green,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
-        ),
-        SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.only(left: 40.0),
+            child: Row(
+              children: [
+                Text('Ashutosh ',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                    fontSize: 21,
+                    fontFamily: 'PlayfairDisplay',
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-
-          children: <Widget>[
-            Expanded(  // Wrap each 'TwoTextCard' within an 'Expanded' widget
-              child: TwoTextCard(text1: 'Pending', text2: '3577'),
+                )),
+              ],
             ),
-            Expanded(
-              child: TwoTextCard(text1: 'Confirmed', text2: '3577'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+
+              child: TextField(
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+
+                  hintText: "Search events",
+                  hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
+                  prefixIcon: const Icon(Icons.search,color: Colors.black,),
+                  suffixIcon: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0), // Adjust as needed
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: const Icon(Icons.filter_list),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+              
+                      borderRadius: BorderRadius.circular(30.0), // Adjust border radius as needed
+                      borderSide: BorderSide(
+                        color: Colors.grey, // Set border color
+                      )
+                  ),
+                  border: OutlineInputBorder(
+
+                    borderSide: BorderSide(
+                      color: Colors.white
+                    )
+                  )
+                ),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
             ),
 
-          ],
-        ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 1.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                          fontSize: 21,
+                          fontFamily: 'PlayfairDisplay',
+                          color: Colors.black,
 
-      ],
+                        )),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+
+                    ItemUpcomingEvent()
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      ),
     );
   }
 }
 
 
-
-
-class CatalogueScreen extends StatelessWidget {
-  const CatalogueScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Catalogue'));
-  }
-}
 
 class NavigationDrawer extends StatelessWidget {
   @override
@@ -134,7 +203,13 @@ class NavigationDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.greenAccent),
-            child: Text('Event Planner',style: TextStyle(fontWeight: FontWeight.w700,fontFamily: 'PlayfairDisplay',color: Colors.black ),),
+            child: Text(
+              'Event Planner',
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'PlayfairDisplay',
+                  color: Colors.black),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
