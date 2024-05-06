@@ -303,7 +303,10 @@ class _LoginScreenUI extends State<LoginScreenUI>{
   }
   Future<void> _handleLogin(MainViewModel viewModel) async {
     // Consider disabling the button to prevent multiple login attempts
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+    );
     try {
       showLoader(); // Show the loading dialog
       await viewModel.loginUser({

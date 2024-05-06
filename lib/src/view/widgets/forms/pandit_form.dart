@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 
-class PhotoVideoForm extends StatefulWidget{
+class PanditForm extends StatefulWidget {
 
-  final Map<String,String> initialData;
+  final Map<String, String> initialData;
+  const PanditForm({Key? key, required this.initialData}) : super(key: key);
 
-
-  const PhotoVideoForm({Key? key, required this.initialData}) : super(key: key);
   @override
-  _PhotoVideoForm createState() => _PhotoVideoForm();
-
+  _PanditForm createState() => _PanditForm();
 
 }
-class _PhotoVideoForm extends State<PhotoVideoForm>{
-
+class _PanditForm extends State<PanditForm> {
 
   final _textControllers = Map<String, TextEditingController>();
 
@@ -98,5 +95,6 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
       );
 
   }
+
 
 }
