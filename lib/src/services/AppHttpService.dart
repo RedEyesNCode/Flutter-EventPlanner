@@ -14,18 +14,12 @@ class AppHttpService extends BaseService{
     // TODO: implement loginUser
     try {
       final response = await http.post(
-        Uri.parse(BaseUrl + 'login-user'), // Adjust the endpoint accordingly
+        Uri.parse(BaseUrl + 'megma/login'), // Adjust the endpoint accordingly
         body: jsonEncode(userData),
         headers: {
           'Content-Type': 'application/json',
         },
       );
-      print(response);
-      print(response);
-      print(response);
-      print(response);
-      print(response);
-      print(response);
 
 
       return returnResponse(response);
@@ -56,4 +50,44 @@ class AppHttpService extends BaseService{
                 ' with status code : ${response.statusCode}');
     }
   }
+
+  @override
+  Future registerUser(Map<String, dynamic> userRegisterData) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/signup'), // Adjust the endpoint accordingly
+        body: jsonEncode(userRegisterData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future getEventLocations() async {
+    // TODO: implement getEventLocations
+
+    try {
+      final response = await http.get(
+        Uri.parse(BaseUrl + 'megma/getalllocation'), // Adjust the endpoint accordingly
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+
+
 }
