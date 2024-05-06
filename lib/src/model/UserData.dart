@@ -1,11 +1,10 @@
 class UserData {
-  final String id;
-  final String email;
-  final String password;
-  final bool isLoggedIn;
-  final String createdAt;
-  final String updatedAt;
-  final String version;
+  final String? id;
+  final String? email;
+  final String? password;
+  final bool? isLoggedIn;
+  final String? createdAt;
+  final String? updatedAt;
 
   UserData({
     required this.id,
@@ -14,7 +13,6 @@ class UserData {
     required this.isLoggedIn,
     required this.createdAt,
     required this.updatedAt,
-    required this.version,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -24,7 +22,6 @@ class UserData {
     isLoggedIn: json['isLoggedIn'],
     createdAt: json['createdAt'],
     updatedAt: json['updatedAt'],
-    version: json['__v'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +31,5 @@ class UserData {
     'isLoggedIn': isLoggedIn,
     'createdAt': createdAt,
     'updatedAt': updatedAt,
-    '__v': version,
   };
 }

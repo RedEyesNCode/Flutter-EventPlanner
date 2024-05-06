@@ -312,10 +312,10 @@ class _LoginScreenUI extends State<LoginScreenUI>{
 
       if (viewModel.response.status == Status.COMPLETED) {
         // Success! Navigate to appropriate screen
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => MyHomePage()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
 
       //   viewModel.loginResponse!.data.password
         ScaffoldMessenger.of(context).showSnackBar(

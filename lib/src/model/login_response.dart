@@ -1,9 +1,9 @@
 import 'package:flutter_eventplanner/src/model/UserData.dart';
 
 class login_response {
-  final String status;
-  final String code;
-  final String message;
+  final int?  status;
+  final int? code;
+  final String? message;
   final UserData data;
 
   login_response({

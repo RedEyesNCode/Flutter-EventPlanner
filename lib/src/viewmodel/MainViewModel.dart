@@ -23,26 +23,19 @@ class MainViewModel with ChangeNotifier {
   Future<void> loginUser(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+
     try {
+
       login_response? response = await MainRepository().loginUser(userData);
       print(response);
 
       _apiResponse = ApiResponse.completed(response);
       _loginResponse = response;
-        } on BadRequestException {
+    } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
     } catch (e) {
-      // _apiResponse = ApiResponse.error('Error code: '+ _loginResponse!.message); // Problem!
-
-      print('Exception of type ${e.runtimeType} caught: $e');
-      if (_loginResponse?.message is String) {
-        _apiResponse = ApiResponse.error('Error code: ${_loginResponse!.message}');
-      } else {
-        _apiResponse = ApiResponse.error('An error occurred');
-      }
-
       _apiResponse = ApiResponse.error('Error : '+e.toString());
       print(e);
     }
