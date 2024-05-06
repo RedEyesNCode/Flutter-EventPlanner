@@ -1,14 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/venue_form.dart';
 
 class EventTypeScreen extends StatelessWidget {
-  const EventTypeScreen({super.key});
+  EventTypeScreen({super.key});
+
+  final TextEditingController _controllerCategory = TextEditingController();
+
+  void _showBottomSheetEventCategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["VENUE","DJWALE-BABU","DECORATION","TRAVEL"],
+        onItemSelected: (selectedItem) {
+          _controllerCategory.text = selectedItem;
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
+
+
+
     return Scaffold(
       body:
 
@@ -57,6 +82,10 @@ class EventTypeScreen extends StatelessWidget {
              child: Padding(
                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                child: TextField(
+                 controller: _controllerCategory,
+                 onTap: () {
+                   _showBottomSheetEventCategory(context);
+                 },
                  obscureText: false,
                  cursorColor: Colors.black,
                  style: TextStyle(

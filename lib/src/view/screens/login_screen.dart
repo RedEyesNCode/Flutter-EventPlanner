@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/model/login_response.dart';
+import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/screens/signup_screen.dart';
@@ -312,15 +314,25 @@ class _LoginScreenUI extends State<LoginScreenUI>{
 
       if (viewModel.response.status == Status.COMPLETED) {
         // Success! Navigate to appropriate screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+
 
       //   viewModel.loginResponse!.data.password
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(viewModel.loginResponse!.message.toString())),
         );
+        // Saving the response into session
+        await SharedPrefManager().setString('LOGIN_RESPONSE', 'viewModel.loginResponse.toString()');
+        await SharedPrefManager().setObject('LOGIN_OBJECT', viewModel.loginResponse as Object);
+        login_response? retrievedUser = await SharedPrefManager().getObject<login_response>('LOGIN_OBJECT');
+        String? jsonString = await SharedPrefManager().getString('LOGIN_RESPONSE');
+
+        if(jsonString!=null){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
+          );
+        }
+
       } else {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(

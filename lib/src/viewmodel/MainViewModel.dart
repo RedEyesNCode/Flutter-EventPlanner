@@ -86,6 +86,7 @@ class MainViewModel with ChangeNotifier {
 
       all_location_response? response = await MainRepository().getAllEventLocations();
       print(response);
+      
 
       _apiResponse = ApiResponse.completed(response);
       _allLocationResponse = response;

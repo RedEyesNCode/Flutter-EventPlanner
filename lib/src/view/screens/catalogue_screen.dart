@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/model/body_create_event.dart';
+import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/screens/event_type_screen.dart';
 
 
@@ -36,6 +40,7 @@ class _CatalogueScreenState extends State<CatalogueScreen>{
 
   @override
   Widget build(BuildContext context) {
+    body_create_event eventData;
     return
       SingleChildScrollView(
 
@@ -119,11 +124,40 @@ class _CatalogueScreenState extends State<CatalogueScreen>{
                       borderRadius: BorderRadius.circular(10), // Adjust border radius as needed
                     ),
                     child: ElevatedButton(
-                      onPressed: () => {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EventTypeScreen()),
-                      )},
+                      onPressed:  () => {
+                      // Save the create event data into session.
+
+
+                        if(_textControllers['event_name']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please enter event name')
+                        }else if(_textControllers['event_type']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please enter event type')
+                        }else if(_textControllers['start_date']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please enter start date')
+                        }else if(_textControllers['end_date']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please enter end date')
+
+                        }else if(_textControllers['description']!.text.toString().isEmpty){
+
+                          showAlertDialog(context, 'Please enter description')
+
+                        }else if(_textControllers['Status']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please enter Status of Event')
+
+                        }else if(_textControllers['location_id']!.text.toString().isEmpty){
+                          showAlertDialog(context, 'Please select event location')
+
+                        } else{
+                          _handleEventSession(context)
+                        }
+
+
+
+
+
+
+
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
@@ -147,6 +181,78 @@ class _CatalogueScreenState extends State<CatalogueScreen>{
       )
       ;
   }
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Changed context to dialogContext
+        return AlertDialog(
+          title: Text("Info",
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          content: Text(message,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontFamily: 'PlayfairDisplay',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Use the dialogContext here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _handleEventSession(BuildContext buildContext) async {
+
+
+
+    var eventData = body_create_event(
+      eventname: _textControllers['event_name']?.text.toString(),
+      eventtype: _textControllers['event_type']?.text.toString(),
+      startdate: _textControllers['start_date']?.text.toString(),
+      enddate: _textControllers['end_date']?.text.toString(),
+      description: _textControllers['description']?.text.toString(),
+      status: _textControllers['Status']?.text.toString(),
+      userId: _textControllers['userId']?.text.toString(),
+      locationid: _textControllers['location_id']?.text.toString(),
+
+    );
+    await SharedPrefManager().setString('CREATE-EVENT', eventData.toString());
+    String? retrievedEvent = await SharedPrefManager().getString('CREATE-EVENT');
+    if(jsonEncode(retrievedEvent).isNotEmpty){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EventTypeScreen()),
+      );
+    }
+
+
+
+
+
+
+  }
+
+
 
 
 
