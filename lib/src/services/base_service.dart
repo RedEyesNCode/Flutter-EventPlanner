@@ -9,5 +9,12 @@ abstract class BaseService {
   Future<dynamic> getEventLocations();
 
 
+  Future<dynamic> createEvent(Map<String,dynamic> createEventData);
+
+  Future<dynamic> createEventTypeVenue(Map<String,dynamic> createEventTypeVenue);
+
+
+
+
 
 }

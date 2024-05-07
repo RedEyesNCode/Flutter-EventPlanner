@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -216,7 +218,10 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                             ),
                             borderRadius: BorderRadius.circular(10), // Adjust border radius as needed
                           ),
-                          child: ElevatedButton(
+                          child:
+
+
+                          ElevatedButton(
                             onPressed: () async {
 
                               // Api Calling.
@@ -324,7 +329,7 @@ class _LoginScreenUI extends State<LoginScreenUI>{
           SnackBar(content: Text(viewModel.loginResponse!.message.toString())),
         );
         // Saving the response into session
-        await SharedPrefManager().setString('LOGIN_RESPONSE', 'viewModel.loginResponse.toString()');
+        await SharedPrefManager().setString('LOGIN_RESPONSE', jsonEncode(viewModel.loginResponse));
         await SharedPrefManager().setObject('LOGIN_OBJECT', viewModel.loginResponse as Object);
         login_response? retrievedUser = await SharedPrefManager().getObject<login_response>('LOGIN_OBJECT');
         String? jsonString = await SharedPrefManager().getString('LOGIN_RESPONSE');

@@ -88,6 +88,43 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future createEvent(Map<String, dynamic> createEventData) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/createevent'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future createEventTypeVenue(Map<String, dynamic> createEventTypeVenue) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-venue'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeVenue),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 }

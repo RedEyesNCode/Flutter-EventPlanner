@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
+import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/screens/event_type_screen.dart';
 import 'package:flutter_eventplanner/src/view/widgets/DatePickerWidget.dart';
@@ -311,6 +312,11 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   }
 
   _handleEventSession(BuildContext buildContext) async {
+
+    String? sessionUserString = await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? sessionUserResponse = jsonDecode(sessionUserString!);
+
+
     var eventData = body_create_event(
       eventname: _textControllers['event_name']?.text.toString(),
       eventtype: _textControllers['event_type']?.text.toString(),
@@ -318,13 +324,15 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
       enddate: _textControllers['end_date']?.text.toString(),
       description: _textControllers['description']?.text.toString(),
       status: _textControllers['Status']?.text.toString(),
-      userId: _textControllers['userId']?.text.toString(),
+      // userId:sessionUserResponse!.data.id.toString(),
+      userId:'STATIC_FLUTTER',
       locationid: _textControllers['location_id']?.text.toString(),
     );
-    await SharedPrefManager().setString('CREATE-EVENT', eventData.toString());
+    await SharedPrefManager().setString('CREATE-EVENT', jsonEncode(eventData));
     String? retrievedEvent =
         await SharedPrefManager().getString('CREATE-EVENT');
-    if (jsonEncode(retrievedEvent).isNotEmpty) {
+    if (retrievedEvent!=null) {
+      print(jsonDecode(retrievedEvent));
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => EventTypeScreen()),

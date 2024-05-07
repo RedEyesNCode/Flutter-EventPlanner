@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_event_response.dart';
+import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/repository/MainRepository.dart';
@@ -15,6 +17,11 @@ class MainViewModel with ChangeNotifier {
 
   all_location_response? _allLocationResponse;
 
+  create_event_response? _create_event_response;
+
+  create_event_venue_response? _create_event_venue_response;
+
+
 
   all_location_response? get allLocationResponse => _allLocationResponse;
 
@@ -25,6 +32,14 @@ class MainViewModel with ChangeNotifier {
   login_response? get loginResponse => _loginResponse;
 
   register_response? get registerResponse => _registerResponse;
+
+  create_event_response? get createEventResponse => _create_event_response;
+
+  create_event_venue_response? get createEventVenueResponse=> _create_event_venue_response;
+
+
+
+
 
 
   void _notifyListenersIfNeeded() {
@@ -55,6 +70,51 @@ class MainViewModel with ChangeNotifier {
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
+
+  Future<void> createEvent(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_event_response? response = await MainRepository().createNewEvent(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_event_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventTypeVenue(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_event_venue_response? response = await MainRepository().createEventTypeVenue(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_event_venue_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
 
   Future<void> registerUser(Map<String, dynamic> userRegisterData) async {
     _apiResponse = ApiResponse.loading('Checking user');

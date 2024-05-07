@@ -2,6 +2,8 @@
 
 
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_event_response.dart';
+import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
@@ -41,6 +43,37 @@ class MainRepository {
 
 
   }
+  Future<create_event_response> createNewEvent(Map<String,dynamic> createEventData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEvent(createEventData);
+      // Assuming the response is in the format you provided earlier
+      return create_event_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_event_venue_response> createEventTypeVenue(Map<String,dynamic> createEventData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeVenue(createEventData);
+      // Assuming the response is in the format you provided earlier
+      return create_event_venue_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+
+
 
   Future<all_location_response> getAllEventLocations() async{
 
