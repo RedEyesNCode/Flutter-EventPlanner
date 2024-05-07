@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
+import 'package:provider/provider.dart';
 
 
 class DecorationForm extends StatefulWidget {
@@ -38,65 +40,164 @@ class _DecorationForm extends State<DecorationForm>{
     // TODO: implement build
     return
 
+    ChangeNotifierProvider(create: (_)=>MainViewModel(),
+    child: Consumer<MainViewModel>(
 
-      SingleChildScrollView(
-        child:        Column(
+        builder: (context,viewmodel,_){
+          return SingleChildScrollView(
+            child:        Column(
 
-          children: [
+              children: [
 
-            SizedBox(height: 20),
-            ...widget.initialData.entries.map((entry) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
+                SizedBox(height: 20),
+                ...widget.initialData.entries.map((entry) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    // Define the direction of the gradient
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    // List the colors of the gradient
-                    colors: [
-                      Colors.orange.shade200,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: LinearGradient(
+                        // Define the direction of the gradient
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        // List the colors of the gradient
+                        colors: [
+                          Colors.orange.shade200,
 
-                      Colors.orange.shade50,
+                          Colors.orange.shade50,
 
-                    ],
-                    // Define stops for each color
-                    stops: [0.0, 1.0],
+                        ],
+                        // Define stops for each color
+                        stops: [0.0, 1.0],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
+                      child: TextField(
+                        controller: _textControllers[entry.key],
+                        obscureText: false,
+                        cursorColor: Colors.black,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                            fontFamily: 'PlayfairDisplay'
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+
+
+                            labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
+                            labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
+
+                        ),
+                      ),
+                    ),
+                  ),
+
+                )).toList(),
+                ElevatedButton(
+                  onPressed: () async {
+
+                    // Api Calling.
+
+                    if(_textControllers["decoration_name"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter decoration name');
+                    }else if(_textControllers["members"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter members in team');
+                    }else if(_textControllers["description"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter description');
+                    }else if(_textControllers["hourly_rate"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter hourly rate');
+                    }else if(_textControllers["min_hours"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter min hours');
+                    }else if(_textControllers["rate"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter rate of decoration');
+                    }else if(_textControllers["location"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter location');
+                    }else if(_textControllers["contact_information"]!.text.isEmpty){
+                      showAlertDialog(context, "Please enter contact information");
+                    }else{
+                      await _handleDecorationForm(viewmodel,_textControllers);
+
+                    }
+
+
+
+
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                    shadowColor: Colors.lightGreenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                    ),
+                  ),
+                  child:
+                  Text(
+                    'Create Event Venue',
+                    style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
-                  child: TextField(
-                    controller: _textControllers[entry.key],
-                    obscureText: false,
-                    cursorColor: Colors.black,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay'
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
+
+              ],
+
+            )
+            ,
+          );
+    },
+    ),
+    );
 
 
-                        labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
-                        labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
-
-                    ),
-                  ),
-                ),
-              ),
-
-            )).toList(),
-          ],
-
-        )
-        ,
-      );
 
   }
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Changed context to dialogContext
+        return AlertDialog(
+          title: Text("Info",
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          content: Text(message,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontFamily: 'PlayfairDisplay',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Use the dialogContext here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _handleDecorationForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) {
+
+
+
+
+  }
+
 
 }
