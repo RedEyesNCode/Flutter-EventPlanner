@@ -17,11 +17,13 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
   final TextEditingController _controllerCategory = TextEditingController();
 
+  final TextEditingController _controllerStatus = TextEditingController();
+
   void _showBottomSheetEventCategory(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT"],
+        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENT-HOUSE"],
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
@@ -33,6 +35,10 @@ class _EventTypeScreen extends State<EventTypeScreen>{
       ),
     );
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +88,8 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: TextField(
                     controller: _controllerCategory,
+                    canRequestFocus: false,
+
                     onTap: () {
 
                       _showBottomSheetEventCategory(context);
@@ -175,7 +183,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
                 children: [
                   Text(
-                    'DJ Band General Information',
+                    'Decoration General Information',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',
@@ -198,7 +206,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
                 children: [
                   Text(
-                    'DJ Band General Information',
+                    'Makeup Artist General Information',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',
@@ -223,7 +231,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
                 children: [
                   Text(
-                    'DJ Band General Information',
+                    'Photo & Video General Information',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',
@@ -246,7 +254,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
                 children: [
                   Text(
-                    'DJ Band General Information',
+                    'Travel & Transportation Information',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',

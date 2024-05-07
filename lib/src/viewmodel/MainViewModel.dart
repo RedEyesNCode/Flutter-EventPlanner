@@ -91,7 +91,7 @@ class MainViewModel with ChangeNotifier {
       _apiResponse = ApiResponse.completed(response);
       _allLocationResponse = response;
     } on BadRequestException {
-      _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse = ApiResponse.error('Location Not found !');
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
     } catch (e) {
