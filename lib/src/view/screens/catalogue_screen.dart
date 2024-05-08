@@ -25,12 +25,13 @@ class CatalogueScreen extends StatefulWidget {
 class _CatalogueScreenState extends State<CatalogueScreen> {
   final _textControllers = Map<String, TextEditingController>();
 
-  void _showLocationSheet(BuildContext context, String key) {
+  void _showLocationSheet(BuildContext context, String key,MainViewModel mainViewModel) {
     showModalBottomSheet(
         context: context,
         builder: (context) => LocationSheet(
-              onItemSelected: (selectedItem) {
-                _textControllers[key]?.text = selectedItem;
+          viewModel: mainViewModel,
+              onItemSelected: (selectedItem,selectedId) {
+                _textControllers[key]?.text = selectedId;
                 Navigator.pop(context);
                 setState(() {}); // Trigger rebuild
               },
@@ -144,7 +145,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                     entry.key == "end_date")
                                   {_selectDate(context, entry.key)}
                                 else if (entry.key == "location_id")
-                                    {_showLocationSheet(context, entry.key)}
+                                    {_showLocationSheet(context, entry.key,viewmodel)}
                               },
                               obscureText: false,
                               canRequestFocus: entry.key != "Status" ||
@@ -233,7 +234,9 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                               context, 'Please select event location')
                                         }
                                       else
-                                        {_handleEventSession(context)}
+                                        {
+                                        _handleEventSession(context)
+                                        }
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.only(
@@ -313,8 +316,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
 
   _handleEventSession(BuildContext buildContext) async {
 
-    String? sessionUserString = await SharedPrefManager().getString("LOGIN_RESPONSE");
-    login_response? sessionUserResponse = jsonDecode(sessionUserString!);
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
 
     var eventData = body_create_event(
@@ -324,8 +326,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
       enddate: _textControllers['end_date']?.text.toString(),
       description: _textControllers['description']?.text.toString(),
       status: _textControllers['Status']?.text.toString(),
-      // userId:sessionUserResponse!.data.id.toString(),
-      userId:'STATIC_FLUTTER',
+      userId:sessionUserString,
+      // userId:'STATIC_FLUTTER',
       locationid: _textControllers['location_id']?.text.toString(),
     );
     await SharedPrefManager().setString('CREATE-EVENT', jsonEncode(eventData));

@@ -9,6 +9,7 @@ import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
 
 import '../model/login_response.dart';
+import '../model/user_events_response.dart';
 
 class MainRepository {
   BaseService _userService = AppHttpService();
@@ -89,7 +90,20 @@ class MainRepository {
 
 
   }
+  Future<user_events_response> getAllUserEvents(Map<String,dynamic> getUserEventsData) async{
 
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getUserEvents(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return user_events_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
 
 
 

@@ -1,7 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 
 class ItemUpcomingEvent extends StatelessWidget {
+
+
+
+  const ItemUpcomingEvent({super.key, required this.events});
+
+  final  Events events;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -55,7 +63,7 @@ class ItemUpcomingEvent extends StatelessWidget {
                         ),
                         SizedBox(height: 10,),
                         Text(
-                          'Bhopal Music Festival 2024',
+                          events.eventName.toString(),
                           style: TextStyle(fontSize: 18.0,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w600,),
 
                         ),

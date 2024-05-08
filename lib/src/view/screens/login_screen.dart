@@ -37,6 +37,16 @@ class _LoginScreenUI extends State<LoginScreenUI>{
   final _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController.text = "new@gmail.com";
+    _passwordController.text = "123456";
+
+  }
+
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -72,6 +82,7 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                         SizedBox(height: 20.0),
                         TextField(
                           controller: _emailController,
+
                           decoration: InputDecoration(
                             hintText: 'Email',
                             focusedBorder: OutlineInputBorder(
@@ -223,12 +234,14 @@ class _LoginScreenUI extends State<LoginScreenUI>{
 
                           ElevatedButton(
                             onPressed: () async {
-
                               // Api Calling.
-                              await _handleLogin(viewmodel);
-
-
-
+                              if(_emailController.text.toString().isEmpty){
+                                showAlertDialog(context, 'Please enter email address');
+                              }else if(_passwordController.text.toString().isEmpty){
+                                showAlertDialog(context, 'Please enter password');
+                              }else{
+                                await _handleLogin(viewmodel);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.transparent,
@@ -301,17 +314,55 @@ class _LoginScreenUI extends State<LoginScreenUI>{
 
         ),
       );
-      
-      
+
+
 
 
   }
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Changed context to dialogContext
+        return AlertDialog(
+          title: Text("Info",
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          content: Text(message,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontFamily: 'PlayfairDisplay',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Use the dialogContext here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _handleLogin(MainViewModel viewModel) async {
     // Consider disabling the button to prevent multiple login attempts
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MyHomePage()),
-    );
+
+
     try {
       showLoader(); // Show the loading dialog
       await viewModel.loginUser({
@@ -330,8 +381,8 @@ class _LoginScreenUI extends State<LoginScreenUI>{
         );
         // Saving the response into session
         await SharedPrefManager().setString('LOGIN_RESPONSE', jsonEncode(viewModel.loginResponse));
-        await SharedPrefManager().setObject('LOGIN_OBJECT', viewModel.loginResponse as Object);
-        login_response? retrievedUser = await SharedPrefManager().getObject<login_response>('LOGIN_OBJECT');
+        await SharedPrefManager().setString('USER_ID', viewModel.loginResponse!.data.id.toString());
+        await SharedPrefManager().setString('IS_LOGGED', 'true');
         String? jsonString = await SharedPrefManager().getString('LOGIN_RESPONSE');
 
         if(jsonString!=null){

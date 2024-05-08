@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
+import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 import 'package:flutter_eventplanner/src/repository/MainRepository.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/utils/app_exception.dart';
@@ -20,6 +23,11 @@ class MainViewModel with ChangeNotifier {
   create_event_response? _create_event_response;
 
   create_event_venue_response? _create_event_venue_response;
+
+  user_events_response? _user_events_response;
+
+  user_events_response? get userEventsResponse => _user_events_response;
+
 
 
 
@@ -103,6 +111,29 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_event_venue_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+  Future<void> getUserEvents(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+    
+    
+    try {
+
+      user_events_response? response = await MainRepository().getAllUserEvents(userData);
+      print('USER-EVENTS-RESPONSE--> '+jsonEncode(response));
+      _user_events_response = response;
+
+      _apiResponse = ApiResponse.completed(response);
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {

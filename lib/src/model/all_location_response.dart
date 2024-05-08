@@ -7,8 +7,8 @@ class Date {
   String? contactnumber;
   String? contactname;
   String? website;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
   int? v;
 
   Date({this.id, this.venuename, this.address, this.capacity, this.contactnumber, this.contactname, this.website, this.createdAt, this.updatedAt, this.v});

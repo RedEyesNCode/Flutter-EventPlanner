@@ -214,15 +214,10 @@ class _VenueForm extends State<VenueForm>{
     try {
       // Call the create-event api first to get the eventID.
       String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      body_create_event? sessionJsonEvent = jsonDecode(sessionEventString!);
+      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+
+      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
       print(sessionEventString);
-      // if(sessionJsonEvent!=null){
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => MyHomePage()),
-      //   );
-      // }
-      // showAlertDialog(context, sessionJsonEvent!.eventname.toString());
 
 
 
@@ -233,13 +228,15 @@ class _VenueForm extends State<VenueForm>{
         'end_date' : sessionJsonEvent.enddate,
         'description' : sessionJsonEvent.description,
         'Status' : sessionJsonEvent.status,
-        'userId' : 'static_flutter',
-        'location_id' : sessionJsonEvent.locationid
+        'userId' : sessionUserString,
+        'location_id' : sessionJsonEvent.locationid,
+        'category_id' : '663b57080883d49112987c46',
+
       });
 
       if(viewModel.createEventResponse!=null){
         await viewModel.createEventTypeVenue({
-          'agent_id' : 'static_flutter',
+
           'venue_name': _textControllers["venue_name"]!.text.toString(),
           'venue_address': _textControllers["venue_address"]!.text.toString(),
           'venue_capacity': _textControllers["venue_capacity"]!.text.toString(),

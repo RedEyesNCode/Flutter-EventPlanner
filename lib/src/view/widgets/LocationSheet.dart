@@ -6,13 +6,15 @@ import 'package:provider/provider.dart';
 
 class _LocationSheet extends State<LocationSheet>{
 
-  List<String> options = []; // Initialize empty options list
+  List<String> options = [];
+  List<String> locationId = [];
+
 
   @override
   void initState() {
     super.initState();
     // Fetch data from API here
-    _fetchData(Provider.of<MainViewModel>(context, listen: false));
+    _fetchData(widget.viewModel); // Initiate the API call in the ViewModel
   }
   Future<void> _fetchData(MainViewModel viewModel) async {
     try {
@@ -21,9 +23,13 @@ class _LocationSheet extends State<LocationSheet>{
 
       if (viewModel.response.status == Status.COMPLETED) {
         // Optionally, you can check for completion status or handle data here
-        setState(() {
-          options = viewModel.response.data; // Update options with the fetched data
+        viewModel.allLocationResponse!.date!.forEach((element) {
+          options.add(element!.venuename.toString());
+          locationId.add(element.id.toString());
+
         });
+        setState(() {});
+
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(viewModel.allLocationResponse!.message.toString())),
@@ -52,7 +58,7 @@ class _LocationSheet extends State<LocationSheet>{
               itemCount: options.length,
               itemBuilder: (context, index) => ListTile(
                 title: Text(options[index],style: TextStyle(fontFamily: 'PlayfairDisplay',color: Colors.black,fontWeight: FontWeight.w500),),
-                onTap: () => widget.onItemSelected(options[index]),
+                onTap: () => widget.onItemSelected(options[index],locationId[index]),
               ),
             ),
           );
@@ -69,11 +75,12 @@ class _LocationSheet extends State<LocationSheet>{
 
 class LocationSheet extends StatefulWidget {
 
-  final Function(String) onItemSelected;
+  final Function(String,String) onItemSelected;
+  final MainViewModel viewModel;
 
 
-  LocationSheet({Key? key,  required this.onItemSelected}) : super(key: key);
-
+  LocationSheet({Key? key, required this.onItemSelected, required this.viewModel})
+      : super(key: key);
   @override
   _LocationSheet createState() => _LocationSheet();
 }

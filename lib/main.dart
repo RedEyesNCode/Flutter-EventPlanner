@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
+import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // Add this
 
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(
+        create: (_) => MainViewModel(),
+        child: const MyApp(),
+      )
+
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized(); // Add this
-
     return MaterialApp(
       title: 'FoodNinja',
       home: LoginScreen(), // Your login_screen.dart goes here
