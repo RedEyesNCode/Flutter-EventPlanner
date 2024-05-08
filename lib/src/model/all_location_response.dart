@@ -3,7 +3,7 @@ class Date {
   String? id;
   String? venuename;
   String? address;
-  int? capacity;
+  String? capacity;
   String? contactnumber;
   String? contactname;
   String? website;

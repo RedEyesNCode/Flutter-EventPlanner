@@ -99,151 +99,142 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      ChangeNotifierProvider.value(value: MainViewModel(),
+    final viewmodel = Provider.of<MainViewModel>(context);
 
-      child: Consumer<MainViewModel> (builder: (context,viewmodel,_){
-
-        return
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                // Define the direction of the gradient
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                // List the colors of the gradient
-                colors: [
-                  Colors.white,
-                  Colors.white,
-                ],
-                // Define stops for each color
-                stops: [0.0, 1.0],
-              ),
+    return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              // Define the direction of the gradient
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              // List the colors of the gradient
+              colors: [
+                Colors.white,
+                Colors.white,
+              ],
+              // Define stops for each color
+              stops: [0.0, 1.0],
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ImageAndTextRow(
-                      icon: Icons.my_location_outlined, text: 'Welcome Back !'),
-                ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ImageAndTextRow(
+                    icon: Icons.my_location_outlined, text: 'Welcome Back !'),
+              ),
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: Row(
-                    children: [
-                      Text('Flutter ',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                        fontSize: 21,
-                        fontFamily: 'PlayfairDisplay',
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0),
+                child: Row(
+                  children: [
+                    Text('Flutter ',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                      fontSize: 21,
+                      fontFamily: 'PlayfairDisplay',
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
 
-                      )),
-                    ],
-                  ),
+                    )),
+                  ],
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
 
-                    child: TextField(
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
 
-                          hintText: "Search events",
-                          hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
-                          prefixIcon: const Icon(Icons.search,color: Colors.black,),
-                          suffixIcon: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 8.0), // Adjust as needed
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            child: const Icon(Icons.filter_list),
+                        hintText: "Search events",
+                        hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
+                        prefixIcon: const Icon(Icons.search,color: Colors.black,),
+                        suffixIcon: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 8.0), // Adjust as needed
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          child: const Icon(Icons.filter_list),
+                        ),
+                        focusedBorder: OutlineInputBorder(
 
-                              borderRadius: BorderRadius.circular(30.0), // Adjust border radius as needed
-                              borderSide: BorderSide(
-                                color: Colors.grey, // Set border color
-                              )
-                          ),
-                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            )
+                        ),
+                        border: OutlineInputBorder(
 
-                              borderSide: BorderSide(
-                                  color: Colors.white
-                              )
-                          )
-                      ),
+                            borderSide: BorderSide(
+                                color: Colors.white
+                            )
+                        )
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                  ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                ),
 
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 1.0),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 1.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 10,),
-                          Row(
-                            children: [
-                              Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                                fontSize: 21,
-                                fontFamily: 'PlayfairDisplay',
-                                color: Colors.black,
-
-                              )),
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-
-                          if(viewmodel.response.status==Status.COMPLETED)
-                          Expanded( // Expanded to let the list take available space
-                            child: ListView.builder(
-                              itemCount: viewmodel.userEventsResponse!.data?.events!.length,
-                              itemBuilder: (context, index) {
-                                final event = viewmodel.userEventsResponse!.data?.events![index];
-                                return ItemUpcomingEvent(events: event!,);
-                              },
-                            ),
-                          ),
-                          if(viewmodel.response.status==Status.INITIAL)
-                            Text('Initial Data',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
                               fontSize: 21,
                               fontFamily: 'PlayfairDisplay',
                               color: Colors.black,
 
                             )),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
 
-                        ],
-                      ),
+                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null)
+                          //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
+                          SizedBox(
+                            height: 300,
+                            child: Expanded( // Expanded to let the list take available space
+                              child: ListView.builder(
+                                itemCount: viewmodel.userEventsResponse!.data?.events!.length,
+                                itemBuilder: (context, index) {
+                                  final event = viewmodel.userEventsResponse!.data?.events![index];
+                                  return ItemUpcomingEvent(events: event!,);
+                                },
+                              ),
+                            ),
+                          ),
+                        // if(viewmodel.response.status==Status.INITIAL)
+
+
+                      ],
                     ),
                   ),
                 ),
+              ),
 
-              ],
-            ),
-          );
-
-      }
-
-
-        ,),
+            ],
+          ),
+        ),
       );
 
 

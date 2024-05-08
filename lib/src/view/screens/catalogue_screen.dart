@@ -87,190 +87,183 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   @override
   Widget build(BuildContext context) {
     body_create_event eventData;
-    return ChangeNotifierProvider<MainViewModel>(
-      create: (_) => MainViewModel(),
-      child:
-      Consumer<MainViewModel>(
+    final viewmodel = Provider.of<MainViewModel>(context);
 
-        builder: (context,viewmodel,_){
-          return SingleChildScrollView(
-            child: Column(
+
+    return Scaffold(
+      body:
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Event General Information',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'PlayfairDisplay',
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ],
-                ),
-                Form(
-                  child: Column(
-                    children: [
-                      ...widget.initialData.entries
-                          .map((entry) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            gradient: LinearGradient(
-                              // Define the direction of the gradient
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              // List the colors of the gradient
-                              colors: [
-                                Colors.orange.shade200,
-                                Colors.orange.shade50,
-                              ],
-                              // Define stops for each color
-                              stops: [0.0, 1.0],
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, right: 10.0),
-                            child: TextField(
-                              controller: _textControllers[entry.key],
-                              onTap: () => {
-                                if (entry.key == "Status")
-                                  {_showBottomSheetEventStatus(context)}
-                                else if (entry.key == "start_date" ||
-                                    entry.key == "end_date")
-                                  {_selectDate(context, entry.key)}
-                                else if (entry.key == "location_id")
-                                    {_showLocationSheet(context, entry.key,viewmodel)}
-                              },
-                              obscureText: false,
-                              canRequestFocus: entry.key != "Status" ||
-                                  entry.key == "state_date" ||
-                                  entry.key == "end_date",
-                              cursorColor: Colors.black,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                  fontFamily: 'PlayfairDisplay'),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: entry.key
-                                      .replaceAll('_', ' ')
-                                      .toUpperCase(),
-                                  labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0)),
-                            ),
-                          ),
-                        ),
-                      ))
-                          .toList(),
-                      /*TextField(
-                  controller: _textControllers[entry.key],
-                  decoration: InputDecoration(labelText: entry.key.replaceAll('_', ' ').toUpperCase()),
-                )*/
-                      SizedBox(height: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.red,
-                              Colors.redAccent,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                              10), // Adjust border radius as needed
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => {
-                            // Save the create event data into session.
-
-                            if (_textControllers['event_name']!
-                                .text
-                                .toString()
-                                .isEmpty)
-                              {showAlertDialog(context, 'Please enter event name')}
-                            else if (_textControllers['event_type']!
-                                .text
-                                .toString()
-                                .isEmpty)
-                              {showAlertDialog(context, 'Please enter event type')}
-                            else if (_textControllers['start_date']!
-                                  .text
-                                  .toString()
-                                  .isEmpty)
-                                {showAlertDialog(context, 'Please enter start date')}
-                              else if (_textControllers['end_date']!
-                                    .text
-                                    .toString()
-                                    .isEmpty)
-                                  {showAlertDialog(context, 'Please enter end date')}
-                                else if (_textControllers['description']!
-                                      .text
-                                      .toString()
-                                      .isEmpty)
-                                    {showAlertDialog(context, 'Please enter description')}
-                                  else if (_textControllers['Status']!
-                                        .text
-                                        .toString()
-                                        .isEmpty)
-                                      {
-                                        showAlertDialog(
-                                            context, 'Please enter Status of Event')
-                                      }
-                                    else if (_textControllers['location_id']!
-                                          .text
-                                          .toString()
-                                          .isEmpty)
-                                        {
-                                          showAlertDialog(
-                                              context, 'Please select event location')
-                                        }
-                                      else
-                                        {
-                                        _handleEventSession(context)
-                                        }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.only(
-                                left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10), // Keep consistent with container
-                            ),
-                          ),
-                          child: Text(
-                            'Proceed',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontFamily: 'PlayfairDisplay',
-                                fontWeight: FontWeight.w700), // Adjust text style
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Event General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               ],
             ),
-          );
+            Form(
+              child: Column(
+                children: [
+                  ...widget.initialData.entries
+                      .map((entry) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        gradient: LinearGradient(
+                          // Define the direction of the gradient
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          // List the colors of the gradient
+                          colors: [
+                            Colors.orange.shade200,
+                            Colors.orange.shade50,
+                          ],
+                          // Define stops for each color
+                          stops: [0.0, 1.0],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0),
+                        child: TextField(
+                          controller: _textControllers[entry.key],
+                          onTap: () => {
+                            if (entry.key == "Status")
+                              {_showBottomSheetEventStatus(context)}
+                            else if (entry.key == "start_date" ||
+                                entry.key == "end_date")
+                              {_selectDate(context, entry.key)}
+                            else if (entry.key == "location_id")
+                                {_showLocationSheet(context, entry.key,viewmodel)}
+                          },
+                          obscureText: false,
+                          canRequestFocus: entry.key != "Status" ||
+                              entry.key == "state_date" ||
+                              entry.key == "end_date",
+                          cursorColor: Colors.black,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontFamily: 'PlayfairDisplay'),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: entry.key
+                                  .replaceAll('_', ' ')
+                                  .toUpperCase(),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.0)),
+                        ),
+                      ),
+                    ),
+                  ))
+                      .toList(),
+                  /*TextField(
+                  controller: _textControllers[entry.key],
+                  decoration: InputDecoration(labelText: entry.key.replaceAll('_', ' ').toUpperCase()),
+                )*/
+                  SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.red,
+                          Colors.redAccent,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                          10), // Adjust border radius as needed
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () => {
+                        // Save the create event data into session.
 
-        },
-
-      )
-
-
+                        if (_textControllers['event_name']!
+                            .text
+                            .toString()
+                            .isEmpty)
+                          {showAlertDialog(context, 'Please enter event name')}
+                        else if (_textControllers['event_type']!
+                            .text
+                            .toString()
+                            .isEmpty)
+                          {showAlertDialog(context, 'Please enter event type')}
+                        else if (_textControllers['start_date']!
+                              .text
+                              .toString()
+                              .isEmpty)
+                            {showAlertDialog(context, 'Please enter start date')}
+                          else if (_textControllers['end_date']!
+                                .text
+                                .toString()
+                                .isEmpty)
+                              {showAlertDialog(context, 'Please enter end date')}
+                            else if (_textControllers['description']!
+                                  .text
+                                  .toString()
+                                  .isEmpty)
+                                {showAlertDialog(context, 'Please enter description')}
+                              else if (_textControllers['Status']!
+                                    .text
+                                    .toString()
+                                    .isEmpty)
+                                  {
+                                    showAlertDialog(
+                                        context, 'Please enter Status of Event')
+                                  }
+                                else if (_textControllers['location_id']!
+                                      .text
+                                      .toString()
+                                      .isEmpty)
+                                    {
+                                      showAlertDialog(
+                                          context, 'Please select event location')
+                                    }
+                                  else
+                                    {
+                                      _handleEventSession(context)
+                                    }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.only(
+                            left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10), // Keep consistent with container
+                        ),
+                      ),
+                      child: Text(
+                        'Proceed',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: 'PlayfairDisplay',
+                            fontWeight: FontWeight.w700), // Adjust text style
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
