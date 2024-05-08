@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body_create_event.dart';
+import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,123 +42,116 @@ class _DjBandForm extends State<DjBandForm>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    final viewmodel = Provider.of<MainViewModel>(context);
+
     return
 
-    ChangeNotifierProvider(create: (_)=> MainViewModel(),child:
-      Consumer<MainViewModel>(
+      SingleChildScrollView(
+        child:        Column(
 
-        builder: (context,viewmodel,_){
-          return       SingleChildScrollView(
-            child:        Column(
+          children: [
 
-              children: [
+            SizedBox(height: 20),
+            ...widget.initialData.entries.map((entry) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
 
-                SizedBox(height: 20),
-                ...widget.initialData.entries.map((entry) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child:
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  gradient: LinearGradient(
+                    // Define the direction of the gradient
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    // List the colors of the gradient
+                    colors: [
+                      Colors.orange.shade200,
 
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      gradient: LinearGradient(
-                        // Define the direction of the gradient
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        // List the colors of the gradient
-                        colors: [
-                          Colors.orange.shade200,
+                      Colors.orange.shade50,
 
-                          Colors.orange.shade50,
-
-                        ],
-                        // Define stops for each color
-                        stops: [0.0, 1.0],
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
-                      child: TextField(
-                        controller: _textControllers[entry.key],
-                        obscureText: false,
-                        cursorColor: Colors.black,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontFamily: 'PlayfairDisplay'
-                        ),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-
-
-                            labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
-                            labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
-
-                        ),
-                      ),
-                    ),
-                  ),
-
-                )).toList(),
-                ElevatedButton(
-                  onPressed: () async {
-
-                    // Api Calling.
-
-                    if(_textControllers["dj_band_name"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter dj band name');
-                    }else if(_textControllers["members"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter members in team');
-                    }else if(_textControllers["description"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter description');
-                    }else if(_textControllers["genre"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter genre');
-                    }else if(_textControllers["availability"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter availability');
-                    }else if(_textControllers["rate"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter rate of decoration');
-                    }else if(_textControllers["location"]!.text.isEmpty){
-                      showAlertDialog(context, 'Please enter location');
-                    }else if(_textControllers["contact_information"]!.text.isEmpty){
-                      showAlertDialog(context, "Please enter contact information");
-                    }else if(_textControllers["equiment"]!.text.isEmpty){
-
-                      showAlertDialog(context, 'Please enter equipment details');
-                    }
-
-                    else{
-                      await _handleDJBandForm(viewmodel,_textControllers);
-
-                    }
-
-
-
-
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
-                    shadowColor: Colors.lightGreenAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // Keep consistent with container
-                    ),
-                  ),
-                  child:
-                  Text(
-                    'Create Event Venue',
-                    style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+                    ],
+                    // Define stops for each color
+                    stops: [0.0, 1.0],
                   ),
                 ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
+                  child: TextField(
+                    controller: _textControllers[entry.key],
+                    obscureText: false,
+                    cursorColor: Colors.black,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay'
+                    ),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
 
-              ],
 
-            )
-            ,
-          );
+                        labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
+                        labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
 
-        },
-      )
+                    ),
+                  ),
+                ),
+              ),
 
-      ,);
+            )).toList(),
+            ElevatedButton(
+              onPressed: () async {
+
+                // Api Calling.
+
+                if(_textControllers["dj_band_name"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter dj band name');
+                }else if(_textControllers["members"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter members in team');
+                }else if(_textControllers["description"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter description');
+                }else if(_textControllers["genre"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter genre');
+                }else if(_textControllers["availability"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter availability');
+                }else if(_textControllers["rate"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter rate of decoration');
+                }else if(_textControllers["location"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter location');
+                }else if(_textControllers["contact_information"]!.text.isEmpty){
+                  showAlertDialog(context, "Please enter contact information");
+                }else if(_textControllers["equiment"]!.text.isEmpty){
+
+                  showAlertDialog(context, 'Please enter equipment details');
+                }
+
+                else{
+                  await _handleDJBandForm(viewmodel,_textControllers);
+
+                }
+
+
+
+
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                shadowColor: Colors.lightGreenAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                ),
+              ),
+              child:
+              Text(
+                'Create Event DJ-BAND',
+                style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+              ),
+            ),
+
+          ],
+
+        )
+        ,
+      );
 
 
   }
@@ -198,9 +195,60 @@ class _DjBandForm extends State<DjBandForm>{
     );
   }
 
-  _handleDJBandForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) {
+  Future<void> _handleDJBandForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
+
+    try{
+      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
+      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+
+      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
+      print(sessionEventString);
+      await viewmodel.createEvent({
+        'event_name' : sessionJsonEvent!.eventname,
+        'event_type' : sessionJsonEvent.eventtype,
+        'start_date' : sessionJsonEvent.startdate,
+        'end_date' : sessionJsonEvent.enddate,
+        'description' : sessionJsonEvent.description,
+        'Status' : sessionJsonEvent.status,
+        'userId' : sessionUserString,
+        'location_id' : sessionJsonEvent.locationid,
+        'category_id' : '663b57080883d49112987c46',
+
+      });
+
+      if(viewmodel.createEventResponse!=null){
+        await viewmodel.createEventtypeDJBand({
+          "dj_band_name" : _textControllers["dj_band_name"]!.text.toString(),
+          "members" : _textControllers["members"]!.text.toString(),
+          "genre" : _textControllers["genre"]!.text.toString(),
+          "description" : _textControllers["description"]!.text.toString(),
+          "availability" : _textControllers["availability"]!.text.toString(),
+          "rate" : _textControllers["rate"]!.text.toString(),
+          "location" : _textControllers["location"]!.text.toString(),
+          "equipment" : _textControllers["equiment"]!.text.toString(),
+          "reviews" : _textControllers["reviews"]!.text.toString(),
+          "rating" : _textControllers["rating"]!.text.toString(),
+          "contact_information" : _textControllers["contact_information"]!.text.toString(),
+          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+        });
 
 
+        if (viewmodel.createDJBandResponse!.data !=null) {
+          // Success! Navigate to appropriate screen
+          showAlertDialog(context, viewmodel.createDJBandResponse!.message.toString());
+
+
+        } else {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(viewmodel.response.message.toString())),
+          );
+        }
+      }
+
+    }finally{
+      print('Finally Code.');
+    }
 
 
   }

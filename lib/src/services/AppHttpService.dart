@@ -146,6 +146,81 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future createEventTypeDecoration(Map<String, dynamic> createEventTypeDecoration) async{
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-decoration'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeDecoration),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeDJBand(Map<String, dynamic> createEventTypeDJBand) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-dj'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeDJBand),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeMakeup(Map<String, dynamic> createEventTypeMakeup) async {
+    // TODO: implement createEventTypeMakeup
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-makeup'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeMakeup),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeTravel(Map<String, dynamic> createEventTypeTravel) async {
+    // TODO: implement createEventTypeTravel
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-travel'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeTravel),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 

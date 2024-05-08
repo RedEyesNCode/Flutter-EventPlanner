@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body_create_event.dart';
+import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
+import 'package:provider/provider.dart';
 
 
 class TravelForm extends StatefulWidget{
@@ -35,6 +41,8 @@ class _TravelForm extends State<TravelForm>{
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<MainViewModel>(context);
+
     // TODO: implement build
     return
 
@@ -91,6 +99,55 @@ class _TravelForm extends State<TravelForm>{
               ),
 
             )).toList(),
+            ElevatedButton(
+              onPressed: () async {
+
+                // Api Calling.
+
+                if(_textControllers["service_name"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter service name');
+                }else if(_textControllers["client_name"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter client name');
+                }else if(_textControllers["type_of_coverage"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter type of coverage');
+                }else if(_textControllers["duration"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter duration');
+                }else if(_textControllers["hourly_rate"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter hourly rate.');
+                }else if(_textControllers["vehicle_type"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter vehicle_type');
+                }else if(_textControllers["pickup_location"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter pickup location');
+                }else if(_textControllers["drop_off_location"]!.text.isEmpty){
+                  showAlertDialog(context, "Please enter drop_off_location information");
+                }else if(_textControllers["contact_information"]!.text.isEmpty){
+                  showAlertDialog(context, "Please enter contact information");
+                }
+
+
+                else{
+                  await _handleTravelForm(viewmodel,_textControllers);
+
+                }
+
+
+
+
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                shadowColor: Colors.lightGreenAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                ),
+              ),
+              child:
+              Text(
+                'Create Event Travel',
+                style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+              ),
+            ),
+
           ],
 
         )
@@ -98,6 +155,102 @@ class _TravelForm extends State<TravelForm>{
       );
 
   }
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Changed context to dialogContext
+        return AlertDialog(
+          title: Text("Info",
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          content: Text(message,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontFamily: 'PlayfairDisplay',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Use the dialogContext here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _handleTravelForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
+
+    try{
+      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
+      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+
+      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
+      print(sessionEventString);
+      await viewmodel.createEvent({
+        'event_name' : sessionJsonEvent!.eventname,
+        'event_type' : sessionJsonEvent.eventtype,
+        'start_date' : sessionJsonEvent.startdate,
+        'end_date' : sessionJsonEvent.enddate,
+        'description' : sessionJsonEvent.description,
+        'Status' : sessionJsonEvent.status,
+        'userId' : sessionUserString,
+        'location_id' : sessionJsonEvent.locationid,
+        'category_id' : '663b57080883d49112987c46',
+
+      });
+
+      if(viewmodel.createEventResponse!=null){
+        await viewmodel.createEventtypeTravel({
+          "service_name" : _textControllers["service_name"]!.text.toString(),
+          "client_name" : _textControllers["client_name"]!.text.toString(),
+          "type_of_coverage" : _textControllers["type_of_coverage"]!.text.toString(),
+          "duration" : _textControllers["duration"]!.text.toString(),
+          "hourly_rate" : _textControllers["hourly_rate"]!.text.toString(),
+          "vehcile_type" : _textControllers["vehicle_type"]!.text.toString(),
+          "pickup_location" : _textControllers["pickup_location"]!.text.toString(),
+          "dropoff_location" : _textControllers["drop_off_location"]!.text.toString(),
+          "number" : _textControllers["contact_information"]!.text.toString(),
+          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+        });
+
+
+        if (viewmodel.createTravelResponse!.data !=null) {
+          // Success! Navigate to appropriate screen
+          showAlertDialog(context, viewmodel.createTravelResponse!.message.toString());
+
+
+        } else {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(viewmodel.response.message.toString())),
+          );
+        }
+      }
+
+    }finally{
+      print('Finally Code.');
+    }
+
+
+  }
+
 
 
 

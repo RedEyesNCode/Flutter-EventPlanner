@@ -2,8 +2,12 @@
 
 
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
+import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
+import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
+import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
@@ -65,6 +69,62 @@ class MainRepository {
       dynamic response = await _userService.createEventTypeVenue(createEventData);
       // Assuming the response is in the format you provided earlier
       return create_event_venue_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_decoration_response> createEventTypeDecoration(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeDecoration(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_decoration_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_djband_response> createEventDjBand(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeDJBand(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_djband_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_makeup_response> createEventMakeUp(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeMakeup(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_makeup_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_travel_response> createEventTravel(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeTravel(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_travel_response.fromJson(response);
     } catch (error) {
       // Handle error
       throw error;

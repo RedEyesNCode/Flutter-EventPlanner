@@ -2,8 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
+import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
+import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
+import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/user_events_response.dart';
@@ -26,6 +30,17 @@ class MainViewModel with ChangeNotifier {
 
   user_events_response? _user_events_response;
 
+  create_decoration_response? _create_decoration_response;
+
+  create_djband_response? _create_djband_response;
+
+  create_travel_response? _create_travel_response;
+
+  create_makeup_response? _create_makeup_response;
+
+
+
+
   user_events_response? get userEventsResponse => _user_events_response;
 
 
@@ -45,6 +60,15 @@ class MainViewModel with ChangeNotifier {
 
   create_event_venue_response? get createEventVenueResponse=> _create_event_venue_response;
 
+  create_decoration_response? get createDecorationResponse => _create_decoration_response;
+
+  create_djband_response? get createDJBandResponse => _create_djband_response;
+
+  create_makeup_response? get createMakeupResponse => _create_makeup_response;
+
+  create_travel_response? get createTravelResponse => _create_travel_response;
+
+
 
 
 
@@ -55,6 +79,90 @@ class MainViewModel with ChangeNotifier {
       notifyListeners();
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
+  }
+  Future<void> createEventtypeDecoration(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_decoration_response? response = await MainRepository().createEventTypeDecoration(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_decoration_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventtypeDJBand(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_djband_response? response = await MainRepository().createEventDjBand(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_djband_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventtypeMakeup(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_makeup_response? response = await MainRepository().createEventMakeUp(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_makeup_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventtypeTravel(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_travel_response? response = await MainRepository().createEventTravel(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_travel_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
 
   Future<void> loginUser(Map<String, dynamic> userData) async {

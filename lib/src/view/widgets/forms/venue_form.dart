@@ -253,7 +253,7 @@ class _VenueForm extends State<VenueForm>{
 
         if (viewModel.createEventVenueResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-
+          showAlertDialog(context, viewModel.createEventVenueResponse!.message.toString());
 
 
         } else {
