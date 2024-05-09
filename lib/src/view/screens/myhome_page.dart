@@ -350,10 +350,6 @@ class _HomeScreen extends State<HomeScreen> {
                                       categoryId:  dataEvent.categoryId.toString(),
                                       createdAt:  dataEvent.createdAt.toString(),
                                       updatedAt:  dataEvent.updatedAt.toString(),
-
-
-
-
                                     );
                                     return ItemUpcomingEvent(events: event,);
                                   },
