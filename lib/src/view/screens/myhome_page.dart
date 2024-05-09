@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
@@ -82,6 +85,10 @@ class HomeScreen extends StatefulWidget
 
 // Simple placeholder components
 class _HomeScreen extends State<HomeScreen> {
+
+  final _controllerUserName = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
@@ -91,6 +98,10 @@ class _HomeScreen extends State<HomeScreen> {
   }
   Future<void> _initializeData() async {
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    _controllerUserName.text = userLoginResponse.data.name.toString();
+
 
     Provider.of<MainViewModel>(context, listen: false).getUserEvents({
       "userId": sessionUserString
@@ -133,7 +144,7 @@ class _HomeScreen extends State<HomeScreen> {
                 padding: const EdgeInsets.only(left: 40.0),
                 child: Row(
                   children: [
-                    Text('Flutter ',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                    Text(_controllerUserName.text,textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
                       fontSize: 21,
                       fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.w700,
@@ -212,7 +223,7 @@ class _HomeScreen extends State<HomeScreen> {
                         if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null)
                           //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
                           SizedBox(
-                            height: 300,
+                            height: 355,
                             child: Expanded( // Expanded to let the list take available space
                               child: ListView.builder(
                                 itemCount: viewmodel.userEventsResponse!.data?.events!.length,
