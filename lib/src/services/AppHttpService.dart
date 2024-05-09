@@ -9,6 +9,8 @@ import '../utils/api_response.dart';
 import '../utils/app_exception.dart';
 class AppHttpService extends BaseService{
 
+
+
   @override
   Future loginUser(Map<String, dynamic> userData) async {
     // TODO: implement loginUser
@@ -219,6 +221,63 @@ class AppHttpService extends BaseService{
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
+  }
+
+  @override
+  Future createEventTypePhotoVideo(Map<String, dynamic> createEventTypePhotoVideo) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-photoVideo'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypePhotoVideo),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeTentHouse(Map<String, dynamic> createEventTypeTentHouse) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-tent-house'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeTentHouse),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeVarmala(Map<String, dynamic> createEventTypeVarmala) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-varmala'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeVarmala),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
   }
 
 

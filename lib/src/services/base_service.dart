@@ -27,6 +27,18 @@ abstract class BaseService {
 
   Future<dynamic> createEventTypeTravel(Map<String,dynamic> createEventTypeTravel);
 
+
+  Future<dynamic> createEventTypePhotoVideo(Map<String,dynamic> createEventTypePhotoVideo);
+  Future<dynamic> createEventTypeTentHouse(Map<String,dynamic> createEventTypeTentHouse);
+  Future<dynamic> createEventTypeVarmala(Map<String,dynamic> createEventTypeVarmala);
+
+  //PANDIT-LEFT
+
+
+
+
+
+
   // PANDIT, TENT-HOUSE, VARMALA.
 
 

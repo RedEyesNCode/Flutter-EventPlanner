@@ -7,7 +7,10 @@ import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
+import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
+import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
+import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/user_events_response.dart';
@@ -37,6 +40,23 @@ class MainViewModel with ChangeNotifier {
   create_travel_response? _create_travel_response;
 
   create_makeup_response? _create_makeup_response;
+
+  create_photovideo_response? _create_photovideo_response;
+
+  create_tenthouse_response? _create_tenthouse_response;
+
+  create_varmala_response? _create_varmala_response;
+
+
+
+  create_photovideo_response? get createPhotoVideoResponse => _create_photovideo_response;
+
+  create_tenthouse_response? get createTenthouseResponse => _create_tenthouse_response;
+
+  create_varmala_response? get createVarmalaResponse => _create_varmala_response;
+
+
+
 
 
 
@@ -80,6 +100,74 @@ class MainViewModel with ChangeNotifier {
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
   }
+
+
+  Future<void> createEventTypePhotoVideo(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_photovideo_response? response = await MainRepository().createEventPhotoVideo(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_photovideo_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventtypeTentHouse(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_tenthouse_response? response = await MainRepository().createEventTentHouse(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_tenthouse_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventtypeVarmala(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_varmala_response? response = await MainRepository().createEventVarmala(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_varmala_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
+
   Future<void> createEventtypeDecoration(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners

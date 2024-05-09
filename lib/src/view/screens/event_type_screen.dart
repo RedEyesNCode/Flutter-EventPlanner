@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/decoration_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/entry_varmala_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/makeup_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/photovideo_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/tenthouse_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/travel_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/venue_form.dart';
 
@@ -23,7 +25,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENT-HOUSE"],
+        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY"],
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
@@ -243,8 +245,6 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "type_of_coverage" : "",
                     "duration" : "",
                     "hourly_rate" : "",
-
-
                     "contact_information": ""
                   }),
                 ],
@@ -270,6 +270,49 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "pickup_location" : "",
                     "drop_off_location" : "",
                     "contact_information": ""
+                  }),
+                ],
+              ),
+            if(_controllerCategory.text.toString() == "VARMALA-ENTRY")
+              const Column(
+
+                children: [
+                  Text(
+                    'Varmala Entry Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  EntryVarmalaForm(initialData: {
+                    "name": "",
+                    "date" : "",
+                    "location" : "",
+                    "description" : "",
+                    "category" : "",
+                    "number_of_guests" : "",
+                    "requirements" : "",
+                  }),
+                ],
+              ),
+            if(_controllerCategory.text.toString() == "TENTHOUSE")
+              const Column(
+
+                children: [
+                  Text(
+                    'TentHouse Entry Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  TentHouseForm(initialData: {
+                    "name": "",
+                    "number" : "",
+                    "adderss" : "",
+                    "description" : "",
+                    "price" : "",
+                    "availability" : "",
                   }),
                 ],
               ),
