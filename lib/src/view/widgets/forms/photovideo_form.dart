@@ -11,8 +11,11 @@ class PhotoVideoForm extends StatefulWidget{
 
   final Map<String,String> initialData;
 
+  final String categoryEventID;
 
-  const PhotoVideoForm({Key? key, required this.initialData}) : super(key: key);
+
+
+  const PhotoVideoForm({Key? key, required this.initialData, required this.categoryEventID}) : super(key: key);
   @override
   _PhotoVideoForm createState() => _PhotoVideoForm();
 
@@ -210,7 +213,7 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
         'Status' : sessionJsonEvent.status,
         'userId' : sessionUserString,
         'location_id' : sessionJsonEvent.locationid,
-        'category_id' : '663b57080883d49112987c46',
+        'category_id' : widget.categoryEventID,
 
       });
 

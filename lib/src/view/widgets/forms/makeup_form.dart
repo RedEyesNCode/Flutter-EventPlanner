@@ -11,7 +11,10 @@ class MakeupForm extends StatefulWidget {
 
   final Map<String,String> initialData;
 
-  const MakeupForm({Key? key, required this.initialData}) : super(key: key);
+  final String categoryEventID;
+
+
+  const MakeupForm({Key? key, required this.initialData, required this.categoryEventID}) : super(key: key);
 
   @override
   _MakeupForm createState() => _MakeupForm();
@@ -216,7 +219,7 @@ class _MakeupForm extends State<MakeupForm>{
         'Status' : sessionJsonEvent.status,
         'userId' : sessionUserString,
         'location_id' : sessionJsonEvent.locationid,
-        'category_id' : '663b57080883d49112987c46',
+        'category_id' : widget.categoryEventID,
 
       });
 

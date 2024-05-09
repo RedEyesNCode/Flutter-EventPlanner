@@ -11,8 +11,10 @@ class TentHouseForm extends StatefulWidget{
 
   final Map<String,String> initialData;
 
+  final String categoryEventID;
 
-  const TentHouseForm({Key? key, required this.initialData}) : super(key: key);
+
+  const TentHouseForm({Key? key, required this.initialData, required this.categoryEventID}) : super(key: key);
   @override
   _TentHouseForm createState() => _TentHouseForm();
 
@@ -210,7 +212,7 @@ class _TentHouseForm extends State<TentHouseForm>{
         'Status' : sessionJsonEvent.status,
         'userId' : sessionUserString,
         'location_id' : sessionJsonEvent.locationid,
-        'category_id' : '663b57080883d49112987c46',
+        'category_id' : widget.categoryEventID,
 
       });
 

@@ -11,8 +11,10 @@ class EntryVarmalaForm extends StatefulWidget{
 
   final Map<String,String> initialData;
 
+  final String categoryEventID;
 
-  const EntryVarmalaForm({Key? key, required this.initialData}) : super(key: key);
+
+  const EntryVarmalaForm({Key? key, required this.initialData, required this.categoryEventID}) : super(key: key);
   @override
   _EntryVarmalaForm createState() => _EntryVarmalaForm();
 
@@ -213,7 +215,7 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
         'Status' : sessionJsonEvent.status,
         'userId' : sessionUserString,
         'location_id' : sessionJsonEvent.locationid,
-        'category_id' : '663b57080883d49112987c46',
+        'category_id' : widget.categoryEventID,
 
       });
 

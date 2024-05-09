@@ -134,7 +134,7 @@ class _PanditForm extends State<PanditForm> {
               ),
               child:
               Text(
-                'Create Event DJ-BAND',
+                'Create Event Pandit',
                 style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
               ),
             ),

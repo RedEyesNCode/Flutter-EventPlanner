@@ -208,7 +208,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
 
             if((_controllerCategory.text.toString() == "DECORATION"))
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -227,11 +227,11 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "rate": "10000",
                     "location": "",
                     "contact_information": ""
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if((_controllerCategory.text.toString() == "MAKE-UP"))
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -252,11 +252,11 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "rate": "10000",
                     "location": "",
                     "contact_information": ""
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if(_controllerCategory.text.toString() == "PHOTO-VIDEO")
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -273,11 +273,11 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "duration" : "",
                     "hourly_rate" : "",
                     "contact_information": ""
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if(_controllerCategory.text.toString() == "TRAVEL")
-              const Column(
+               Column(
 
                 children: [
                   Text(
@@ -297,11 +297,11 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "pickup_location" : "",
                     "drop_off_location" : "",
                     "contact_information": ""
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if(_controllerCategory.text.toString() == "VARMALA-ENTRY")
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -319,7 +319,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "category" : "",
                     "number_of_guests" : "",
                     "requirements" : "",
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if(_controllerCategory.text.toString() == "TENTHOUSE")
@@ -340,7 +340,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "description" : "",
                     "price" : "",
                     "availability" : "",
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
             if(_controllerCategory.text.toString() == "PANDIT")
