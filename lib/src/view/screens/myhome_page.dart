@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
+import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/catalogue_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/payments_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/image_text_row.dart';
 import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/view/widgets/two_text_card.dart';
@@ -88,6 +90,11 @@ class _HomeScreen extends State<HomeScreen> {
 
   final _controllerUserName = TextEditingController();
   final _controllerSearch = TextEditingController();
+  bool isSearchData = false;
+  bool isFilterData = true;
+
+  String category_id = "";
+
 
 
   @override
@@ -97,7 +104,27 @@ class _HomeScreen extends State<HomeScreen> {
 
 
   }
+  void _showCategorySheet(BuildContext context,MainViewModel mainViewModel) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => CategorySheet(
+          viewModel: mainViewModel,
+          onItemSelected: (selectedItem,selectedId) {
+            category_id = selectedItem;
+            _callEventByCategoryApi();
+
+
+            Navigator.pop(context);
+            setState(() {}); // Trigger rebuild
+          },
+        ));
+  }
   Future<void> _initializeData() async {
+    setState(() {
+      isSearchData = false;
+      isFilterData = false;
+
+    });
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
     String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
     login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
@@ -109,20 +136,45 @@ class _HomeScreen extends State<HomeScreen> {
     });
   }
   Future<void> _callEventSearchApi(String queryHint) async {
+    if(queryHint.isEmpty){
+      _initializeData();
+      return;
+    }
+    setState(() {
+      isSearchData = true;
+      isFilterData = false;
+
+    });
 
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
     String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
     login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
     _controllerUserName.text = userLoginResponse.data.name.toString();
 
-
     Provider.of<MainViewModel>(context, listen: false).getUserEventsBYName({
       "userId": sessionUserString,
       "eventName" : queryHint
     });
-
-
   }
+  Future<void> _callEventByCategoryApi() async {
+
+    setState(() {
+      isSearchData = false;
+      isFilterData = true;
+
+    });
+
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    _controllerUserName.text = userLoginResponse.data.name.toString();
+
+    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYCateogry({
+      "userId": sessionUserString,
+      "categoryName" : category_id
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -190,6 +242,7 @@ class _HomeScreen extends State<HomeScreen> {
                         hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
                         prefixIcon: const Icon(Icons.search,color: Colors.black,),
                         suffixIcon: Container(
+
                           margin: const EdgeInsets.symmetric(
                               horizontal: 8.0), // Adjust as needed
                           padding: const EdgeInsets.all(8.0),
@@ -197,7 +250,12 @@ class _HomeScreen extends State<HomeScreen> {
                             color: Colors.grey.shade100,
                             borderRadius: BorderRadius.circular(25.0),
                           ),
-                          child: const Icon(Icons.filter_list),
+                          child:
+                          GestureDetector(
+                            onTap: () => {_showCategorySheet(context, viewmodel)},
+                            child:const Icon(Icons.filter_list),
+                          )
+
                         ),
                         focusedBorder: OutlineInputBorder(
 
@@ -230,7 +288,7 @@ class _HomeScreen extends State<HomeScreen> {
                       children: [
 
 
-                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null)
+                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null && isSearchData==false  && isFilterData==false)
                           Column(
                             children: [
                               SizedBox(height: 10,),
@@ -247,26 +305,24 @@ class _HomeScreen extends State<HomeScreen> {
                               SizedBox(height: 10,),
                               SizedBox(
                                 height: 355,
-                                child: Expanded( // Expanded to let the list take available space
-                                  child: ListView.builder(
-                                    itemCount: viewmodel.userEventsResponse!.data?.events!.length,
-                                    itemBuilder: (context, index) {
-                                      final event = viewmodel.userEventsResponse!.data?.events![index];
-                                      return ItemUpcomingEvent(events: event!,);
-                                    },
-                                  ),
+                                child: ListView.builder(
+                                  itemCount: viewmodel.userEventsResponse!.data?.events!.length,
+                                  itemBuilder: (context, index) {
+                                    final event = viewmodel.userEventsResponse!.data?.events![index];
+                                    return ItemUpcomingEvent(events: event!,);
+                                  },
                                 ),
                               ),
                             ],
                           ),
                         //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
-                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null)
+                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null && isSearchData==true && isFilterData==false)
                           Column(
                             children: [
                               SizedBox(height: 10,),
                               Row(
                                 children: [
-                                  Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                                  Text('Searched Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
                                     fontSize: 21,
                                     fontFamily: 'PlayfairDisplay',
                                     color: Colors.black,
@@ -277,19 +333,79 @@ class _HomeScreen extends State<HomeScreen> {
                               SizedBox(height: 10,),
                               SizedBox(
                                 height: 355,
-                                child: Expanded( // Expanded to let the list take available space
-                                  child: ListView.builder(
-                                    itemCount: viewmodel.userEventsResponse!.data?.events!.length,
-                                    itemBuilder: (context, index) {
-                                      final event = viewmodel.userEventsResponse!.data?.events![index];
-                                      return ItemUpcomingEvent(events: event!,);
-                                    },
-                                  ),
+                                child: ListView.builder(
+                                  itemCount: viewmodel.userEventNameSearchResponse!.data!.length,
+                                  itemBuilder: (context, index) {
+                                    final dataEvent = viewmodel.userEventNameSearchResponse!.data![index];
+                                    final event = Events(
+                                      sId: dataEvent.sId.toString(),
+                                      eventName: dataEvent.eventName.toString(),
+                                      eventType:  dataEvent.eventType.toString(),
+                                      startDate: dataEvent.startDate.toString(),
+                                      endDate: dataEvent.endDate.toString(),
+                                      locationId: dataEvent.locationId.toString(),
+                                      description: dataEvent.description.toString(),
+                                      status:  dataEvent.status.toString(),
+                                      userId: dataEvent.userId.toString(),
+                                      categoryId:  dataEvent.categoryId.toString(),
+                                      createdAt:  dataEvent.createdAt.toString(),
+                                      updatedAt:  dataEvent.updatedAt.toString(),
+
+
+
+
+                                    );
+                                    return ItemUpcomingEvent(events: event,);
+                                  },
                                 ),
                               ),
                             ],
                           ),
+                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null && isSearchData==false && isFilterData==true)
+                          Column(
+                            children: [
+                              SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  Text('${category_id} Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                                    fontSize: 21,
+                                    fontFamily: 'PlayfairDisplay',
+                                    color: Colors.black,
 
+                                  )),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 355,
+                                child: ListView.builder(
+                                  itemCount: viewmodel.userEventByCategoryResponse!.data!.length,
+                                  itemBuilder: (context, index) {
+                                    final dataEvent = viewmodel.userEventByCategoryResponse!.data![index];
+                                    final event = Events(
+                                      sId: dataEvent.sId.toString(),
+                                      eventName: dataEvent.eventName.toString(),
+                                      eventType:  dataEvent.eventType.toString(),
+                                      startDate: dataEvent.startDate.toString(),
+                                      endDate: dataEvent.endDate.toString(),
+                                      locationId: dataEvent.locationId.toString(),
+                                      description: dataEvent.description.toString(),
+                                      status:  dataEvent.status.toString(),
+                                      userId: dataEvent.userId.toString(),
+                                      categoryId:  dataEvent.categoryId.toString(),
+                                      createdAt:  dataEvent.createdAt.toString(),
+                                      updatedAt:  dataEvent.updatedAt.toString(),
+
+
+
+
+                                    );
+                                    return ItemUpcomingEvent(events: event,);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),

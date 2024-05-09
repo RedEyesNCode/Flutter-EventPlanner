@@ -322,7 +322,7 @@ class AppHttpService extends BaseService{
 
     try {
       final response = await http.post(
-        Uri.parse(BaseUrl + 'megma/get-user-events-by-name'), // Adjust the endpoint accordingly
+        Uri.parse(BaseUrl + 'megma/get-user-events-by-category'), // Adjust the endpoint accordingly
         body: jsonEncode(getUserEventData),
         headers: {
           'Content-Type': 'application/json',
@@ -340,7 +340,7 @@ class AppHttpService extends BaseService{
   Future getUserEventsByName(Map<String, dynamic> getUserEventsByName) async {
     try {
       final response = await http.post(
-        Uri.parse(BaseUrl + 'megma/get-user-events-by-category'), // Adjust the endpoint accordingly
+        Uri.parse(BaseUrl + 'megma/get-user-events-by-name'), // Adjust the endpoint accordingly
         body: jsonEncode(getUserEventsByName),
         headers: {
           'Content-Type': 'application/json',
