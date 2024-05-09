@@ -87,6 +87,7 @@ class HomeScreen extends StatefulWidget
 class _HomeScreen extends State<HomeScreen> {
 
   final _controllerUserName = TextEditingController();
+  final _controllerSearch = TextEditingController();
 
 
   @override
@@ -106,6 +107,21 @@ class _HomeScreen extends State<HomeScreen> {
     Provider.of<MainViewModel>(context, listen: false).getUserEvents({
       "userId": sessionUserString
     });
+  }
+  Future<void> _callEventSearchApi(String queryHint) async {
+
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    _controllerUserName.text = userLoginResponse.data.name.toString();
+
+
+    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYName({
+      "userId": sessionUserString,
+      "eventName" : queryHint
+    });
+
+
   }
 
   @override
@@ -162,10 +178,15 @@ class _HomeScreen extends State<HomeScreen> {
                 child: Container(
 
                   child: TextField(
+                    onChanged: (newText) => {
+
+                      _callEventSearchApi(newText)
+                    },
+                    controller: _controllerSearch,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
 
-                        hintText: "Search by event name",
+                        hintText: "Search all by event name",
                         hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
                         prefixIcon: const Icon(Icons.search,color: Colors.black,),
                         suffixIcon: Container(
@@ -239,7 +260,35 @@ class _HomeScreen extends State<HomeScreen> {
                             ],
                           ),
                         //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
+                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null)
+                          Column(
+                            children: [
+                              SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                                    fontSize: 21,
+                                    fontFamily: 'PlayfairDisplay',
+                                    color: Colors.black,
 
+                                  )),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 355,
+                                child: Expanded( // Expanded to let the list take available space
+                                  child: ListView.builder(
+                                    itemCount: viewmodel.userEventsResponse!.data?.events!.length,
+                                    itemBuilder: (context, index) {
+                                      final event = viewmodel.userEventsResponse!.data?.events![index];
+                                      return ItemUpcomingEvent(events: event!,);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
 
                       ],
                     ),

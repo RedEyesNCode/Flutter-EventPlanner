@@ -15,6 +15,8 @@ import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_name_search_response.dart';
 import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 import 'package:flutter_eventplanner/src/repository/MainRepository.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -53,8 +55,15 @@ class MainViewModel with ChangeNotifier {
 
   create_pandit_response? _create_pandit_response;
 
+  user_event_by_category_response? _user_event_by_category_response;
+
+  user_event_name_search_response? _user_event_name_search_response;
 
 
+
+
+  user_event_by_category_response? get userEventByCategoryResponse => _user_event_by_category_response;
+  user_event_name_search_response? get userEventNameSearchResponse => _user_event_name_search_response;
 
 
   create_photovideo_response? get createPhotoVideoResponse => _create_photovideo_response;
@@ -398,6 +407,52 @@ class MainViewModel with ChangeNotifier {
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
+
+  Future<void> getUserEventsBYCateogry(Map<String,dynamic> mapper) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      user_event_by_category_response? response = await MainRepository().getAllUserEventsbyCategory(mapper);
+      print(response);
+
+
+      _apiResponse = ApiResponse.completed(response);
+      _user_event_by_category_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('Location Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> getUserEventsBYName(Map<String,dynamic> mapper) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      user_event_name_search_response? response = await MainRepository().getAllUserEventsByName(mapper);
+      print(response);
+
+
+      _apiResponse = ApiResponse.completed(response);
+      _user_event_name_search_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('Location Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
 
   Future<void> getAllLocation() async {
     _apiResponse = ApiResponse.loading('Checking user');

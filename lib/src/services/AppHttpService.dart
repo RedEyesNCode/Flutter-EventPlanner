@@ -317,6 +317,44 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future getUserEventsByCategory(Map<String, dynamic> getUserEventData) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/get-user-events-by-name'), // Adjust the endpoint accordingly
+        body: jsonEncode(getUserEventData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future getUserEventsByName(Map<String, dynamic> getUserEventsByName) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/get-user-events-by-category'), // Adjust the endpoint accordingly
+        body: jsonEncode(getUserEventsByName),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+
 
 
 

@@ -14,6 +14,8 @@ import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_name_search_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
 
@@ -241,7 +243,34 @@ class MainRepository {
 
 
   }
+  Future<user_event_by_category_response> getAllUserEventsbyCategory(Map<String,dynamic> getUserEventsData) async{
 
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getUserEventsByCategory(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return user_event_by_category_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<user_event_name_search_response> getAllUserEventsByName(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getUserEventsByName(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return user_event_name_search_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
 
 
 }
