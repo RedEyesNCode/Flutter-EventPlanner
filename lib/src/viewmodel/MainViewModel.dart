@@ -7,10 +7,12 @@ import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
+import 'package:flutter_eventplanner/src/model/create_pandit_response.dart';
 import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
 import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
+import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/user_events_response.dart';
@@ -47,6 +49,12 @@ class MainViewModel with ChangeNotifier {
 
   create_varmala_response? _create_varmala_response;
 
+  getall_categories_response? _getall_categories_response;
+
+  create_pandit_response? _create_pandit_response;
+
+
+
 
 
   create_photovideo_response? get createPhotoVideoResponse => _create_photovideo_response;
@@ -54,6 +62,11 @@ class MainViewModel with ChangeNotifier {
   create_tenthouse_response? get createTenthouseResponse => _create_tenthouse_response;
 
   create_varmala_response? get createVarmalaResponse => _create_varmala_response;
+
+
+  getall_categories_response? get getAllCategoriesResponse => _getall_categories_response;
+
+  create_pandit_response? get createPanditResponse => _create_pandit_response;
 
 
 
@@ -101,6 +114,27 @@ class MainViewModel with ChangeNotifier {
     }
   }
 
+  Future<void> createEventTypePandit(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_pandit_response? response = await MainRepository().createEventPandit(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_pandit_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
 
   Future<void> createEventTypePhotoVideo(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
@@ -377,6 +411,28 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _allLocationResponse = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('Location Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> getAllEventCategories() async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      getall_categories_response? response = await MainRepository().getAllEventCategories();
+      print(response);
+
+
+      _apiResponse = ApiResponse.completed(response);
+      _getall_categories_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('Location Not found !');
     } on FetchDataException {

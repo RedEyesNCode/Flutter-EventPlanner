@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/decoration_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/entry_varmala_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/makeup_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/pandit_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/photovideo_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/tenthouse_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/travel_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/venue_form.dart';
+import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
+import 'package:provider/provider.dart';
 
 enum EventType { venue, djAndBand, decoration, travel, pandit}
 
@@ -19,7 +23,13 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
   final TextEditingController _controllerCategory = TextEditingController();
 
-  final TextEditingController _controllerStatus = TextEditingController();
+
+  final TextEditingController _controllerCategoryID = TextEditingController();
+
+  String category_id = "";
+
+
+
 
   void _showBottomSheetEventCategory(BuildContext context) {
     showModalBottomSheet(
@@ -29,13 +39,27 @@ class _EventTypeScreen extends State<EventTypeScreen>{
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
-
           Navigator.pop(context);
           setState(() {}); // Trigger rebuild
 
         },
       ),
     );
+  }
+  void _showCategorySheet(BuildContext context,MainViewModel mainViewModel) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => CategorySheet(
+          viewModel: mainViewModel,
+          onItemSelected: (selectedItem,selectedId) {
+            _controllerCategory.text = selectedItem;
+            _controllerCategoryID.text = selectedId;
+            category_id = selectedId;
+
+            Navigator.pop(context);
+            setState(() {}); // Trigger rebuild
+          },
+        ));
   }
 
 
@@ -44,6 +68,9 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
   @override
   Widget build(BuildContext context) {
+
+    final viewmodel = Provider.of<MainViewModel>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -94,7 +121,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
                     onTap: () {
 
-                      _showBottomSheetEventCategory(context);
+                      _showCategorySheet(context,viewmodel);
                     },
                     obscureText: false,
                     cursorColor: Colors.black,
@@ -102,7 +129,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                         color: Colors.black,
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay'),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: InputBorder.none,
                         labelText: 'Select Event Category',
                         labelStyle: TextStyle(
@@ -118,7 +145,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
             ),
 
             if (_controllerCategory.text.toString() == "VENUE")
-              const Column(
+              Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
@@ -143,8 +170,8 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "alcohol_permission": "",
                     "cost": "",
                     "payment_terms": "",
-                    "security_needs": ""
-                  }),
+                    "security_needs": "",
+                  },categoryEventID: category_id,),
                   SizedBox(
                     height: 5.0,
                   ),
@@ -153,7 +180,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
 
 
             if ((_controllerCategory.text.toString() == ("DJ AND BAND")))
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -175,7 +202,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "reviews": "",
                     "rating": "",
                     "contact_information": ""
-                  }),
+                  },categoryEventID: category_id),
                 ],
               ),
 
@@ -296,7 +323,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                 ],
               ),
             if(_controllerCategory.text.toString() == "TENTHOUSE")
-              const Column(
+              Column(
 
                 children: [
                   Text(
@@ -316,6 +343,27 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   }),
                 ],
               ),
+            if(_controllerCategory.text.toString() == "PANDIT")
+              Column(
+                children: [
+                  Text(
+                    'Pandit Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  PanditForm(initialData: {
+                    "name" : "",
+                    "address" : "",
+                    "contact" : "",
+                    "description" : "",
+                    "speciality" : "",
+                    "years_of_experience" : "",
+                  },eventCategoryID : category_id),
+                ],
+              )
+
 
           ],
         ),

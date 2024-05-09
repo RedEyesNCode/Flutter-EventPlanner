@@ -165,7 +165,7 @@ class _HomeScreen extends State<HomeScreen> {
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
 
-                        hintText: "Search events",
+                        hintText: "Search by event name",
                         hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
                         prefixIcon: const Icon(Icons.search,color: Colors.black,),
                         suffixIcon: Container(
@@ -207,34 +207,38 @@ class _HomeScreen extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                              fontSize: 21,
-                              fontFamily: 'PlayfairDisplay',
-                              color: Colors.black,
 
-                            )),
-                          ],
-                        ),
-                        SizedBox(height: 10,),
 
                         if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null)
-                          //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
-                          SizedBox(
-                            height: 355,
-                            child: Expanded( // Expanded to let the list take available space
-                              child: ListView.builder(
-                                itemCount: viewmodel.userEventsResponse!.data?.events!.length,
-                                itemBuilder: (context, index) {
-                                  final event = viewmodel.userEventsResponse!.data?.events![index];
-                                  return ItemUpcomingEvent(events: event!,);
-                                },
+                          Column(
+                            children: [
+                              SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
+                                    fontSize: 21,
+                                    fontFamily: 'PlayfairDisplay',
+                                    color: Colors.black,
+
+                                  )),
+                                ],
                               ),
-                            ),
+                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 355,
+                                child: Expanded( // Expanded to let the list take available space
+                                  child: ListView.builder(
+                                    itemCount: viewmodel.userEventsResponse!.data?.events!.length,
+                                    itemBuilder: (context, index) {
+                                      final event = viewmodel.userEventsResponse!.data?.events![index];
+                                      return ItemUpcomingEvent(events: event!,);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        // if(viewmodel.response.status==Status.INITIAL)
+                        //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
 
 
                       ],

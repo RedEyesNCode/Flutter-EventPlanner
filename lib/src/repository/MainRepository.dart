@@ -7,10 +7,12 @@ import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
+import 'package:flutter_eventplanner/src/model/create_pandit_response.dart';
 import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
 import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
+import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
@@ -178,6 +180,20 @@ class MainRepository {
 
 
   }
+  Future<create_pandit_response> createEventPandit(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypePandit(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_pandit_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
 
 
 
@@ -196,6 +212,21 @@ class MainRepository {
 
 
   }
+  Future<getall_categories_response> getAllEventCategories() async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getAllEventCategories();
+      // Assuming the response is in the format you provided earlier
+      return getall_categories_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
   Future<user_events_response> getAllUserEvents(Map<String,dynamic> getUserEventsData) async{
 
     try {

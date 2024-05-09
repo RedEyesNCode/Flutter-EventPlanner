@@ -32,6 +32,13 @@ abstract class BaseService {
   Future<dynamic> createEventTypeTentHouse(Map<String,dynamic> createEventTypeTentHouse);
   Future<dynamic> createEventTypeVarmala(Map<String,dynamic> createEventTypeVarmala);
 
+
+  Future<dynamic> getAllEventCategories();
+
+  Future<dynamic> createEventTypePandit(Map<String,dynamic> creatEventTypePandit);
+
+
+
   //PANDIT-LEFT
 
 

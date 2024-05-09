@@ -148,6 +148,7 @@ class AppHttpService extends BaseService{
     }
   }
 
+
   @override
   Future createEventTypeDecoration(Map<String, dynamic> createEventTypeDecoration) async{
     try {
@@ -278,6 +279,42 @@ class AppHttpService extends BaseService{
       throw FetchDataException('No Internet Connection');
     }
 
+  }
+
+  @override
+  Future getAllEventCategories()  async{
+
+    try {
+      final response = await http.get(
+        Uri.parse(BaseUrl + 'megma/all-categories'), // Adjust the endpoint accordingly
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypePandit(Map<String, dynamic> creatEventTypePandit) async {
+    // TODO: implement createEventTypePandit
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-pandit'), // Adjust the endpoint accordingly
+        body: jsonEncode(creatEventTypePandit),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
   }
 
 
