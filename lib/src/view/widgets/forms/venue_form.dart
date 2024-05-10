@@ -5,6 +5,7 @@ import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -162,6 +163,17 @@ class _VenueForm extends State<VenueForm>{
 
 
   }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "VENUE", "id" : categoryId};
+
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
+  }
+
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -248,8 +260,8 @@ class _VenueForm extends State<VenueForm>{
 
         if (viewModel.createEventVenueResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          showAlertDialog(context, viewModel.createEventVenueResponse!.message.toString());
-
+          // showAlertDialog(context, viewModel.createEventVenueResponse!.message.toString());
+          _showImagePickerOptions(viewModel.createEventVenueResponse!.data!.sId.toString());
 
         } else {
           // Show error message

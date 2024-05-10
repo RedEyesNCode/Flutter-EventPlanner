@@ -14,6 +14,7 @@ import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
+import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_name_search_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
@@ -264,6 +265,21 @@ class MainRepository {
       dynamic response = await _userService.getUserEventsByName(getUserEventsData);
       // Assuming the response is in the format you provided earlier
       return user_event_name_search_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+  Future<upload_image_response> uploadVenueImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadVenueImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
     } catch (error) {
       // Handle error
       throw error;

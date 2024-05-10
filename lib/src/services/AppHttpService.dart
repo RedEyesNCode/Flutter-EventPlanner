@@ -354,6 +354,31 @@ class AppHttpService extends BaseService{
 
   }
 
+  @override
+  Future uploadVenueImage(Map<String, dynamic> uploadVenueImageData) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadVenueImageData['venueId'];
+      File file = uploadVenueImageData['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-venue-image'),
+      );
+
+      request.fields['venueId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response);
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 
