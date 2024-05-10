@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -146,7 +147,16 @@ class _PanditForm extends State<PanditForm> {
       );
 
   }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "PANDIT", "id" : categoryId};
 
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
+  }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -222,7 +232,8 @@ class _PanditForm extends State<PanditForm> {
 
         if (viewmodel.createPanditResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          showAlertDialog( context, viewmodel.createPanditResponse!.message.toString());
+          _showImagePickerOptions(viewmodel.createPanditResponse!.data!.sId.toString());
+
 
 
         } else {

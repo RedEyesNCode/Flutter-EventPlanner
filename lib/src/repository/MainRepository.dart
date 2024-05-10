@@ -12,6 +12,7 @@ import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
 import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
+import 'package:flutter_eventplanner/src/model/create_weddingdress_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_eventplanner/src/model/user_event_name_search_response.d
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
 
+import '../model/create_catering_response.dart';
 import '../model/login_response.dart';
 import '../model/user_events_response.dart';
 
@@ -197,6 +199,49 @@ class MainRepository {
 
 
   }
+  Future<create_catering_response> createEventTypeCatering(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeCatering(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_catering_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_weddingdress_response> createEventTypeWeddingDress(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeWeddingDress(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_weddingdress_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_catering_response> createEventType(Map<String,dynamic> createEventDataDecoration) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeCatering(createEventDataDecoration);
+      // Assuming the response is in the format you provided earlier
+      return create_catering_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
 
 
 
@@ -288,5 +333,128 @@ class MainRepository {
 
   }
 
+
+  Future<upload_image_response> uploadTravelImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadTravelImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<upload_image_response> uploadTenthouseImages(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadTenthouseImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+  Future<upload_image_response> uploadPhotoVideo(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadPhotoVideoImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+  Future<upload_image_response> uploadWeddingDressImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadWeddingDressImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<upload_image_response> uploadCateringImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadCateringImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+
+  Future<upload_image_response> uploadPanditImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadPanditImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+  Future<upload_image_response> uploadMakeupImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadMakeupImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+  Future<upload_image_response> uploadVarmalaImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadVarmalaImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+  Future<upload_image_response> uploadDecorationImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadDecorationImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
 
 }

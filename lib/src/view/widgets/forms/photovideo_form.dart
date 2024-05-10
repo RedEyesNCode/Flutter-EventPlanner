@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -195,6 +196,16 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
       },
     );
   }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "PHOTO_VIDEO", "id" : categoryId};
+
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
+  }
 
   Future<void> _handleDJBandForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
@@ -231,7 +242,7 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
 
         if (viewmodel.createPhotoVideoResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          showAlertDialog(context, viewmodel.createPhotoVideoResponse!.message.toString());
+          _showImagePickerOptions(viewmodel.createPhotoVideoResponse!.data!.sId.toString());
 
 
         } else {

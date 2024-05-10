@@ -379,6 +379,286 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future uploadDecorationImage(Map<String, dynamic> uploadDecorationImageData) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadDecorationImageData['decorationId'];
+      File file = uploadDecorationImageData['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-decoration-image'),
+      );
+
+      request.fields['decorationId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future uploadMakeupImage(Map<String, dynamic> uploadMakeupImage) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadMakeupImage['makeupId'];
+      File file = uploadMakeupImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-makeup-image'),
+      );
+
+      request.fields['makeupId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response);
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadPanditImage(Map<String, dynamic> uploadPanditImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['panditId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-pandit-image'),
+      );
+
+      request.fields['panditId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future uploadPhotoVideoImage(Map<String, dynamic> uploadPhotoVideoImage) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPhotoVideoImage['photoVideoId'];
+      File file = uploadPhotoVideoImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-photoVideo-image'),
+      );
+
+      request.fields['photovideoId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadTenthouseImage(Map<String, dynamic> uploadTentHouseImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadTentHouseImage['tenthouseId'];
+      File file = uploadTentHouseImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-tent-image'),
+      );
+
+      request.fields['tenthouseId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadTravelImage(Map<String, dynamic> uploadTravelImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadTravelImage['travelId'];
+      File file = uploadTravelImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-travel-image'),
+      );
+
+      request.fields['travelId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadVarmalaImage(Map<String, dynamic> uploadVarmalaImage) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadVarmalaImage['varmalaId'];
+      File file = uploadVarmalaImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-varmala-image'),
+      );
+
+      request.fields['varmalaId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
+  @override
+  Future createEventTypeCatering(Map<String, dynamic> createEventTypeCatering) async {
+    // TODO: implement createEventTypeCatering
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-catering'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeCatering),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
+  @override
+  Future createEventTypeWeddingDress(Map<String, dynamic> createEventTypeWeddingDress) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-wedding-dress'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeWeddingDress),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
+  @override
+  Future uploadCateringImage(Map<String, dynamic> uploadPanditImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['cateringId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-catering-image'),
+      );
+
+      request.fields['cateringId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
+  @override
+  Future uploadWeddingDressImage(Map<String, dynamic> uploadPanditImage)  async{
+    // TODO: implement uploadWeddingDressImage
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['weddingDressId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-wedding-dress-image'),
+      );
+
+      request.fields['weddingDressId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
 
 
 

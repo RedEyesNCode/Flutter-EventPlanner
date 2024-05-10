@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/catering_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/decoration_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/entry_varmala_form.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_eventplanner/src/view/widgets/forms/photovideo_form.dart
 import 'package:flutter_eventplanner/src/view/widgets/forms/tenthouse_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/travel_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/venue_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/weddingdress_form.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +37,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY"],
+        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY","CATERING","WEDDING DRESS"],
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
@@ -175,6 +177,53 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   SizedBox(
                     height: 5.0,
                   ),
+                ],
+              ),
+            if(_controllerCategory.text.toString()== "WEDDING DRESS")
+              Column(
+
+                children: [
+                  Text(
+                    'Wedding Dress General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  WeddingDressForm(initialData: {
+                    "name": "",
+                    "designer": "",
+                    "style": "",
+                    "color": "",
+                    "fabric": "",
+                    "size": "",
+                    "price": "",
+                    "description": "",
+                    "availability": "",
+                    "rating": "",
+                    "tags": "",
+                  },eventCategoryID: category_id),
+                ],
+              ),
+
+            if(_controllerCategory.text.toString()=="CATERING")
+              Column(
+
+                children: [
+                  Text(
+                    'Catering General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  CateringForm(initialData: {
+                    "name": "",
+                    "address": "",
+                    "contact": "",
+                    "description": "",
+                    "price": "",
+                  },eventCategoryID: category_id),
                 ],
               ),
 

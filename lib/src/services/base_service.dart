@@ -1,6 +1,6 @@
 abstract class BaseService {
   // final String BaseUrl = "http://13.235.205.112:4000/";
-  final String BaseUrl = "http://192.168.1.9:4000/";
+  final String BaseUrl = "http://192.168.1.5:4000/";
 
   Future<dynamic> loginUser(Map<String, dynamic> userData);
 
@@ -33,27 +33,37 @@ abstract class BaseService {
   Future<dynamic> createEventTypeTentHouse(Map<String,dynamic> createEventTypeTentHouse);
   Future<dynamic> createEventTypeVarmala(Map<String,dynamic> createEventTypeVarmala);
   Future<dynamic> createEventTypePandit(Map<String,dynamic> creatEventTypePandit);
+  Future<dynamic> createEventTypeCatering(Map<String,dynamic> createEventTypeCatering);
+  Future<dynamic> createEventTypeWeddingDress(Map<String,dynamic> createEventTypeWeddingDress);
 
+
+  // CATERING, WEDDING-DRESS.
 
   Future<dynamic> getAllEventCategories();
   Future<dynamic> getUserEventsByCategory(Map<String,dynamic> getUserEventData);
   Future<dynamic> getUserEventsByName(Map<String,dynamic> getUserEventsByName);
 
+
+  //Multipart-Related Api's
   Future<dynamic> uploadVenueImage(Map<String,dynamic> uploadVenueImageData);
 
+  Future<dynamic> uploadDecorationImage(Map<String,dynamic> uploadDecorationImageData);
+
+  Future<dynamic> uploadTenthouseImage(Map<String,dynamic> uploadTentHouseImage);
 
 
+  Future<dynamic> uploadTravelImage(Map<String,dynamic> uploadTravelImage);
 
 
+  Future<dynamic> uploadMakeupImage(Map<String,dynamic> uploadMakeupImage);
 
 
+  Future<dynamic> uploadVarmalaImage(Map<String,dynamic> uploadVarmalaImage );
 
+  Future<dynamic> uploadPhotoVideoImage(Map<String,dynamic> uploadPhotoVideoImage);
 
-
-
-
-
-
-
+  Future<dynamic> uploadPanditImage(Map<String,dynamic> uploadPanditImage);
+  Future<dynamic> uploadWeddingDressImage(Map<String,dynamic> uploadPanditImage);
+  Future<dynamic> uploadCateringImage(Map<String,dynamic> uploadPanditImage);
 
 }

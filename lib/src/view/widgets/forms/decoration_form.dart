@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -197,7 +198,16 @@ class _DecorationForm extends State<DecorationForm>{
       },
     );
   }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "DECOR", "id" : categoryId};
 
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
+  }
  Future<void> _handleDecorationForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async{
 
 
@@ -236,7 +246,8 @@ class _DecorationForm extends State<DecorationForm>{
 
         if (viewmodel.createDecorationResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          showAlertDialog(context, viewmodel.createDecorationResponse!.message.toString());
+          // showAlertDialog(context, viewmodel.createDecorationResponse!.message.toString());
+          _showImagePickerOptions(viewmodel.createDecorationResponse!.data!.sId.toString());
 
 
         } else {

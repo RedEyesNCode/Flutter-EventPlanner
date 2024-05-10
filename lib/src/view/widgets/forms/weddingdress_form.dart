@@ -8,23 +8,18 @@ import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
 
-class TravelForm extends StatefulWidget{
+class WeddingDressForm extends StatefulWidget {
 
-  final Map<String,String> initialData;
-
-  final String categoryEventID;
-
-
-  const TravelForm({Key? key, required this.initialData, required this.categoryEventID}) : super(key: key);
+  final Map<String, String> initialData;
+  final String eventCategoryID;
+  const WeddingDressForm({super.key, required this.initialData, required this.eventCategoryID});
 
   @override
-  _TravelForm createState() => _TravelForm();
-
-
-
+  _WeddingDressForm createState() => _WeddingDressForm();
 
 }
-class _TravelForm extends State<TravelForm>{
+class _WeddingDressForm extends State<WeddingDressForm> {
+
   final _textControllers = Map<String, TextEditingController>();
 
   @override
@@ -108,29 +103,33 @@ class _TravelForm extends State<TravelForm>{
 
                 // Api Calling.
 
-                if(_textControllers["service_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter service name');
-                }else if(_textControllers["client_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter client name');
-                }else if(_textControllers["type_of_coverage"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter type of coverage');
-                }else if(_textControllers["duration"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter duration');
-                }else if(_textControllers["hourly_rate"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter hourly rate.');
-                }else if(_textControllers["vehicle_type"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter vehicle_type');
-                }else if(_textControllers["pickup_location"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter pickup location');
-                }else if(_textControllers["drop_off_location"]!.text.isEmpty){
-                  showAlertDialog(context, "Please enter drop_off_location information");
-                }else if(_textControllers["contact_information"]!.text.isEmpty){
-                  showAlertDialog(context, "Please enter contact information");
+                if(_textControllers["name"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter  name');
+                }else if(_textControllers["designer"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter designer');
+                }else if(_textControllers["style"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter style');
+                }else if(_textControllers["color"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter color');
+                }else if(_textControllers["fabric"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter fabric');
+                }else if(_textControllers["size"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter size');
+                }else if(_textControllers["price"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter price');
+                }else if(_textControllers["description"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter description');
+                }else if(_textControllers["availability"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter availability');
+                }else if(_textControllers["rating"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter rating');
+                }else if(_textControllers["tags"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter tags');
                 }
 
 
                 else{
-                  await _handleTravelForm(viewmodel,_textControllers);
+                  await _handleWeddingDressForm(viewmodel,_textControllers);
 
                 }
 
@@ -147,7 +146,7 @@ class _TravelForm extends State<TravelForm>{
               ),
               child:
               Text(
-                'Create Event Travel',
+                'Create Event Catering',
                 style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
               ),
             ),
@@ -158,6 +157,16 @@ class _TravelForm extends State<TravelForm>{
         ,
       );
 
+  }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "WEDDING_DRESS", "id" : categoryId};
+
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
   }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
@@ -198,18 +207,8 @@ class _TravelForm extends State<TravelForm>{
       },
     );
   }
-  void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "TRAVEL", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
-    );
-  }
-
-  Future<void> _handleTravelForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
+  Future<void> _handleWeddingDressForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
       String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
@@ -226,29 +225,32 @@ class _TravelForm extends State<TravelForm>{
         'Status' : sessionJsonEvent.status,
         'userId' : sessionUserString,
         'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
+        'category_id' : widget.eventCategoryID,
 
       });
 
       if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeTravel({
-          "service_name" : _textControllers["service_name"]!.text.toString(),
-          "client_name" : _textControllers["client_name"]!.text.toString(),
-          "type_of_coverage" : _textControllers["type_of_coverage"]!.text.toString(),
-          "duration" : _textControllers["duration"]!.text.toString(),
-          "hourly_rate" : _textControllers["hourly_rate"]!.text.toString(),
-          "vehcile_type" : _textControllers["vehicle_type"]!.text.toString(),
-          "pickup_location" : _textControllers["pickup_location"]!.text.toString(),
-          "dropoff_location" : _textControllers["drop_off_location"]!.text.toString(),
-          "number" : _textControllers["contact_information"]!.text.toString(),
+        await viewmodel.createEventTypeWeddingDress({
+          "name" : _textControllers["name"]!.text.toString(),
+          "designer" : _textControllers["designer"]!.text.toString(),
+          "style" : _textControllers["style"]!.text.toString(),
+          "color" : _textControllers["color"]!.text.toString(),
+          "fabric" : _textControllers["fabric"]!.text.toString(),
+          "size" : _textControllers["size"]!.text.toString(),
+          "price" : _textControllers["price"]!.text.toString(),
+          "description" : _textControllers["description"]!.text.toString(),
+          "availability" : _textControllers["availability"]!.text.toString(),
+          "rating" : _textControllers["rating"]!.text.toString(),
+          "tags" : _textControllers["tags"]!.text.toString(),
           'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
         });
 
 
-        if (viewmodel.createTravelResponse!.data !=null) {
+        if (viewmodel.createWeddingDressResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewmodel.createTravelResponse!.message.toString());
-          _showImagePickerOptions(viewmodel.createTravelResponse!.data!.sId.toString());
+          _showImagePickerOptions(viewmodel.createWeddingDressResponse!.data!.sId.toString());
+
+
 
         } else {
           // Show error message
@@ -264,9 +266,6 @@ class _TravelForm extends State<TravelForm>{
 
 
   }
-
-
-
 
 
 }
