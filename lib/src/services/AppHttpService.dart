@@ -664,7 +664,7 @@ class AppHttpService extends BaseService{
     try {
       final response = await http.post(
         Uri.parse(BaseUrl + 'megma/create-band'), // Adjust the endpoint accordingly
-        body: jsonEncode(createEventTypeCatering),
+        body: jsonEncode(createEventTypeDholWale),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -682,7 +682,7 @@ class AppHttpService extends BaseService{
     try {
       final response = await http.post(
         Uri.parse(BaseUrl + 'megma/create-dhol'), // Adjust the endpoint accordingly
-        body: jsonEncode(createEventTypeCatering),
+        body: jsonEncode(createEventTypeDholWale),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -700,7 +700,7 @@ class AppHttpService extends BaseService{
     try {
       final response = await http.post(
         Uri.parse(BaseUrl + 'megma/create-entertainment'), // Adjust the endpoint accordingly
-        body: jsonEncode(createEventTypeCatering),
+        body: jsonEncode(createEventTypeDholWale),
         headers: {
           'Content-Type': 'application/json',
         },

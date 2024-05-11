@@ -102,22 +102,19 @@ class _DholForm extends State<DholForm> {
 
                 // Api Calling.
 
-                if(_textControllers["event_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter  event name');
-                }else if(_textControllers["event_description"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter event description');
-                }else if(_textControllers["event_type"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter event type');
-                }else if(_textControllers["event_date_time"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter event date time');
-                }else if(_textControllers["duration"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter duration');
-                }else if(_textControllers["ticket_price"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter ticket price');
-
+                if(_textControllers["group_name"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter  group_name');
+                }else if(_textControllers["contact_person"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter contact_person');
+                }else if(_textControllers["contact_number"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter contact_number');
+                }else if(_textControllers["email"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter email');
+                }else if(_textControllers["address"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter address');
                 }
                 else{
-                  await _handleCateringForm(viewmodel,_textControllers);
+                  await _handleDholForm(viewmodel,_textControllers);
 
                 }
 
@@ -150,7 +147,7 @@ class _DholForm extends State<DholForm> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "CATERING", "id" : categoryId};
+          final data = <String,String>{"categoryType" : "DHOL", "id" : categoryId};
 
           return ImagePickerBottomSheet(imageUploadData: data,);
         }
@@ -196,7 +193,7 @@ class _DholForm extends State<DholForm> {
     );
   }
 
-  Future<void> _handleCateringForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
+  Future<void> _handleDholForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
       String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
@@ -218,18 +215,19 @@ class _DholForm extends State<DholForm> {
       });
 
       if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeCatering({
-          "name" : _textControllers["name"]!.text.toString(),
-          "address" : _textControllers["address"]!.text.toString(),
-          "contact" : _textControllers["contact"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
+        await viewmodel.createEventTypeDhol({
+          "GroupName" : _textControllers["group_name"]!.text.toString(),
+          "ContactPerson" : _textControllers["contact_person"]!.text.toString(),
+          "ContactNumber" : _textControllers["contact_number"]!.text.toString(),
+          "Email" : _textControllers["email"]!.text.toString(),
+          "Address" : _textControllers["address"]!.text.toString(),
           'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
         });
 
 
-        if (viewmodel.createCateringResponse!.data !=null) {
+        if (viewmodel.createDholResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createCateringResponse!.data!.sId.toString());
+          _showImagePickerOptions(viewmodel.createDholResponse!.data!.sId.toString());
 
 
 

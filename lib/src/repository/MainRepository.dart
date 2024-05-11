@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
 import 'package:flutter_eventplanner/src/model/create_dhol_response.dart';
 import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
+import 'package:flutter_eventplanner/src/model/create_entertainment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
@@ -324,7 +325,7 @@ class MainRepository {
 
     try {
       // Assuming _userService handles the registration request
-      dynamic response = await _userService.createEventTypeDholWale(getUserEventsData);
+      dynamic response = await _userService.createEventTypeBandWale(getUserEventsData);
       // Assuming the response is in the format you provided earlier
       return create_band_response.fromJson(response);
     } catch (error) {
@@ -334,6 +335,19 @@ class MainRepository {
 
 
   }
+  Future<create_entertainment_response> createEventTypeEntertainment(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeEntertainment(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return create_entertainment_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+
 
 
   Future<user_event_name_search_response> getAllUserEventsByName(Map<String,dynamic> getUserEventsData) async{

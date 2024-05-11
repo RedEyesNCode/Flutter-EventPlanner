@@ -133,7 +133,7 @@ class _BandForm extends State<BandForm> {
               ),
               child:
               Text(
-                'Create Event Catering',
+                'Create Event Band',
                 style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
               ),
             ),
@@ -149,7 +149,7 @@ class _BandForm extends State<BandForm> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "CATERING", "id" : categoryId};
+          final data = <String,String>{"categoryType" : "BAND", "id" : categoryId};
 
           return ImagePickerBottomSheet(imageUploadData: data,);
         }
@@ -217,18 +217,20 @@ class _BandForm extends State<BandForm> {
       });
 
       if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeCatering({
-          "name" : _textControllers["name"]!.text.toString(),
-          "address" : _textControllers["address"]!.text.toString(),
-          "contact" : _textControllers["contact"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
+        await viewmodel.createEventTypeBand({
+          "BandName" : _textControllers["band_name"]!.text.toString(),
+          "Genre" : _textControllers["genre"]!.text.toString(),
+          "ContactPerson" : _textControllers["contact_person"]!.text.toString(),
+          "ContactNumber" : _textControllers["contact_number"]!.text.toString(),
+          "Email" : _textControllers["email"]!.text.toString(),
+          "Address" : _textControllers["address"]!.text.toString(),
           'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
         });
 
 
-        if (viewmodel.createCateringResponse!.data !=null) {
+        if (viewmodel.createBandResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createCateringResponse!.data!.sId.toString());
+          _showImagePickerOptions(viewmodel.createBandResponse!.data!.sId.toString());
 
 
 

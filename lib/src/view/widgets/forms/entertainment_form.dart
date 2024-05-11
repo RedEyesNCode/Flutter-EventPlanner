@@ -218,18 +218,20 @@ class _EntertainmentForm extends State<EntertainmentForm> {
       });
 
       if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeCatering({
-          "name" : _textControllers["name"]!.text.toString(),
-          "address" : _textControllers["address"]!.text.toString(),
-          "contact" : _textControllers["contact"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
+        await viewmodel.createEventTypeEntertainment({
+          "EventName" : _textControllers["event_name"]!.text.toString(),
+          "EventDescription" : _textControllers["event_description"]!.text.toString(),
+          "EventType" : _textControllers["event_type"]!.text.toString(),
+          "EventDateTime" : _textControllers["event_date_time"]!.text.toString(),
+          "Duration" : _textControllers["duration"]!.text.toString(),
+          "TicketPrice" : _textControllers["ticket_price"]!.text.toString(),
           'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
         });
 
 
-        if (viewmodel.createCateringResponse!.data !=null) {
+        if (viewmodel.createEntertainmentResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createCateringResponse!.data!.sId.toString());
+          _showImagePickerOptions(viewmodel.createEntertainmentResponse!.data!.sId.toString());
 
 
 

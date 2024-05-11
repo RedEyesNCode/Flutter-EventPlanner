@@ -7,6 +7,7 @@ import 'package:flutter_eventplanner/src/model/create_catering_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
 import 'package:flutter_eventplanner/src/model/create_dhol_response.dart';
 import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
+import 'package:flutter_eventplanner/src/model/create_entertainment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
@@ -74,6 +75,9 @@ class MainViewModel with ChangeNotifier {
 
   create_dhol_response? _create_dhol_response;
 
+  create_entertainment_response? _create_entertainment_response;
+
+
 
 
 
@@ -89,6 +93,8 @@ class MainViewModel with ChangeNotifier {
   create_dhol_response? get createDholResponse => _create_dhol_response;
 
   create_band_response? get createBandResponse => _create_band_response;
+
+  create_entertainment_response? get createEntertainmentResponse => _create_entertainment_response;
 
 
 
@@ -158,6 +164,7 @@ class MainViewModel with ChangeNotifier {
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
   }
+
   Future<void> createEventTypeBand(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
@@ -169,6 +176,29 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_band_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
+  Future<void> createEventTypeEntertainment(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_entertainment_response? response = await MainRepository().createEventTypeEntertainment(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_entertainment_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {
@@ -511,6 +541,72 @@ class MainViewModel with ChangeNotifier {
     try {
 
       upload_image_response? response = await MainRepository().uploadVenueImage(uploadVenueImageData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _upload_image_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+  Future<void> uploadBandImage(Map<String, dynamic> uploadVenueImageData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      upload_image_response? response = await MainRepository().uploadBandImage(uploadVenueImageData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _upload_image_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+  Future<void> uploadEntertainmentImage(Map<String, dynamic> uploadVenueImageData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      upload_image_response? response = await MainRepository().uploadEntertainmentImage(uploadVenueImageData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _upload_image_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+  Future<void> uploadDholImage(Map<String, dynamic> uploadVenueImageData) async {
+    _apiResponse = ApiResponse.loading('Checking user');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      upload_image_response? response = await MainRepository().uploadDholImage(uploadVenueImageData);
       print(response);
 
       _apiResponse = ApiResponse.completed(response);

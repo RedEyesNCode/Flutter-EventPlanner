@@ -219,6 +219,22 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
         "weddingDressId": id,
         "file": _imageFile!
       });
+    }else if(categoryType=="BAND"){
+      await viewmodel.uploadBandImage({
+        "bandId": id,
+        "file": _imageFile!
+      });
+
+    }else if(categoryType=="DHOL"){
+      await viewmodel.uploadDholImage({
+        "dholId": id,
+        "file": _imageFile!
+      });
+    }else if(categoryType=="ENTERTAINMENT"){
+      await viewmodel.uploadEntertainmentImage({
+        "entertainmentId": id,
+        "file": _imageFile!
+      });
     }
     if(viewmodel.response.status == Status.COMPLETED && viewmodel.uploadImageResponse!=null){
       showAlertDialog(context, viewmodel.uploadImageResponse!.message.toString());
