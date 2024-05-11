@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/band_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/catering_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/decoration_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/dhol_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/entertainment_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/entry_varmala_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/makeup_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/pandit_form.dart';
@@ -37,7 +40,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["VENUE", "DJ AND BAND", "DECORATION", "MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY","CATERING","WEDDING DRESS"],
+        options: ["VENUE", "DJ AND BAND", "DECORATION", "BAND","DHOL","ENTERTAINMENT","MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY","CATERING","WEDDING DRESS"],
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
@@ -252,6 +255,70 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "rating": "",
                     "contact_information": ""
                   },categoryEventID: category_id),
+                ],
+              ),
+
+            if(_controllerCategory.text.toString() == "BAND")
+              Column(
+
+                children: [
+                  Text(
+                    'Band General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  BandForm(initialData: {
+                    "event_name": "",
+                    "event_description": "",
+                    "event_type": "",
+                    "event_date_time": "",
+                    "duration": "",
+                    "ticket_price": "",
+                  },eventCategoryID: category_id),
+                ],
+              ),
+
+            if(_controllerCategory.text.toString() == "ENTERTAINMENT")
+              Column(
+
+                children: [
+                  Text(
+                    'Entertainment General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  EntertainmentForm(initialData: {
+                    "event_name": "",
+                    "event_description": "",
+                    "event_type": "",
+                    "event_date_time": "",
+                    "duration": "",
+                    "ticket_price": "",
+                  },eventCategoryID: category_id),
+                ],
+              ),
+            if(_controllerCategory.text.toString() == "DHOL")
+              Column(
+
+                children: [
+                  Text(
+                    'Dhol General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  DholForm(initialData: {
+                    "group_name": "",
+                    "contact_person": "",
+                    "contact_number": "",
+                    "email": "",
+                    "address": "",
+                  },eventCategoryID: category_id),
                 ],
               ),
 

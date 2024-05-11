@@ -37,6 +37,13 @@ abstract class BaseService {
   Future<dynamic> createEventTypeWeddingDress(Map<String,dynamic> createEventTypeWeddingDress);
 
 
+  Future<dynamic> createEventTypeDholWale(Map<String,dynamic> createEventTypeDholWale);
+  Future<dynamic> createEventTypeBandWale(Map<String,dynamic> createEventTypeDholWale);
+  Future<dynamic> createEventTypeEntertainment(Map<String,dynamic> createEventTypeDholWale);
+
+
+
+
   // CATERING, WEDDING-DRESS.
 
   Future<dynamic> getAllEventCategories();
@@ -65,5 +72,9 @@ abstract class BaseService {
   Future<dynamic> uploadPanditImage(Map<String,dynamic> uploadPanditImage);
   Future<dynamic> uploadWeddingDressImage(Map<String,dynamic> uploadPanditImage);
   Future<dynamic> uploadCateringImage(Map<String,dynamic> uploadPanditImage);
+
+  Future<dynamic> uploadBandImage(Map<String,dynamic> uploadPanditImage);
+  Future<dynamic> uploadDholImage(Map<String,dynamic> uploadPanditImage);
+  Future<dynamic> uploadEntertainmentImage(Map<String,dynamic> uploadPanditImage);
 
 }

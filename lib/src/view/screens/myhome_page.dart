@@ -286,7 +286,7 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                     Expanded(
                       child: EventCategoryCard(
-                        category: 'Cater',
+                        category: 'Catering',
                         categoryUrl:
                         'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
                       ),
@@ -370,6 +370,31 @@ class _HomeScreen extends State<HomeScreen> {
                             category: 'Wedding\nDress',
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Entertainment',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Dhol',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/drum.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Band',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',
                           ),
                         ),
                       ],

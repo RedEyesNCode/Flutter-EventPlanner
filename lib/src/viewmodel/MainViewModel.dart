@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_catering_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
+import 'package:flutter_eventplanner/src/model/create_dhol_response.dart';
 import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
@@ -68,6 +70,11 @@ class MainViewModel with ChangeNotifier {
 
 
 
+  create_band_response? _create_band_response;
+
+  create_dhol_response? _create_dhol_response;
+
+
 
 
   upload_image_response? _upload_image_response;
@@ -78,6 +85,14 @@ class MainViewModel with ChangeNotifier {
 
   create_weddingdress_response? get createWeddingDressResponse => _create_weddingdress_response;
   create_catering_response? get createCateringResponse => _create_catering_response;
+
+  create_dhol_response? get createDholResponse => _create_dhol_response;
+
+  create_band_response? get createBandResponse => _create_band_response;
+
+
+
+
 
 
 
@@ -142,6 +157,48 @@ class MainViewModel with ChangeNotifier {
       notifyListeners();
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
+  }
+  Future<void> createEventTypeBand(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_band_response? response = await MainRepository().createEventTypeBand(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_band_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> createEventTypeDhol(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_dhol_response? response = await MainRepository().createEventTypeDhol(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_dhol_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
 
   Future<void> createEventTypePandit(Map<String, dynamic> userData) async {

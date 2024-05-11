@@ -659,6 +659,140 @@ class AppHttpService extends BaseService{
 
   }
 
+  @override
+  Future createEventTypeBandWale(Map<String, dynamic> createEventTypeDholWale) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-band'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeCatering),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeDholWale(Map<String, dynamic> createEventTypeDholWale) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-dhol'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeCatering),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future createEventTypeEntertainment(Map<String, dynamic> createEventTypeDholWale) async {
+    // TODO: implement createEventTypeEntertainment
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-entertainment'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeCatering),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadBandImage(Map<String, dynamic> uploadPanditImage) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['bandId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-band-image'),
+      );
+
+      request.fields['bandId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadDholImage(Map<String, dynamic> uploadPanditImage) async{
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['dholId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-dhol-image'),
+      );
+
+      request.fields['dholId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
+  @override
+  Future uploadEntertainmentImage(Map<String, dynamic> uploadPanditImage) async {
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadPanditImage['entertainmentId'];
+      File file = uploadPanditImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-entertainment-image'),
+      );
+
+      request.fields['entertainmentId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+
+  }
+
 
 
 

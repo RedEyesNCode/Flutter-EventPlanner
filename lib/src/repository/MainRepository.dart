@@ -2,7 +2,9 @@
 
 
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
+import 'package:flutter_eventplanner/src/model/create_dhol_response.dart';
 import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
@@ -303,6 +305,37 @@ class MainRepository {
 
 
   }
+
+  Future<create_dhol_response> createEventTypeDhol(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeDholWale(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return create_dhol_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_band_response> createEventTypeBand(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeDholWale(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return create_band_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
+
   Future<user_event_name_search_response> getAllUserEventsByName(Map<String,dynamic> getUserEventsData) async{
 
     try {
@@ -456,5 +489,42 @@ class MainRepository {
       throw error;
     }
   }
+  Future<upload_image_response> uploadBandImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadBandImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+  Future<upload_image_response> uploadDholImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadDholImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+  Future<upload_image_response> uploadEntertainmentImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadEntertainmentImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
+
 
 }

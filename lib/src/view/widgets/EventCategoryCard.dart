@@ -39,7 +39,7 @@ class EventCategoryCard extends StatelessWidget {
 
               style: const TextStyle(
 
-                fontSize: 13,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Raleway',
                 color: Colors.black
