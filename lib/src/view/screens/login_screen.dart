@@ -247,6 +247,9 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                       style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
                     ),
                   ),
+
+
+
                 ),
                 if (viewmodel.response.status == Status.LOADING)
                   Center(child: CircularProgressIndicator()),

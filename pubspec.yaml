@@ -68,6 +68,8 @@ flutter:
     - family: PlayfairDisplay  # Use a custom name for your font family
       fonts:
         - asset: lib/src/fonts/PlayfairDisplay.ttf
+    - family: Raleway
+      fonts:
         - asset: lib/src/fonts/Raleway.ttf
 
 

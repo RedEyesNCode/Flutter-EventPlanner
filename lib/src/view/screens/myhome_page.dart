@@ -11,6 +11,8 @@ import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/catalogue_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/payments_screen.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/CouponCard.dart';
+import 'package:flutter_eventplanner/src/view/widgets/EventCategoryCard.dart';
 import 'package:flutter_eventplanner/src/view/widgets/image_text_row.dart';
 import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/view/widgets/two_text_card.dart';
@@ -29,17 +31,17 @@ class _MyHomePageState extends State<MyHomePage> {
     HomeScreen(),
     BookingScreen(),
     PaymentScreen(),
-    CatalogueScreen(initialData: {
-      "event_name":"",
-      "event_type":"",
-      "start_date":"",
-
-      "end_date":"",
-      "location_id":"",
-      "description":"",
-      "Status":""
-
-    },)
+    CatalogueScreen(
+      initialData: {
+        "event_name": "",
+        "event_type": "",
+        "start_date": "",
+        "end_date": "",
+        "location_id": "",
+        "description": "",
+        "Status": ""
+      },
+    )
   ];
 
   void _onItemTapped(int index) {
@@ -52,7 +54,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Event Planner'),
+        backgroundColor: Colors.grey.shade100,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 5.0, // Adjust for desired shadow depth
+              ),
+              onPressed: () {
+                // Your button's action here
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min, // Keep the button compact
+                children: [
+                  Icon(Icons.wallet), // Replace with your icon path
+                  SizedBox(
+                      width: 8.0), // Add spacing between icon and text
+                  Text('Your Wallet',style: TextStyle(fontFamily: 'PlayfairDisplay',fontSize: 15,),),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
       drawer: NavigationDrawer(),
       body: _screens[_selectedIndex],
@@ -74,20 +98,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class HomeScreen extends StatefulWidget
-{
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
 
   @override
   _HomeScreen createState() => _HomeScreen();
-
-
 }
 
 // Simple placeholder components
 class _HomeScreen extends State<HomeScreen> {
-
   final _controllerUserName = TextEditingController();
   final _controllerSearch = TextEditingController();
   bool isSearchData = false;
@@ -95,329 +114,278 @@ class _HomeScreen extends State<HomeScreen> {
 
   String category_id = "";
 
-
-
   @override
   void initState() {
     super.initState();
     _initializeData();
-
-
   }
-  void _showCategorySheet(BuildContext context,MainViewModel mainViewModel) {
+
+  void _showCategorySheet(BuildContext context, MainViewModel mainViewModel) {
     showModalBottomSheet(
         context: context,
         builder: (context) => CategorySheet(
-          viewModel: mainViewModel,
-          onItemSelected: (selectedItem,selectedId) {
-            category_id = selectedItem;
-            _callEventByCategoryApi();
+              viewModel: mainViewModel,
+              onItemSelected: (selectedItem, selectedId) {
+                category_id = selectedItem;
+                _callEventByCategoryApi();
 
-
-            Navigator.pop(context);
-            setState(() {}); // Trigger rebuild
-          },
-        ));
+                Navigator.pop(context);
+                setState(() {}); // Trigger rebuild
+              },
+            ));
   }
+
   Future<void> _initializeData() async {
     setState(() {
       isSearchData = false;
       isFilterData = false;
-
     });
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
-    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
-    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    String? sessionUserLogin =
+        await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse =
+        login_response.fromJson(jsonDecode(sessionUserLogin!));
     _controllerUserName.text = userLoginResponse.data.name.toString();
 
-
-    Provider.of<MainViewModel>(context, listen: false).getUserEvents({
-      "userId": sessionUserString
-    });
+    Provider.of<MainViewModel>(context, listen: false)
+        .getUserEvents({"userId": sessionUserString});
   }
+
   Future<void> _callEventSearchApi(String queryHint) async {
-    if(queryHint.isEmpty){
+    if (queryHint.isEmpty) {
       _initializeData();
       return;
     }
     setState(() {
       isSearchData = true;
       isFilterData = false;
-
     });
 
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
-    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
-    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    String? sessionUserLogin =
+        await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse =
+        login_response.fromJson(jsonDecode(sessionUserLogin!));
     _controllerUserName.text = userLoginResponse.data.name.toString();
 
-    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYName({
-      "userId": sessionUserString,
-      "eventName" : queryHint
-    });
+    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYName(
+        {"userId": sessionUserString, "eventName": queryHint});
   }
-  Future<void> _callEventByCategoryApi() async {
 
+  Future<void> _callEventByCategoryApi() async {
     setState(() {
       isSearchData = false;
       isFilterData = true;
-
     });
 
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
-    String? sessionUserLogin = await SharedPrefManager().getString("LOGIN_RESPONSE");
-    login_response? userLoginResponse = login_response.fromJson(jsonDecode(sessionUserLogin!));
+    String? sessionUserLogin =
+        await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse =
+        login_response.fromJson(jsonDecode(sessionUserLogin!));
     _controllerUserName.text = userLoginResponse.data.name.toString();
 
-    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYCateogry({
-      "userId": sessionUserString,
-      "categoryName" : category_id
-    });
+    Provider.of<MainViewModel>(context, listen: false).getUserEventsBYCateogry(
+        {"userId": sessionUserString, "categoryName": category_id});
   }
-
 
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
 
     return Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              // Define the direction of the gradient
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              // List the colors of the gradient
-              colors: [
-                Colors.white,
-                Colors.white,
-              ],
-              // Define stops for each color
-              stops: [0.0, 1.0],
+      backgroundColor: Colors.grey.shade100,
+        body: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              color: Colors.grey.shade100,
+              child: TextField(
+                onChanged: (newText) => {_callEventSearchApi(newText)},
+                controller: _controllerSearch,
+                cursorColor: Colors.black,
+
+                decoration: InputDecoration(
+
+                    hintText: "Search all by event name",
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        fontFamily: 'PlayfairDisplay',
+                        color: Colors.black),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    suffixIcon: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 8.0), // Adjust as needed
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.shade100,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        child: GestureDetector(
+                          onTap: () => {_showCategorySheet(context, viewmodel)},
+                          child: const Icon(Icons.filter_list,color: Colors.white,),
+                        )),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            30.0), // Adjust border radius as needed
+                        borderSide: BorderSide(
+                          color: Colors.blueAccent, // Set border color
+                        )),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            30.0),
+                        borderSide: BorderSide(color: Colors.blueAccent))),
+              ),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
+          Container(
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 1.0),
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ImageAndTextRow(
-                    icon: Icons.my_location_outlined, text: 'Welcome Back !'),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 40.0),
                 child: Row(
                   children: [
-                    Text(_controllerUserName.text,textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                      fontSize: 21,
-                      fontFamily: 'PlayfairDisplay',
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                    Expanded(
+                      child: EventCategoryCard(
+                        category: 'Venue',
+                        categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
+                      ),
+                    ),
+                    Expanded(
+                      child: EventCategoryCard(
+                        category: 'DJ',
+                        categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
+                      ),
+                    ),
+                    Expanded(
+                      child: EventCategoryCard(
+                        category: 'Decor',
+                        categoryUrl:
+                        'https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png',
+                      ),
+                    ),
+                    Expanded(
+                      child: EventCategoryCard(
+                        category: 'Cater',
+                        categoryUrl:
+                        'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
+                      ),
+                    )
 
-                    )),
+                    //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
+            ),
+          ),
+          CouponCard(),
+          Container(
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 1.0),
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-
-                  child: TextField(
-                    onChanged: (newText) => {
-
-                      _callEventSearchApi(newText)
-                    },
-                    controller: _controllerSearch,
-                    cursorColor: Colors.black,
-                    decoration: InputDecoration(
-
-                        hintText: "Search all by event name",
-                        hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,fontFamily: 'PlayfairDisplay',color: Colors.black),
-                        prefixIcon: const Icon(Icons.search,color: Colors.black,),
-                        suffixIcon: Container(
-
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 8.0), // Adjust as needed
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          child:
-                          GestureDetector(
-                            onTap: () => {_showCategorySheet(context, viewmodel)},
-                            child:const Icon(Icons.filter_list),
-                          )
-
-                        ),
-                        focusedBorder: OutlineInputBorder(
-
-                            borderRadius: BorderRadius.circular(30.0), // Adjust border radius as needed
-                            borderSide: BorderSide(
-                              color: Colors.grey, // Set border color
-                            )
-                        ),
-                        border: OutlineInputBorder(
-
-                            borderSide: BorderSide(
-                                color: Colors.white
-                            )
-                        )
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                ),
-
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 1.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-
-
-                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventsResponse!=null && isSearchData==false  && isFilterData==false)
-                          Column(
-                            children: [
-                              SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  Text('Your Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                                    fontSize: 21,
-                                    fontFamily: 'PlayfairDisplay',
-                                    color: Colors.black,
-
-                                  )),
-                                ],
-                              ),
-                              SizedBox(height: 10,),
-                              SizedBox(
-                                height: 355,
-                                child: ListView.builder(
-                                  itemCount: viewmodel.userEventsResponse!.data?.events!.length,
-                                  itemBuilder: (context, index) {
-                                    final event = viewmodel.userEventsResponse!.data?.events![index];
-                                    return ItemUpcomingEvent(events: event!,);
-                                  },
-                                ),
-                              ),
-                            ],
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Tent\nhouse',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png',
                           ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Photo\nVideo',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Makeup',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Travel',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
+                          ),
+                        ),
+
+
                         //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
-                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null && isSearchData==true && isFilterData==false)
-                          Column(
-                            children: [
-                              SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  Text('Searched Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                                    fontSize: 21,
-                                    fontFamily: 'PlayfairDisplay',
-                                    color: Colors.black,
-
-                                  )),
-                                ],
-                              ),
-                              SizedBox(height: 10,),
-                              SizedBox(
-                                height: 355,
-                                child: ListView.builder(
-                                  itemCount: viewmodel.userEventNameSearchResponse!.data!.length,
-                                  itemBuilder: (context, index) {
-                                    final dataEvent = viewmodel.userEventNameSearchResponse!.data![index];
-                                    final event = Events(
-                                      sId: dataEvent.sId.toString(),
-                                      eventName: dataEvent.eventName.toString(),
-                                      eventType:  dataEvent.eventType.toString(),
-                                      startDate: dataEvent.startDate.toString(),
-                                      endDate: dataEvent.endDate.toString(),
-                                      locationId: dataEvent.locationId.toString(),
-                                      description: dataEvent.description.toString(),
-                                      status:  dataEvent.status.toString(),
-                                      userId: dataEvent.userId.toString(),
-                                      categoryId:  dataEvent.categoryId.toString(),
-                                      createdAt:  dataEvent.createdAt.toString(),
-                                      updatedAt:  dataEvent.updatedAt.toString(),
-                                    );
-                                    return ItemUpcomingEvent(events: event,);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventNameSearchResponse!=null && isSearchData==false && isFilterData==true)
-                          Column(
-                            children: [
-                              SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  Text('${category_id} Events',textAlign: TextAlign.start,textDirection: TextDirection.ltr,style: TextStyle(
-                                    fontSize: 21,
-                                    fontFamily: 'PlayfairDisplay',
-                                    color: Colors.black,
-
-                                  )),
-                                ],
-                              ),
-                              SizedBox(height: 10,),
-                              SizedBox(
-                                height: 355,
-                                child: ListView.builder(
-                                  itemCount: viewmodel.userEventByCategoryResponse!.data!.length,
-                                  itemBuilder: (context, index) {
-                                    final dataEvent = viewmodel.userEventByCategoryResponse!.data![index];
-                                    final event = Events(
-                                      sId: dataEvent.sId.toString(),
-                                      eventName: dataEvent.eventName.toString(),
-                                      eventType:  dataEvent.eventType.toString(),
-                                      startDate: dataEvent.startDate.toString(),
-                                      endDate: dataEvent.endDate.toString(),
-                                      locationId: dataEvent.locationId.toString(),
-                                      description: dataEvent.description.toString(),
-                                      status:  dataEvent.status.toString(),
-                                      userId: dataEvent.userId.toString(),
-                                      categoryId:  dataEvent.categoryId.toString(),
-                                      createdAt:  dataEvent.createdAt.toString(),
-                                      updatedAt:  dataEvent.updatedAt.toString(),
-
-
-
-
-                                    );
-                                    return ItemUpcomingEvent(events: event,);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
                       ],
                     ),
-                  ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Varmala',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Pandit',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/hindu.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Wedding\nDress',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
+                          ),
+                        ),
+                      ],
+                    )
+
+                  ],
                 ),
               ),
-
-            ],
+            ),
           ),
-        ),
-      );
 
-
+        ],
+      ),
+    ));
   }
 }
-
-
 
 class NavigationDrawer extends StatelessWidget {
   @override
