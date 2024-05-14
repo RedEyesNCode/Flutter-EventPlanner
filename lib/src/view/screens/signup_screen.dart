@@ -60,12 +60,29 @@ class _SignupScreenUI extends State<SignupScreenUI> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(height: 20,),
+
+                  Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+
+                    height: 100,
+
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            30), // Adjust the value to change the amount of circularity
+                        child: Image.asset(
+                            'lib/src/images/ic_app_logo.jpeg')), // path to your image
+                  ),
+                  SizedBox(height: 10,),
                   Text(
                     'Register with Us',
                     style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w600,
-                        fontSize: 15),
+                        fontSize: 21),
                   ),
                   SizedBox(height: 20.0),
                   TextField(

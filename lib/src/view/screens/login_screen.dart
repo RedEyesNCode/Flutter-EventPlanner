@@ -11,10 +11,7 @@ import 'package:flutter_eventplanner/src/view/screens/signup_screen.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
-
-
 class LoginScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,10 +26,9 @@ class LoginScreenUI extends StatefulWidget {
     // TODO: implement createState
     return _LoginScreenUI();
   }
-
 }
-class _LoginScreenUI extends State<LoginScreenUI>{
 
+class _LoginScreenUI extends State<LoginScreenUI> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -42,9 +38,7 @@ class _LoginScreenUI extends State<LoginScreenUI>{
     super.initState();
     _emailController.text = "new@gmail.com";
     _passwordController.text = "123456";
-
   }
-
 
   @override
   void dispose() {
@@ -53,38 +47,53 @@ class _LoginScreenUI extends State<LoginScreenUI>{
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final viewmodel = Provider.of<MainViewModel>(context);
-    return
-      Scaffold(
-
-        body:
-        Center(
-          child: Container(
-            padding: EdgeInsets.all(20.0),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Login To Your Account',style: TextStyle( fontFamily: 'PlayfairDisplay',
-                    fontWeight: FontWeight.w600,fontSize: 15),),
+                Container(
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+
+                  height: 100,
+
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          30), // Adjust the value to change the amount of circularity
+                      child: Image.asset(
+                          'lib/src/images/ic_app_logo.jpeg')), // path to your image
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  'Login To Your Account',
+                  style: TextStyle(
+                      fontFamily: 'PlayfairDisplay',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 21),
+                ),
                 SizedBox(height: 20.0),
                 TextField(
                   controller: _emailController,
-
                   decoration: InputDecoration(
                     hintText: 'Email',
                     focusedBorder: OutlineInputBorder(
-
-                        borderRadius: BorderRadius.circular(10.0), // Adjust border radius as needed
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Adjust border radius as needed
                         borderSide: BorderSide(
                           color: Colors.green, // Set border color
-                        )
-                    ),
+                        )),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0), // Adjust border radius as needed
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust border radius as needed
                       borderSide: BorderSide(
                         color: Colors.grey, // Set border color
                       ),
@@ -98,15 +107,14 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                   decoration: InputDecoration(
                     hintText: 'Password',
                     focusedBorder: OutlineInputBorder(
-
-                        borderRadius: BorderRadius.circular(10.0), // Adjust border radius as needed
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Adjust border radius as needed
                         borderSide: BorderSide(
                           color: Colors.green, // Set border color
-                        )
-                    ),
+                        )),
                     border: OutlineInputBorder(
-
-                      borderRadius: BorderRadius.circular(10.0), // Adjust border radius as needed
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust border radius as needed
                       borderSide: BorderSide(
                         color: Colors.grey, // Set border color
                       ),
@@ -119,13 +127,11 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Or Continue With',style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'PlayfairDisplay'
-                      )),
+                      child: Text('Or Continue With',
+                          style: TextStyle(
+                              fontSize: 14, fontFamily: 'PlayfairDisplay')),
                     ),
                     SizedBox(width: 10.0),
-
                   ],
                 ),
                 Row(
@@ -135,78 +141,63 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: Colors.grey,
                               width: 1.0,
-
-                            )
-
-
-                        ),
+                            )),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Facebook',style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'PlayfairDisplay'
-                                ),),
+                                child: Text(
+                                  'Facebook',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: 'PlayfairDisplay'),
+                                ),
                               ),
                               Icon(Icons.facebook_outlined)
                             ],
-
                           ),
                         ),
-
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: Colors.grey,
                               width: 1.0,
-
-                            )
-
-
-                        ),
+                            )),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Google',style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'PlayfairDisplay'
-                                ),),
+                                child: Text(
+                                  'Google',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: 'PlayfairDisplay'),
+                                ),
                               ),
                               Icon(Icons.mail_outline_outlined)
                             ],
-
                           ),
                         ),
-
                       ),
                     ),
-
                   ],
-
                 ),
-
                 SizedBox(height: 20.0),
                 Container(
                   decoration: BoxDecoration(
@@ -218,49 +209,48 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(10), // Adjust border radius as needed
+                    borderRadius: BorderRadius.circular(
+                        10), // Adjust border radius as needed
                   ),
-                  child:
-
-
-                  ElevatedButton(
+                  child: ElevatedButton(
                     onPressed: () async {
                       // Api Calling.
-                      if(_emailController.text.toString().isEmpty){
+                      if (_emailController.text.toString().isEmpty) {
                         showAlertDialog(context, 'Please enter email address');
-                      }else if(_passwordController.text.toString().isEmpty){
+                      } else if (_passwordController.text.toString().isEmpty) {
                         showAlertDialog(context, 'Please enter password');
-                      }else{
+                      } else {
                         await _handleLogin(viewmodel);
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.transparent,
+                      padding: EdgeInsets.only(
+                          left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                        borderRadius: BorderRadius.circular(
+                            10), // Keep consistent with container
                       ),
                     ),
-                    child:
-                    Text(
+                    child: Text(
                       'Login',
-                      style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontFamily: 'PlayfairDisplay',
+                          fontWeight: FontWeight.w700), // Adjust text style
                     ),
                   ),
-
-
-
                 ),
                 if (viewmodel.response.status == Status.LOADING)
                   Center(child: CircularProgressIndicator()),
                 SizedBox(height: 20.0),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Or',style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: 'PlayfairDisplay'
-                  )),
+                  child: Text('Or',
+                      style: TextStyle(
+                          fontSize: 14, fontFamily: 'PlayfairDisplay')),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -272,7 +262,8 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(10), // Adjust border radius as needed
+                    borderRadius: BorderRadius.circular(
+                        10), // Adjust border radius as needed
                   ),
                   child: ElevatedButton(
                     onPressed: () => {
@@ -282,32 +273,33 @@ class _LoginScreenUI extends State<LoginScreenUI>{
                       )
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.transparent,
+                      padding: EdgeInsets.only(
+                          left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                        borderRadius: BorderRadius.circular(
+                            10), // Keep consistent with container
                       ),
                     ),
                     child: Text(
                       'Create New Account',
-                      style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontFamily: 'PlayfairDisplay',
+                          fontWeight: FontWeight.w700), // Adjust text style
                     ),
                   ),
                 ),
-
               ],
             ),
-
           ),
-
         ),
-      );
-
-
-
-
-
+      ),
+    );
   }
+
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -351,7 +343,6 @@ class _LoginScreenUI extends State<LoginScreenUI>{
   Future<void> _handleLogin(MainViewModel viewModel) async {
     // Consider disabling the button to prevent multiple login attempts
 
-
     try {
       showLoader(); // Show the loading dialog
       await viewModel.loginUser({
@@ -363,24 +354,25 @@ class _LoginScreenUI extends State<LoginScreenUI>{
       if (viewModel.response.status == Status.COMPLETED) {
         // Success! Navigate to appropriate screen
 
-
-      //   viewModel.loginResponse!.data.password
+        //   viewModel.loginResponse!.data.password
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(viewModel.loginResponse!.message.toString())),
         );
         // Saving the response into session
-        await SharedPrefManager().setString('LOGIN_RESPONSE', jsonEncode(viewModel.loginResponse));
-        await SharedPrefManager().setString('USER_ID', viewModel.loginResponse!.data.id.toString());
+        await SharedPrefManager()
+            .setString('LOGIN_RESPONSE', jsonEncode(viewModel.loginResponse));
+        await SharedPrefManager()
+            .setString('USER_ID', viewModel.loginResponse!.data.id.toString());
         await SharedPrefManager().setString('IS_LOGGED', 'true');
-        String? jsonString = await SharedPrefManager().getString('LOGIN_RESPONSE');
+        String? jsonString =
+            await SharedPrefManager().getString('LOGIN_RESPONSE');
 
-        if(jsonString!=null){
+        if (jsonString != null) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MyHomePage()),
           );
         }
-
       } else {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -392,6 +384,7 @@ class _LoginScreenUI extends State<LoginScreenUI>{
       // Re-enable the login button
     }
   }
+
   void showLoader() {
     // Example if using flutter_easyloading:
     print('Loading');
@@ -401,7 +394,4 @@ class _LoginScreenUI extends State<LoginScreenUI>{
     // Example if using flutter_easyloading:
     print('Hide Loading');
   }
-
-
 }
-

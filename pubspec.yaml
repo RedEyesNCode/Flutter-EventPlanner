@@ -64,6 +64,7 @@ flutter:
   uses-material-design: true
   assets:
     - lib/src/images/dj-service.jpeg
+    - lib/src/images/ic_app_logo.jpeg
   fonts:
     - family: PlayfairDisplay  # Use a custom name for your font family
       fonts:

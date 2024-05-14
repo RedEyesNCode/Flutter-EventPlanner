@@ -56,8 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+
+            Text('OTM',style: TextStyle(fontFamily: 'Raleway'),),
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 5.0, // Adjust for desired shadow depth
