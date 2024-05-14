@@ -449,20 +449,29 @@ class MainViewModel with ChangeNotifier {
 
   Future<void> loginUser(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
+    _apiResponse.status = Status.LOADING;
+
     _shouldNotifyListeners = true; // Set flag to notify listeners
 
     try {
 
       login_response? response = await MainRepository().loginUser(userData);
       print(response);
+      _apiResponse.status = Status.COMPLETED;
 
       _apiResponse = ApiResponse.completed(response);
       _loginResponse = response;
     } on BadRequestException {
+      _apiResponse.status = Status.ERROR;
+
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {
+      _apiResponse.status = Status.ERROR;
+
       _apiResponse = ApiResponse.error('No Internet Connection');
     } catch (e) {
+      _apiResponse.status = Status.ERROR;
+
       _apiResponse = ApiResponse.error('Error : '+e.toString());
       print(e);
     }

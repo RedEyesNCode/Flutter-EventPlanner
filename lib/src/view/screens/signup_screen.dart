@@ -52,6 +52,8 @@ class _SignupScreenUI extends State<SignupScreenUI> {
 
     return
       Scaffold(
+        backgroundColor:  Color(0xFF592b03), // Dark brown color from hex code #2a190d,
+
         body:
         SingleChildScrollView(
           child: Center(
@@ -80,20 +82,32 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                   Text(
                     'Register with Us',
                     style: TextStyle(
-                        fontFamily: 'PlayfairDisplay',
-                        fontWeight: FontWeight.w600,
+                        fontFamily: 'SFPro',
+                        color: Colors.white,
                         fontSize: 21),
                   ),
                   SizedBox(height: 20.0),
                   TextField(
+                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                     controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
+                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFffd553),
+                        ),
+                      ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
-                            color: Colors.green, // Set border color
+                            width: 2,
+
+                            color: Color(0xFFffd553), // Set border color
                           )),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
@@ -108,13 +122,25 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                   TextField(
                     obscureText: false,
                     controller: _nameController,
+                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                     decoration: InputDecoration(
                       hintText: 'Name',
+                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFffd553),
+                        ),
+                      ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
-                            color: Colors.green, // Set border color
+                            width: 2,
+
+                            color: Color(0xFFffd553), // Set border color
                           )),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
@@ -128,14 +154,26 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                   SizedBox(height: 20.0),
                   TextField(
                     controller: _passwordController,
+                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
+                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFffd553),
+                        ),
+                      ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
-                            color: Colors.green, // Set border color
+                            width: 2,
+
+                            color: Color(0xFFffd553), // Set border color
                           )),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
@@ -148,15 +186,28 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                   ),
                   SizedBox(height: 20.0),
                   TextField(
+                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                     controller: _phoneNumberController,
                     obscureText: false,
                     decoration: InputDecoration(
                       hintText: 'Phone Number',
+                      hintStyle: TextStyle(color: Colors.white),
+
+                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFffd553),
+                        ),
+                      ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
-                            color: Colors.green, // Set border color
+                            width: 2,
+
+                            color: Color(0xFFffd553), // Set border color
                           )),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
@@ -171,13 +222,25 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                   TextField(
                     obscureText: false,
                     controller: _addressController,
+                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                     decoration: InputDecoration(
                       hintText: 'Address',
+                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFffd553),
+                        ),
+                      ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
-                            color: Colors.green, // Set border color
+                            width: 2,
+
+                            color: Color(0xFFffd553), // Set border color
                           )),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
@@ -193,11 +256,11 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.greenAccent,
-                          Colors.green,
+                          Color(0xFFFFD144),
+                          Color(0xff6e3e14),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                       borderRadius: BorderRadius.circular(
                           10), // Adjust border radius as needed

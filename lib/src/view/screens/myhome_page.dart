@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Text('OTM',style: TextStyle(fontFamily: 'Raleway'),),
+            Text('Vendor One Touch Moments',style: TextStyle(fontFamily: 'Raleway',fontSize: 15),),
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(

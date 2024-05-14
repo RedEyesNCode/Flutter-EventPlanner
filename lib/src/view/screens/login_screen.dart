@@ -8,6 +8,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/screens/signup_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,7 @@ class LoginScreenUI extends StatefulWidget {
 class _LoginScreenUI extends State<LoginScreenUI> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -51,6 +53,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
     return Scaffold(
+      backgroundColor:  Color(0xFF592b03), // Dark brown color from hex code #2a190d,
+
       body: Center(
         child: Container(
           padding: EdgeInsets.all(20.0),
@@ -58,6 +62,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+
+
                 Container(
                   width: 100,
                   decoration: BoxDecoration(
@@ -76,40 +82,77 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                 Text(
                   'Login To Your Account',
                   style: TextStyle(
-                      fontFamily: 'PlayfairDisplay',
+                      fontFamily: 'SFPro',
+                      color:  Color(0xFFffd553), // Dark brown color from hex code #2a190d,
+
                       fontWeight: FontWeight.w600,
                       fontSize: 21),
                 ),
                 SizedBox(height: 20.0),
                 TextField(
                   controller: _emailController,
+                  style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
                   decoration: InputDecoration(
                     hintText: 'Email',
+                    enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFffd553),
+                      ),
+                    ),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                             10.0), // Adjust border radius as needed
                         borderSide: BorderSide(
-                          color: Colors.green, // Set border color
+                          width: 2,
+
+                          color: Color(0xFFffd553), // Set border color
                         )),
                     border: OutlineInputBorder(
+
                       borderRadius: BorderRadius.circular(
                           10.0), // Adjust border radius as needed
                       borderSide: BorderSide(
-                        color: Colors.grey, // Set border color
+                        width: 2,
+                        color: Color(0xFFffd553), // Set border color
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20.0),
                 TextField(
-                  obscureText: true,
+                  obscureText: _obscureText,
                   controller: _passwordController,
+                  style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        color: Colors.white,
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
                     hintText: 'Password',
+                    enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFffd553),
+                      ),
+                    ),
+
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                             10.0), // Adjust border radius as needed
                         borderSide: BorderSide(
+                          width: 2,
+
                           color: Colors.green, // Set border color
                         )),
                     border: OutlineInputBorder(
@@ -122,95 +165,20 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Or Continue With',
-                          style: TextStyle(
-                              fontSize: 14, fontFamily: 'PlayfairDisplay')),
-                    ),
-                    SizedBox(width: 10.0),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Facebook',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontFamily: 'PlayfairDisplay'),
-                                ),
-                              ),
-                              Icon(Icons.facebook_outlined)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Google',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontFamily: 'PlayfairDisplay'),
-                                ),
-                              ),
-                              Icon(Icons.mail_outline_outlined)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+
                 SizedBox(height: 20.0),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.greenAccent,
-                        Colors.green,
+                        Color(0xFFFFD144),
+                        Color(0xff6e3e14),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.circular(
-                        10), // Adjust border radius as needed
+                        30), // Adjust border radius as needed
                   ),
                   child: ElevatedButton(
                     onPressed: () async {
@@ -221,11 +189,12 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                         showAlertDialog(context, 'Please enter password');
                       } else {
                         await _handleLogin(viewmodel);
+
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.only(
-                          left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
+                          left: 95.0, right: 95.0, top: 15.0, bottom: 15.0),
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
@@ -243,27 +212,33 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                     ),
                   ),
                 ),
-                if (viewmodel.response.status == Status.LOADING)
-                  Center(child: CircularProgressIndicator()),
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Or',
-                      style: TextStyle(
-                          fontSize: 14, fontFamily: 'PlayfairDisplay')),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Text('Or',
+                          style: TextStyle(
+                              fontSize: 14, fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w900)),
+                    ),
+                    SizedBox(width: 10.0),
+                  ],
                 ),
+                SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.greenAccent,
-                        Colors.green,
+                        Color(0xFFFFD144),
+                        Color(0xff6e3e14),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.circular(
-                        10), // Adjust border radius as needed
+                        25), // Adjust border radius as needed
                   ),
                   child: ElevatedButton(
                     onPressed: () => {
@@ -342,6 +317,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
 
   Future<void> _handleLogin(MainViewModel viewModel) async {
     // Consider disabling the button to prevent multiple login attempts
+    print(viewModel.response.status.toString());
 
     try {
       showLoader(); // Show the loading dialog
@@ -350,6 +326,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
         'password': _passwordController.text,
       });
       hideLoader(); // Hide the dialog
+      print(viewModel.response.status.toString());
+
 
       if (viewModel.response.status == Status.COMPLETED) {
         // Success! Navigate to appropriate screen
@@ -387,7 +365,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
 
   void showLoader() {
     // Example if using flutter_easyloading:
-    print('Loading');
+    LoadingDialog();
+
   }
 
   void hideLoader() {

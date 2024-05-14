@@ -72,6 +72,9 @@ flutter:
     - family: Raleway
       fonts:
         - asset: lib/src/fonts/Raleway.ttf
+    - family: SFPro
+      fonts:
+        - asset: lib/src/fonts/SF_Regular.otf
 
 
 
