@@ -54,28 +54,47 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade100,
-        title: Row(
+        backgroundColor: Color(0xFFFFD553),
+        title:
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Text('Vendor One Touch Moments',style: TextStyle(fontFamily: 'Raleway',fontSize: 15),),
+            Text('Vendor \nOTM',style: TextStyle(fontFamily: 'Raleway',fontSize: 15,fontWeight: FontWeight.w900),),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 5.0, // Adjust for desired shadow depth
+            Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFFFD144),
+                    Color(0xff6e3e14),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(
+                    30), // Adjust border radius as needed
               ),
-              onPressed: () {
-                // Your button's action here
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min, // Keep the button compact
-                children: [
-                  Icon(Icons.wallet), // Replace with your icon path
-                  SizedBox(
-                      width: 8.0), // Add spacing between icon and text
-                  Text('Your Wallet',style: TextStyle(fontFamily: 'PlayfairDisplay',fontSize: 15,),),
-                ],
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 5.0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  // Adjust for desired shadow depth
+                ),
+                onPressed: () {
+                  // Your button's action here
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min, // Keep the button compact
+                  children: [
+                    Icon(Icons.wallet,color: Colors.white,), // Replace with your icon path
+                    SizedBox(
+                        width: 8.0), // Add spacing between icon and text
+                    Text('Your Wallet',style: TextStyle(color: Colors.white,fontFamily: 'SFPro',fontSize: 15,),),
+                  ],
+                ),
               ),
             )
           ],
@@ -197,7 +216,7 @@ class _HomeScreen extends State<HomeScreen> {
     final viewmodel = Provider.of<MainViewModel>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Color(0xFF2A190D),
         body: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -205,56 +224,52 @@ class _HomeScreen extends State<HomeScreen> {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: Colors.grey.shade100,
-              child: TextField(
-                onChanged: (newText) => {_callEventSearchApi(newText)},
-                controller: _controllerSearch,
-                cursorColor: Colors.black,
 
-                decoration: InputDecoration(
 
-                    hintText: "Search all by event name",
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        fontFamily: 'PlayfairDisplay',
-                        color: Colors.black),
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                    suffixIcon: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 8.0), // Adjust as needed
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent.shade100,
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        child: GestureDetector(
-                          onTap: () => {_showCategorySheet(context, viewmodel)},
-                          child: const Icon(Icons.filter_list,color: Colors.white,),
-                        )),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            30.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.blueAccent, // Set border color
-                        )),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            30.0),
-                        borderSide: BorderSide(color: Colors.blueAccent))),
+          SizedBox(
+            height: 50,
+
+            child: TextField(
+
+              controller: _controllerSearch,
+              style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
+
+                hintText: 'Search Vendor Events',
+                hintStyle: TextStyle(fontFamily:  'SFPro', color: Colors.white),
+                enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: Color(0xFFffd553),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust border radius as needed
+                    borderSide: BorderSide(
+                      width: 2,
+
+                      color: Color(0xFFffd553), // Set border color
+                    )),
+                border: OutlineInputBorder(
+
+                  borderRadius: BorderRadius.circular(
+                      25.0), // Adjust border radius as needed
+                  borderSide: BorderSide(
+                    width: 2,
+                    color: Color(0xFFffd553), // Set border color
+                  ),
+                ),
               ),
             ),
           ),
+
           Container(
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
@@ -268,7 +283,7 @@ class _HomeScreen extends State<HomeScreen> {
                   children: [
                     Expanded(
                       child: EventCategoryCard(
-                        category: 'Venue',
+                        category: 'VENUE',
                         categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
                       ),
@@ -301,11 +316,10 @@ class _HomeScreen extends State<HomeScreen> {
               ),
             ),
           ),
-          CouponCard(),
           Container(
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),

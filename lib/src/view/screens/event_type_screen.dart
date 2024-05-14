@@ -77,6 +77,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     final viewmodel = Provider.of<MainViewModel>(context);
 
     return Scaffold(
+      backgroundColor: Color(0xff6e3e14),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -92,9 +93,9 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   Text(
                     'Event Category Information',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay',
+                        fontFamily: 'SFPro',
                         fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -157,6 +158,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Venue General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -189,6 +191,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   Text(
                     'Wedding Dress General Information',
                     style: TextStyle(
+                        color: Colors.white,
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
@@ -216,6 +219,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   Text(
                     'Catering General Information',
                     style: TextStyle(
+                        color: Colors.white,
                         fontSize: 20.0,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
@@ -239,6 +243,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'DJ Band General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -266,6 +271,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Band General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -288,6 +294,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Entertainment General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -309,6 +316,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Dhol General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -331,6 +339,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Decoration General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -354,6 +363,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Makeup Artist General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -379,6 +389,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Photo & Video General Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -400,6 +411,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Travel & Transportation Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -424,6 +436,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Varmala Entry Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -446,6 +459,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'TentHouse Entry Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),
@@ -466,6 +480,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     'Pandit Information',
                     style: TextStyle(
                         fontSize: 20.0,
+                        color: Colors.white,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w700),
                   ),

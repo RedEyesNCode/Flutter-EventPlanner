@@ -47,99 +47,99 @@ class _BandForm extends State<BandForm> {
 
 
       SingleChildScrollView(
-        child:        Column(
 
-          children: [
+        child:        Container(
 
-            SizedBox(height: 20),
-            ...widget.initialData.entries.map((entry) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
+          child: Column(
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    // Define the direction of the gradient
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    // List the colors of the gradient
-                    colors: [
-                      Colors.orange.shade200,
-                      Colors.orange.shade50,
+            children: [
 
-                    ],
-                    // Define stops for each color
-                    stops: [0.0, 1.0],
+              SizedBox(height: 20),
+              ...widget.initialData.entries.map((entry) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.orange.shade200,
+                        Colors.orange.shade50,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                        25), // Adjust border radius as needed
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
+                    child: TextField(
+                      controller: _textControllers[entry.key],
+                      obscureText: false,
+                      cursorColor: Colors.black,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontFamily: 'PlayfairDisplay'
+                      ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+
+
+                          labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
+                          labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
+
+                      ),
+                    ),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
-                  child: TextField(
-                    controller: _textControllers[entry.key],
-                    obscureText: false,
-                    cursorColor: Colors.black,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay'
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
+
+              )).toList(),
+              ElevatedButton(
+                onPressed: () async {
+
+                  // Api Calling.
+
+                  if(_textControllers["band_name"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter  band name');
+                  }else if(_textControllers["genre"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter genre');
+                  }else if(_textControllers["contact_person"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter contact person');
+                  }else if(_textControllers["contact_number"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter contact number');
+                  }else if(_textControllers["email"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter email');
+                  }else if(_textControllers["address"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter address');
+                  }
+                  else{
+                    await _handleCateringForm(viewmodel,_textControllers);
+
+                  }
 
 
-                        labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
-                        labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
 
-                    ),
+
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                  shadowColor: Colors.lightGreenAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Keep consistent with container
                   ),
                 ),
-              ),
-
-            )).toList(),
-            ElevatedButton(
-              onPressed: () async {
-
-                // Api Calling.
-
-                if(_textControllers["band_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter  band name');
-                }else if(_textControllers["genre"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter genre');
-                }else if(_textControllers["contact_person"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter contact person');
-                }else if(_textControllers["contact_number"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter contact number');
-                }else if(_textControllers["email"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter email');
-                }else if(_textControllers["address"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter address');
-                }
-                else{
-                  await _handleCateringForm(viewmodel,_textControllers);
-
-                }
-
-
-
-
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
-                shadowColor: Colors.lightGreenAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                child:
+                Text(
+                  'Create Event Band',
+                  style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
                 ),
               ),
-              child:
-              Text(
-                'Create Event Band',
-                style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
-              ),
-            ),
 
-          ],
+            ],
 
+          ),
         )
         ,
       );

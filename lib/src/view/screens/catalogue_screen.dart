@@ -91,6 +91,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
 
 
     return Scaffold(
+      backgroundColor:  Color(0xFF592b03), // Dark brown color from hex code #2a190d,
       body:
       SingleChildScrollView(
         child: Column(
@@ -104,7 +105,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                     'Event General Information',
                     style: TextStyle(
                         fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay',
+                        fontFamily: 'SFPro',
+                        color: Colors.white,
                         fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -136,6 +138,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                         padding: const EdgeInsets.only(
                             left: 10.0, right: 10.0),
                         child: TextField(
+
+
                           controller: _textControllers[entry.key],
                           onTap: () => {
                             if (entry.key == "Status")
@@ -178,14 +182,14 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.red,
-                          Colors.redAccent,
+                          Color(0xFFFFD144),
+                          Color(0xff6e3e14),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                       borderRadius: BorderRadius.circular(
-                          10), // Adjust border radius as needed
+                          25), // Adjust border radius as needed
                     ),
                     child: ElevatedButton(
                       onPressed: () => {
