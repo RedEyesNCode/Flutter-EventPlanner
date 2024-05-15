@@ -793,6 +793,23 @@ class AppHttpService extends BaseService{
 
   }
 
+  @override
+  Future getEventDetailsByEventId(Map<String, dynamic> getEventDetails) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/get-event-by-id'), // Adjust the endpoint accordingly
+        body: jsonEncode(getEventDetails),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 

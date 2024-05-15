@@ -16,7 +16,7 @@ class ItemUpcomingEvent extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EventsDetailsScreen()),
+          MaterialPageRoute(builder: (context) => EventsDetailsScreen(eventID: events.sId.toString(),)),
         );
 
       },

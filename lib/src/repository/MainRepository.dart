@@ -16,6 +16,7 @@ import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/create_weddingdress_response.dart';
+import 'package:flutter_eventplanner/src/model/get_event_details_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
@@ -348,7 +349,18 @@ class MainRepository {
     }
   }
 
+  Future<get_event_details_response> getEventDetailsResponse(Map<String,dynamic> getUserEventsData) async{
 
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getEventDetailsByEventId(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return get_event_details_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
 
   Future<user_event_name_search_response> getAllUserEventsByName(Map<String,dynamic> getUserEventsData) async{
 

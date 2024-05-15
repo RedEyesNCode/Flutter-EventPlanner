@@ -17,6 +17,7 @@ import 'package:flutter_eventplanner/src/model/create_tenthouse_response.dart';
 import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/create_weddingdress_response.dart';
+import 'package:flutter_eventplanner/src/model/get_event_details_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
@@ -77,6 +78,8 @@ class MainViewModel with ChangeNotifier {
 
   create_entertainment_response? _create_entertainment_response;
 
+  get_event_details_response? _get_event_details_response;
+
 
 
 
@@ -96,6 +99,8 @@ class MainViewModel with ChangeNotifier {
 
   create_entertainment_response? get createEntertainmentResponse => _create_entertainment_response;
 
+
+  get_event_details_response? get getEventDetailsResponse => _get_event_details_response;
 
 
 
@@ -163,6 +168,28 @@ class MainViewModel with ChangeNotifier {
       notifyListeners();
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
+  }
+
+  Future<void> getEventDetails(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      get_event_details_response? response = await MainRepository().getEventDetailsResponse(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _get_event_details_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
 
   Future<void> createEventTypeBand(Map<String, dynamic> userData) async {

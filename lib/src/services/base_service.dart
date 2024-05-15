@@ -43,6 +43,9 @@ abstract class BaseService {
 
 
 
+  Future<dynamic> getEventDetailsByEventId(Map<String,dynamic> getEventDetails);
+
+
 
   // CATERING, WEDDING-DRESS.
 
