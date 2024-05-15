@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/complete_vendor_payment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_catering_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
@@ -18,8 +19,10 @@ import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/create_weddingdress_response.dart';
 import 'package:flutter_eventplanner/src/model/get_event_details_response.dart';
+import 'package:flutter_eventplanner/src/model/get_user_payment_status_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
 import 'package:flutter_eventplanner/src/model/login_response.dart';
+import 'package:flutter_eventplanner/src/model/razorpay_create_order_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
@@ -80,7 +83,18 @@ class MainViewModel with ChangeNotifier {
 
   get_event_details_response? _get_event_details_response;
 
+  razorpay_create_order_response? _razorpay_create_order_response;
 
+
+  get_user_payment_status_response? _get_user_payment_status_response;
+
+  complete_vendor_payment_response? _complete_vendor_payment_response;
+
+  complete_vendor_payment_response? get completeVendorPaymentResponse => _complete_vendor_payment_response;
+
+
+
+  get_user_payment_status_response? get userPaymentStatus => _get_user_payment_status_response;
 
 
 
@@ -89,6 +103,9 @@ class MainViewModel with ChangeNotifier {
 
   user_event_by_category_response? get userEventByCategoryResponse => _user_event_by_category_response;
   user_event_name_search_response? get userEventNameSearchResponse => _user_event_name_search_response;
+
+  razorpay_create_order_response? get razorPayCreateOrderResponse => _razorpay_create_order_response;
+
 
   create_weddingdress_response? get createWeddingDressResponse => _create_weddingdress_response;
   create_catering_response? get createCateringResponse => _create_catering_response;
@@ -168,6 +185,74 @@ class MainViewModel with ChangeNotifier {
       notifyListeners();
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
+  }
+
+  Future<void> completeVendorPayment(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      complete_vendor_payment_response? response = await MainRepository().completeVendorPayment(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _complete_vendor_payment_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
+  Future<void> getUserPaymentStatus(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      get_user_payment_status_response? response = await MainRepository().getUserPaymentStatus(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _get_user_payment_status_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
+  Future<void> createRazorPayOrder(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      razorpay_create_order_response? response = await MainRepository().createRazorPayOrder(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _razorpay_create_order_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
 
   Future<void> getEventDetails(Map<String, dynamic> userData) async {

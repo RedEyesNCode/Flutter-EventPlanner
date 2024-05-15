@@ -53,7 +53,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
     return Scaffold(
-      backgroundColor:  Color(0xFF592b03), // Dark brown color from hex code #2a190d,
+      backgroundColor:  Colors.red.shade400, // Dark brown color from hex code #2a190d,
 
       body: Center(
         child: Container(
@@ -171,8 +171,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFFFFD144),
-                        Color(0xff6e3e14),
+                        Colors.greenAccent,
+                        Colors.green,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -231,8 +231,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFFFFD144),
-                        Color(0xff6e3e14),
+                        Colors.greenAccent,
+                        Colors.green,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,

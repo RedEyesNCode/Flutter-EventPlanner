@@ -52,7 +52,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
 
     return
       Scaffold(
-        backgroundColor:  Color(0xFF592b03), // Dark brown color from hex code #2a190d,
+        backgroundColor:  Colors.redAccent.shade400, // Dark brown color from hex code #2a190d,
 
         body:
         SingleChildScrollView(
@@ -256,8 +256,8 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFFFFD144),
-                          Color(0xff6e3e14),
+                          Colors.green,
+                          Colors.greenAccent,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -284,10 +284,10 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                         'Create New Account',
                         style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontFamily: 'PlayfairDisplay',
                             fontWeight:
-                            FontWeight.w700), // Adjust text style
+                            FontWeight.w800), // Adjust text style
                       ),
                     ),
                   ),

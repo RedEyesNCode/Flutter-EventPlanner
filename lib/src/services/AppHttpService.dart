@@ -810,6 +810,68 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future createRazorPayOrder(Map<String, dynamic> createRazorPayOrder) async {
+
+    try {
+
+      var auth =
+          'Basic ' + base64Encode(utf8.encode('rzp_test_z8NhA1tutLoRV2:FvCdGKUvW9Jwvw6a0K7h2M0c'));
+      var headers = {'content-type': 'application/json', 'Authorization': auth};
+      var request =
+      http.Request('POST', Uri.parse('https://api.razorpay.com/v1/orders'));
+      request.body = json.encode(createRazorPayOrder);
+      request.headers.addAll(headers);
+
+      http.Response response = await http.Client().send(request).then(http.Response.fromStream);
+      print(response.statusCode);
+
+      return returnResponse(response);
+
+
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future getUserPaymentStatus(Map<String, dynamic> getUserPaymentStatus) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/is-user-paid'), // Adjust the endpoint accordingly
+        body: jsonEncode(getUserPaymentStatus),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future completeVendorPayment(Map<String, dynamic> completeVendorPaymentData) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/complete-vendor-payment'), // Adjust the endpoint accordingly
+        body: jsonEncode(completeVendorPaymentData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
 
 
 

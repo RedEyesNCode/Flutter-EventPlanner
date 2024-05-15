@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/band_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/catering_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/decoration_form.dart';
@@ -101,6 +102,45 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                 ],
               ),
             ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         Color(0xFFFFD144),
+            //         Color(0xff6e3e14),
+            //       ],
+            //       begin: Alignment.topCenter,
+            //       end: Alignment.bottomCenter,
+            //     ),
+            //     borderRadius: BorderRadius.circular(
+            //         30), // Adjust border radius as needed
+            //   ),
+            //   child: ElevatedButton(
+            //     onPressed: () async {
+            //       // Api Calling.
+            //       _showPaymentSheet(context);
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       padding: EdgeInsets.only(
+            //           left: 95.0, right: 95.0, top: 15.0, bottom: 15.0),
+            //       backgroundColor: Colors.transparent,
+            //       shadowColor: Colors.transparent,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(
+            //             10), // Keep consistent with container
+            //       ),
+            //     ),
+            //     child: Text(
+            //       'Vendor Payment Sheet ',
+            //       style: TextStyle(
+            //           fontSize: 16,
+            //           color: Colors.white,
+            //           fontFamily: 'PlayfairDisplay',
+            //           fontWeight: FontWeight.w700), // Adjust text style
+            //     ),
+            //   ),
+            // ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -500,6 +540,15 @@ class _EventTypeScreen extends State<EventTypeScreen>{
         ),
       ),
     );
+  }
+
+  void _showPaymentSheet(BuildContext context) {
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => const VendorPaymentSheet(
+
+        ));
   }
 }
 

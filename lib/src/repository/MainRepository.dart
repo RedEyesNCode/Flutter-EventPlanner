@@ -2,6 +2,7 @@
 
 
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/complete_vendor_payment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
 import 'package:flutter_eventplanner/src/model/create_dhol_response.dart';
@@ -17,7 +18,9 @@ import 'package:flutter_eventplanner/src/model/create_travel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_varmala_response.dart';
 import 'package:flutter_eventplanner/src/model/create_weddingdress_response.dart';
 import 'package:flutter_eventplanner/src/model/get_event_details_response.dart';
+import 'package:flutter_eventplanner/src/model/get_user_payment_status_response.dart';
 import 'package:flutter_eventplanner/src/model/getall_categories_response.dart';
+import 'package:flutter_eventplanner/src/model/razorpay_create_order_response.dart';
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
@@ -361,6 +364,18 @@ class MainRepository {
       throw error;
     }
   }
+  Future<razorpay_create_order_response> createRazorPayOrder(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createRazorPayOrder(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return razorpay_create_order_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  }
 
   Future<user_event_name_search_response> getAllUserEventsByName(Map<String,dynamic> getUserEventsData) async{
 
@@ -369,6 +384,34 @@ class MainRepository {
       dynamic response = await _userService.getUserEventsByName(getUserEventsData);
       // Assuming the response is in the format you provided earlier
       return user_event_name_search_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<get_user_payment_status_response> getUserPaymentStatus(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getUserPaymentStatus(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return get_user_payment_status_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<complete_vendor_payment_response> completeVendorPayment(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.completeVendorPayment(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return complete_vendor_payment_response.fromJson(response);
     } catch (error) {
       // Handle error
       throw error;

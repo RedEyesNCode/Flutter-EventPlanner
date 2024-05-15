@@ -10,6 +10,7 @@ import 'package:flutter_eventplanner/src/view/screens/event_type_screen.dart';
 import 'package:flutter_eventplanner/src/view/widgets/DatePickerWidget.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LocationSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +37,14 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                 setState(() {}); // Trigger rebuild
               },
             ));
+  }
+  void _showPaymentSheet(BuildContext context) {
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => const VendorPaymentSheet(
+
+        ));
   }
 
   void _showBottomSheetEventStatus(BuildContext context) {
@@ -239,6 +248,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                   else
                                     {
                                       _handleEventSession(context)
+
                                     }
                       },
                       style: ElevatedButton.styleFrom(
@@ -332,10 +342,30 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
         await SharedPrefManager().getString('CREATE-EVENT');
     if (retrievedEvent!=null) {
       print(jsonDecode(retrievedEvent));
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => EventTypeScreen()),
-      );
+
+      // check the payment status of the user.
+      final viewmodel = Provider.of<MainViewModel>(context,listen: false);
+
+      viewmodel.getUserPaymentStatus({
+        'userId' : sessionUserString,
+      });
+      if(viewmodel.userPaymentStatus?.isPaid==true){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('You have already paid ! '),
+          backgroundColor: Colors.green,
+        ));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventTypeScreen()),
+        );
+      }else{
+        _showPaymentSheet(context);
+
+      }
+
+
+
+
     }
   }
 }
