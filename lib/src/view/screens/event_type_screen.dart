@@ -214,7 +214,6 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                     "hotel_checkin": "",
                     "hotel_checkout": "",
                     "hotel_price": "",
-                    "event_id": "",
                   },eventCategoryID: category_id,),
                   SizedBox(
                     height: 5.0,

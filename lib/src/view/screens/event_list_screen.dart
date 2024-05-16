@@ -7,6 +7,7 @@ import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/NoRecordCard.dart';
 import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
@@ -177,7 +178,7 @@ class _EventListScreen extends State<EventListScreen>{
           children: [
 
 
-            if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventByCategoryResponse!=null)
+            if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventByCategoryResponse!=null && viewmodel.userEventByCategoryResponse?.data!=null)
               Column(
                 children: [
                   SizedBox(height: 10,),
@@ -213,7 +214,13 @@ class _EventListScreen extends State<EventListScreen>{
                   ),
                 ],
               ),
-
+            if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventByCategoryResponse==null || viewmodel.userEventByCategoryResponse?.data==null)
+              Column(
+                children: [
+                  SizedBox(height: 40,),
+                  NoRecordCard(),
+                ],
+              )
           ],
 
         ),

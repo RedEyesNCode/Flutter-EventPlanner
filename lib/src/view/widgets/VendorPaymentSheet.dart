@@ -72,7 +72,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
 
 
     viewmodel.createRazorPayOrder({
-      "amount" : 499*100,
+      "amount" : 799*100,
       "currency" : "INR",
       "receipt" : generateRandomString(10)
 
@@ -83,7 +83,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
       print(viewmodel.razorPayCreateOrderResponse?.id.toString());
       var options = {
         'key': 'rzp_test_pr7kqypJcQmQiH', // Replace with your Razorpay Key ID
-        'amount': 49900, // Amount in paise (499 * 100)
+        'amount': 79900, // Amount in paise (499 * 100)
         'order_id' : viewmodel.razorPayCreateOrderResponse?.id.toString(),
         'name': 'One Touch Moments', // Replace with your company name
         'description': 'One Touch Moments Vendor App Subscription',
@@ -139,7 +139,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
                   children: [
                     SizedBox(height: 10,),
                     Text(
-                      'Rs 499/-',
+                      'Rs 799/-',
                       style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: Colors.black),
                     ),
                     SizedBox(height: 20),

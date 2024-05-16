@@ -7,6 +7,19 @@ class BookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Booking'));
+    return Scaffold(
+      backgroundColor: Colors.brown.shade400,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+
+        ],
+        
+        
+      ),
+
+
+    );
   }
 }
