@@ -52,7 +52,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
 
     return
       Scaffold(
-        backgroundColor:  Colors.redAccent.shade400, // Dark brown color from hex code #2a190d,
+        backgroundColor:  Colors.white, // Dark brown color from hex code #2a190d,
 
         body:
         SingleChildScrollView(
@@ -75,15 +75,19 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(
                             30), // Adjust the value to change the amount of circularity
-                        child: Image.asset(
-                            'lib/src/images/ic_app_logogold.jpeg')), // path to your image
+                        child: Padding(
+                          
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                              'lib/src/images/ic_app_logo_red.jpeg'),
+                        )), // path to your image
                   ),
                   SizedBox(height: 10,),
                   Text(
                     'Register with Us',
                     style: TextStyle(
                         fontFamily: 'SFPro',
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 21),
                   ),
                   SizedBox(height: 20.0),
@@ -93,7 +97,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.black),
                       enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -126,7 +130,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
 
                     decoration: InputDecoration(
                       hintText: 'Name',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.black),
                       enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -159,7 +163,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.black),
                       enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -192,7 +196,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     obscureText: false,
                     decoration: InputDecoration(
                       hintText: 'Phone Number',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.black),
 
                       enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                         borderRadius: BorderRadius.circular(10.0),
@@ -226,7 +230,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
 
                     decoration: InputDecoration(
                       hintText: 'Address',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.black),
                       enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(

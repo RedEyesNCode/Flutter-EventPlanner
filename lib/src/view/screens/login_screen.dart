@@ -53,7 +53,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
     return Scaffold(
-      backgroundColor:  Colors.red.shade400, // Dark brown color from hex code #2a190d,
+      backgroundColor:  Colors.white, // Dark brown color from hex code #2a190d,
 
       body: Center(
         child: Container(
@@ -91,7 +91,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                 SizedBox(height: 20.0),
                 TextField(
                   controller: _emailController,
-                  style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+                  style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
                   decoration: InputDecoration(
                     hintText: 'Email',
                     enabledBorder: OutlineInputBorder( // Used when enabled and not focused
@@ -124,7 +124,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                 TextField(
                   obscureText: _obscureText,
                   controller: _passwordController,
-                  style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+                  style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
 
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -165,7 +165,6 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-
                 SizedBox(height: 20.0),
                 Container(
                   decoration: BoxDecoration(
