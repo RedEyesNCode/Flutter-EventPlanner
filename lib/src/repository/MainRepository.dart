@@ -10,6 +10,7 @@ import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_entertainment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
+import 'package:flutter_eventplanner/src/model/create_hotel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
 import 'package:flutter_eventplanner/src/model/create_pandit_response.dart';
 import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
@@ -412,6 +413,20 @@ class MainRepository {
       dynamic response = await _userService.completeVendorPayment(getUserEventsData);
       // Assuming the response is in the format you provided earlier
       return complete_vendor_payment_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<create_hotel_response> createHotelResponse(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.createEventTypeHotel(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return create_hotel_response.fromJson(response);
     } catch (error) {
       // Handle error
       throw error;

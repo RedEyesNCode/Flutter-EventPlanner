@@ -11,6 +11,7 @@ import 'package:flutter_eventplanner/src/model/create_djband_response.dart';
 import 'package:flutter_eventplanner/src/model/create_entertainment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_response.dart';
 import 'package:flutter_eventplanner/src/model/create_event_venue.dart';
+import 'package:flutter_eventplanner/src/model/create_hotel_response.dart';
 import 'package:flutter_eventplanner/src/model/create_makeup_response.dart';
 import 'package:flutter_eventplanner/src/model/create_pandit_response.dart';
 import 'package:flutter_eventplanner/src/model/create_photovideo_response.dart';
@@ -100,6 +101,9 @@ class MainViewModel with ChangeNotifier {
 
   upload_image_response? _upload_image_response;
 
+  create_hotel_response? _create_hotel_response;
+
+
 
   user_event_by_category_response? get userEventByCategoryResponse => _user_event_by_category_response;
   user_event_name_search_response? get userEventNameSearchResponse => _user_event_name_search_response;
@@ -118,6 +122,9 @@ class MainViewModel with ChangeNotifier {
 
 
   get_event_details_response? get getEventDetailsResponse => _get_event_details_response;
+
+
+  create_hotel_response? get createHotelResponse => _create_hotel_response;
 
 
 
@@ -140,6 +147,7 @@ class MainViewModel with ChangeNotifier {
   getall_categories_response? get getAllCategoriesResponse => _getall_categories_response;
 
   create_pandit_response? get createPanditResponse => _create_pandit_response;
+
 
 
 
@@ -186,6 +194,30 @@ class MainViewModel with ChangeNotifier {
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
   }
+
+  Future<void> createHotel(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+
+    try {
+
+      create_hotel_response? response = await MainRepository().createHotelResponse(userData);
+      print(response);
+
+      _apiResponse = ApiResponse.completed(response);
+      _create_hotel_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
 
   Future<void> completeVendorPayment(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');

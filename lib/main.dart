@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized(); // Add this
     return MaterialApp(
-      title: 'FoodNinja',
+      title: 'Vendor OTM',
       home: LoginScreen(), // Your login_screen.dart goes here
     );
 

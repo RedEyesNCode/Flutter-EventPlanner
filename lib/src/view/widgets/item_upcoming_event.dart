@@ -48,10 +48,10 @@ class ItemUpcomingEvent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.network(
                 
-                  'https://us-tuna-sounds-images.voicemod.net/7c20ff98-9dcf-4f59-b5ee-9bcd68d5ec91-1644562095484.png',
+                  'https://placehold.jp/150x150.png',
                   width: 120,
                   height: 120,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                 ),
               ),
             ),

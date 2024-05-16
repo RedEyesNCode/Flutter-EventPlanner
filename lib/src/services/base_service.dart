@@ -1,6 +1,6 @@
 abstract class BaseService {
-  // final String BaseUrl = "http://13.235.205.112:4000/";
-  final String BaseUrl = "http://192.168.1.7:4000/";
+  final String BaseUrl = "http://13.235.205.112:4001/";
+  // final String BaseUrl = "http://192.168.1.7:4000/";
 
   Future<dynamic> loginUser(Map<String, dynamic> userData);
 
@@ -41,9 +41,15 @@ abstract class BaseService {
   Future<dynamic> createEventTypeBandWale(Map<String,dynamic> createEventTypeDholWale);
   Future<dynamic> createEventTypeEntertainment(Map<String,dynamic> createEventTypeDholWale);
 
+  Future<dynamic> createEventTypeHotel(Map<String,dynamic> createEventTypeHotel);
+
+
 
 
   Future<dynamic> getEventDetailsByEventId(Map<String,dynamic> getEventDetails);
+
+
+
 
 
 

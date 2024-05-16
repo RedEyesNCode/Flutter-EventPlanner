@@ -11,6 +11,7 @@ import 'package:flutter_eventplanner/src/view/widgets/forms/dhol_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/djband_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/entertainment_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/entry_varmala_form.dart';
+import 'package:flutter_eventplanner/src/view/widgets/forms/hotel_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/makeup_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/pandit_form.dart';
 import 'package:flutter_eventplanner/src/view/widgets/forms/photovideo_form.dart';
@@ -41,7 +42,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["VENUE", "DJ AND BAND", "DECORATION", "BAND","DHOL","ENTERTAINMENT","MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY","CATERING","WEDDING DRESS"],
+        options: ["VENUE", "DJ AND BAND", "DECORATION", "BAND","DHOL","ENTERTAINMENT","MAKE-UP","PHOTO-VIDEO","TRAVEL", "PANDIT","TENTHOUSE","VARMALA-ENTRY","CATERING","WEDDING DRESS","HOTEL"],
         onItemSelected: (selectedItem) {
 
           _controllerCategory.text = selectedItem;
@@ -190,7 +191,40 @@ class _EventTypeScreen extends State<EventTypeScreen>{
               height: 5.0,
             ),
 
-            if (_controllerCategory.text.toString() == "VENUE")
+            if(_controllerCategory.text.toString() == "HOTEL")
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    'Venue General Information',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                        fontFamily: 'PlayfairDisplay',
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  HotelForm(initialData: {
+                    "hotel_name": "",
+                    "hotel_address": "",
+                    "hotel_capacity": "",
+                    "hotel_number": "",
+                    "hotel_checkin": "",
+                    "hotel_checkout": "",
+                    "hotel_price": "",
+                    "event_id": "",
+                  },eventCategoryID: category_id,),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                ],
+
+
+              ),
+
+            if(_controllerCategory.text.toString() == "VENUE")
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [

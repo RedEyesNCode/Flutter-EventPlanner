@@ -816,7 +816,7 @@ class AppHttpService extends BaseService{
     try {
 
       var auth =
-          'Basic ' + base64Encode(utf8.encode('rzp_test_z8NhA1tutLoRV2:FvCdGKUvW9Jwvw6a0K7h2M0c'));
+          'Basic ' + base64Encode(utf8.encode('rzp_test_pr7kqypJcQmQiH:4lMgPCZFbt471suYhban1qiF'));
       var headers = {'content-type': 'application/json', 'Authorization': auth};
       var request =
       http.Request('POST', Uri.parse('https://api.razorpay.com/v1/orders'));
@@ -870,6 +870,24 @@ class AppHttpService extends BaseService{
       throw FetchDataException('No Internet Connection');
     }
 
+  }
+
+  @override
+  Future createEventTypeHotel(Map<String, dynamic> createEventTypeHotel) async {
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/create-hotel'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventTypeHotel),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
   }
 
 

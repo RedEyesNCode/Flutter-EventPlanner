@@ -103,9 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: NavigationDrawer(),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.green,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Color(0xff6e3e14),
+        selectedItemColor: Color(0xff6e3e14),
+        unselectedItemColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
@@ -347,6 +347,7 @@ class _HomeScreen extends State<HomeScreen> {
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png',
                           ),
                         ),
+
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Makeup',
@@ -375,6 +376,14 @@ class _HomeScreen extends State<HomeScreen> {
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
                           ),
                         ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Hotel',
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
+                          ),
+                        ),
+
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Pandit',

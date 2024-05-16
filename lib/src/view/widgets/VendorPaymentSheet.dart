@@ -39,12 +39,10 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
       'amount' : '499'
 
     });
-    if(viewmodel.completeVendorPaymentResponse?.code==200){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => EventTypeScreen()),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EventTypeScreen()),
+    );
 
   }
   void externalWalletHandler(ExternalWalletResponse response) {
@@ -70,9 +68,8 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
     return String.fromCharCodes(Iterable.generate(
         length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
-  void _openCheckout() async {
+  void _openCheckout(MainViewModel viewmodel) async {
 
-    final viewmodel = Provider.of<MainViewModel>(context,listen: false);
 
     viewmodel.createRazorPayOrder({
       "amount" : 499*100,
@@ -85,7 +82,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
     if(viewmodel.razorPayCreateOrderResponse!=null){
       print(viewmodel.razorPayCreateOrderResponse?.id.toString());
       var options = {
-        'key': 'rzp_test_z8NhA1tutLoRV2', // Replace with your Razorpay Key ID
+        'key': 'rzp_test_pr7kqypJcQmQiH', // Replace with your Razorpay Key ID
         'amount': 49900, // Amount in paise (499 * 100)
         'order_id' : viewmodel.razorPayCreateOrderResponse?.id.toString(),
         'name': 'One Touch Moments', // Replace with your company name
@@ -109,6 +106,8 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<MainViewModel>(context,listen: false);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -166,7 +165,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
 
                         onPressed: () {
                           // Add your payment logic here
-                          _openCheckout();
+                          _openCheckout(viewmodel);
 
                         },
                         style: ElevatedButton.styleFrom(
