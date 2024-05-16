@@ -68,7 +68,7 @@ flutter:
     - lib/src/images/ic_app_logo.jpeg
     - lib/src/images/ic_app_logo_white.jpeg
     - lib/src/images/ic_app_logogold.jpeg
-    - lib/src/images/ic_app_logo_red.jpeg
+    - lib/src/images/ic_app_logo_red.png
   fonts:
     - family: PlayfairDisplay  # Use a custom name for your font family
       fonts:

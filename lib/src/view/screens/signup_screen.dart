@@ -76,10 +76,10 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                         borderRadius: BorderRadius.circular(
                             30), // Adjust the value to change the amount of circularity
                         child: Padding(
-                          
+
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
-                              'lib/src/images/ic_app_logo_red.jpeg'),
+                              'lib/src/images/ic_app_logo_red.png'),
                         )), // path to your image
                   ),
                   SizedBox(height: 10,),

@@ -76,7 +76,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                       borderRadius: BorderRadius.circular(
                           30), // Adjust the value to change the amount of circularity
                       child: Image.asset(
-                          'lib/src/images/ic_app_logo_red.jpeg')), // path to your image
+                          'lib/src/images/ic_app_logo_red.png')), // path to your image
                 ),
                 SizedBox(height: 10,),
                 Text(
