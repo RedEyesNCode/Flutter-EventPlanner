@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -52,16 +53,28 @@ class _CategorySheet extends State<CategorySheet>{
         builder: (context,viewmodel,_){
 
 
-          return Container(
-            padding: EdgeInsets.all(20),
-            child: ListView.builder(
-              itemCount: options.length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(options[index],style: TextStyle(fontFamily: 'PlayfairDisplay',color: Colors.black,fontWeight: FontWeight.w500),),
-                onTap: () => widget.onItemSelected(options[index],categoryId[index]),
-              ),
-            ),
-          );
+          return
+            Stack(
+
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: ListView.builder(
+                    itemCount: options.length,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Text(options[index],style: TextStyle(fontFamily: 'PlayfairDisplay',color: Colors.black,fontWeight: FontWeight.w500),),
+                      onTap: () => widget.onItemSelected(options[index],categoryId[index]),
+                    ),
+                  ),
+                ),
+                if(widget.viewModel.response.status==Status.LOADING)
+                  const LoadingDialog()
+              ],
+            );
+
+
+
+
         },
       ),
     );

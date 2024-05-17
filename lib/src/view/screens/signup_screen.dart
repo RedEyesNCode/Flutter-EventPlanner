@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -59,244 +60,257 @@ class _SignupScreenUI extends State<SignupScreenUI> {
           child: Center(
             child: Container(
               padding: EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 20,),
+              child:
+              Stack(
+                alignment: Alignment.center, // Center the ProgressDialog
 
-                  Container(
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 20,),
 
-                    height: 100,
-
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            30), // Adjust the value to change the amount of circularity
-                        child: Padding(
-
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                              'lib/src/images/ic_app_logo_red.png'),
-                        )), // path to your image
-                  ),
-                  SizedBox(height: 10,),
-                  Text(
-                    'Register with Us',
-                    style: TextStyle(
-                        fontFamily: 'SFPro',
-                        color: Colors.black,
-                        fontSize: 21),
-                  ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
-
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.black),
-                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFffd553),
+                      Container(
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust border radius as needed
-                          borderSide: BorderSide(
-                            width: 2,
 
-                            color: Color(0xFFffd553), // Set border color
-                          )),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.grey, // Set border color
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    obscureText: false,
-                    controller: _nameController,
-                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
+                        height: 100,
 
-                    decoration: InputDecoration(
-                      hintText: 'Name',
-                      hintStyle: TextStyle(color: Colors.black),
-                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFffd553),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust border radius as needed
-                          borderSide: BorderSide(
-                            width: 2,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                30), // Adjust the value to change the amount of circularity
+                            child: Padding(
 
-                            color: Color(0xFFffd553), // Set border color
-                          )),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.grey, // Set border color
-                        ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                  'lib/src/images/ic_app_logo_red.png'),
+                            )), // path to your image
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    controller: _passwordController,
-                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
-
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.black),
-                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFffd553),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust border radius as needed
-                          borderSide: BorderSide(
-                            width: 2,
-
-                            color: Color(0xFFffd553), // Set border color
-                          )),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.grey, // Set border color
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
-
-                    controller: _phoneNumberController,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      hintText: 'Phone Number',
-                      hintStyle: TextStyle(color: Colors.black),
-
-                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFffd553),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust border radius as needed
-                          borderSide: BorderSide(
-                            width: 2,
-
-                            color: Color(0xFFffd553), // Set border color
-                          )),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.grey, // Set border color
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    obscureText: false,
-                    controller: _addressController,
-                    style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
-
-                    decoration: InputDecoration(
-                      hintText: 'Address',
-                      hintStyle: TextStyle(color: Colors.black),
-                      enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFffd553),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust border radius as needed
-                          borderSide: BorderSide(
-                            width: 2,
-
-                            color: Color(0xFFffd553), // Set border color
-                          )),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          color: Colors.grey, // Set border color
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.green,
-                          Colors.greenAccent,
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      borderRadius: BorderRadius.circular(
-                          10), // Adjust border radius as needed
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () => _handleRegisterUser(viewmodel),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.only(
-                            left: 55.0,
-                            right: 55.0,
-                            top: 15.0,
-                            bottom: 15.0),
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10), // Keep consistent with container
-                        ),
-                      ),
-                      child: Text(
-                        'Create New Account',
+                      SizedBox(height: 10,),
+                      Text(
+                        'Register with Us',
                         style: TextStyle(
-                            fontSize: 16,
+                            fontFamily: 'SFPro',
                             color: Colors.black,
-                            fontFamily: 'PlayfairDisplay',
-                            fontWeight:
-                            FontWeight.w800), // Adjust text style
+                            fontSize: 21),
                       ),
-                    ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFFffd553),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust border radius as needed
+                              borderSide: BorderSide(
+                                width: 2,
+
+                                color: Color(0xFFffd553), // Set border color
+                              )),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        obscureText: false,
+                        controller: _nameController,
+                        style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                        decoration: InputDecoration(
+                          hintText: 'Name',
+                          hintStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFFffd553),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust border radius as needed
+                              borderSide: BorderSide(
+                                width: 2,
+
+                                color: Color(0xFFffd553), // Set border color
+                              )),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        controller: _passwordController,
+                        style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFFffd553),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust border radius as needed
+                              borderSide: BorderSide(
+                                width: 2,
+
+                                color: Color(0xFFffd553), // Set border color
+                              )),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                        controller: _phoneNumberController,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Phone Number',
+
+                          hintStyle: TextStyle(color: Colors.black),
+
+                          enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFFffd553),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust border radius as needed
+                              borderSide: BorderSide(
+                                width: 2,
+
+                                color: Color(0xFFffd553), // Set border color
+                              )),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        obscureText: false,
+                        controller: _addressController,
+                        style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                        decoration: InputDecoration(
+                          hintText: 'Address',
+                          hintStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFFffd553),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust border radius as needed
+                              borderSide: BorderSide(
+                                width: 2,
+
+                                color: Color(0xFFffd553), // Set border color
+                              )),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              color: Colors.grey, // Set border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.green,
+                              Colors.greenAccent,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                              10), // Adjust border radius as needed
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () => _handleRegisterUser(viewmodel),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.only(
+                                left: 55.0,
+                                right: 55.0,
+                                top: 15.0,
+                                bottom: 15.0),
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Keep consistent with container
+                            ),
+                          ),
+                          child: Text(
+                            'Create New Account',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontFamily: 'PlayfairDisplay',
+                                fontWeight:
+                                FontWeight.w800), // Adjust text style
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  if(viewmodel.response.status==Status.LOADING)
+                    const LoadingDialog()
+
                 ],
               ),
+
+
             ),
           ),
         )

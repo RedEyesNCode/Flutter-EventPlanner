@@ -59,215 +59,228 @@ class _LoginScreenUI extends State<LoginScreenUI> {
         child: Container(
           padding: EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+            child:
 
+            Stack(
+              alignment: Alignment.center, // Center the ProgressDialog
 
-                Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-
-                  height: 100,
-
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          30), // Adjust the value to change the amount of circularity
-                      child: Image.asset(
-                          'lib/src/images/ic_app_logo_red.png')), // path to your image
-                ),
-                SizedBox(height: 10,),
-                Text(
-                  'Login To Your Account',
-                  style: TextStyle(
-                      fontFamily: 'SFPro',
-                      color:  Color(0xFFffd553), // Dark brown color from hex code #2a190d,
-
-                      fontWeight: FontWeight.w600,
-                      fontSize: 21),
-                ),
-                SizedBox(height: 20.0),
-                TextField(
-                  controller: _emailController,
-                  style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFffd553),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          width: 2,
-
-                          color: Color(0xFFffd553), // Set border color
-                        )),
-                    border: OutlineInputBorder(
-
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Adjust border radius as needed
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Color(0xFFffd553), // Set border color
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextField(
-                  obscureText: _obscureText,
-                  controller: _passwordController,
-                  style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
-
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        color: Colors.white,
-                        _obscureText ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                    hintText: 'Password',
-                    enabledBorder: OutlineInputBorder( // Used when enabled and not focused
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFffd553),
-                      ),
-                    ),
-
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust border radius as needed
-                        borderSide: BorderSide(
-                          width: 2,
-
-                          color: Colors.green, // Set border color
-                        )),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Adjust border radius as needed
-                      borderSide: BorderSide(
-                        color: Colors.grey, // Set border color
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                SizedBox(height: 20.0),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.greenAccent,
-                        Colors.green,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                        30), // Adjust border radius as needed
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // Api Calling.
-                      if (_emailController.text.toString().isEmpty) {
-                        showAlertDialog(context, 'Please enter email address');
-                      } else if (_passwordController.text.toString().isEmpty) {
-                        showAlertDialog(context, 'Please enter password');
-                      } else {
-                        await _handleLogin(viewmodel);
-
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(
-                          left: 95.0, right: 95.0, top: 15.0, bottom: 15.0),
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10), // Keep consistent with container
-                      ),
-                    ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'PlayfairDisplay',
-                          fontWeight: FontWeight.w700), // Adjust text style
-                    ),
-                  ),
-                ),
-
-
-                Row(
+              children: [
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Text('Or',
-                          style: TextStyle(
-                              fontSize: 14, fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w900)),
+
+
+                    Container(
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+
+                      height: 100,
+
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              30), // Adjust the value to change the amount of circularity
+                          child: Image.asset(
+                              'lib/src/images/ic_app_logo_red.png')), // path to your image
                     ),
-                    SizedBox(width: 10.0),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.greenAccent,
-                        Colors.green,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                    SizedBox(height: 10,),
+                    Text(
+                      'Login To Your Account',
+                      style: TextStyle(
+                          fontFamily: 'SFPro',
+                          color:  Color(0xFFffd553), // Dark brown color from hex code #2a190d,
+
+                          fontWeight: FontWeight.w600,
+                          fontSize: 21),
                     ),
-                    borderRadius: BorderRadius.circular(
-                        25), // Adjust border radius as needed
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignupScreen()),
-                      )
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(
-                          left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10), // Keep consistent with container
+                    SizedBox(height: 20.0),
+                    TextField(
+                      controller: _emailController,
+                      style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFffd553),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              width: 2,
+
+                              color: Color(0xFFffd553), // Set border color
+                            )),
+                        border: OutlineInputBorder(
+
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust border radius as needed
+                          borderSide: BorderSide(
+                            width: 2,
+                            color: Color(0xFFffd553), // Set border color
+                          ),
+                        ),
                       ),
                     ),
-                    child: Text(
-                      'Create New Account',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'PlayfairDisplay',
-                          fontWeight: FontWeight.w700), // Adjust text style
+                    SizedBox(height: 20.0),
+                    TextField(
+                      obscureText: _obscureText,
+                      controller: _passwordController,
+                      style: TextStyle(fontFamily:   'SFPro',color: Colors.black,fontSize:  17),
+
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            color: Colors.white,
+                            _obscureText ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
+                        hintText: 'Password',
+                        enabledBorder: OutlineInputBorder( // Used when enabled and not focused
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFffd553),
+                          ),
+                        ),
+
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust border radius as needed
+                            borderSide: BorderSide(
+                              width: 2,
+
+                              color: Colors.green, // Set border color
+                            )),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust border radius as needed
+                          borderSide: BorderSide(
+                            color: Colors.grey, // Set border color
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.greenAccent,
+                            Colors.green,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                            30), // Adjust border radius as needed
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // Api Calling.
+                          if (_emailController.text.toString().isEmpty) {
+                            showAlertDialog(context, 'Please enter email address');
+                          } else if (_passwordController.text.toString().isEmpty) {
+                            showAlertDialog(context, 'Please enter password');
+                          } else {
+                            await _handleLogin(viewmodel);
+
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.only(
+                              left: 95.0, right: 95.0, top: 15.0, bottom: 15.0),
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Keep consistent with container
+                          ),
+                        ),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontFamily: 'PlayfairDisplay',
+                              fontWeight: FontWeight.w700), // Adjust text style
+                        ),
+                      ),
+                    ),
+
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Text('Or',
+                              style: TextStyle(
+                                  fontSize: 14, fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w900)),
+                        ),
+                        SizedBox(width: 10.0),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.greenAccent,
+                            Colors.green,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                            25), // Adjust border radius as needed
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignupScreen()),
+                          )
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.only(
+                              left: 55.0, right: 55.0, top: 15.0, bottom: 15.0),
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Keep consistent with container
+                          ),
+                        ),
+                        child: Text(
+                          'Create New Account',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontFamily: 'PlayfairDisplay',
+                              fontWeight: FontWeight.w700), // Adjust text style
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+                if(viewmodel.response.status == Status.LOADING)
+                  LoadingDialog(),
               ],
-            ),
+            )
+
+
           ),
         ),
       ),
@@ -326,7 +339,6 @@ class _LoginScreenUI extends State<LoginScreenUI> {
       });
       hideLoader(); // Hide the dialog
       print(viewModel.response.status.toString());
-
 
       if (viewModel.response.status == Status.COMPLETED) {
         // Success! Navigate to appropriate screen

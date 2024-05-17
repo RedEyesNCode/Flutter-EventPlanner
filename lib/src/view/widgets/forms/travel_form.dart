@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -52,110 +54,122 @@ class _TravelForm extends State<TravelForm>{
 
 
       SingleChildScrollView(
-        child:        Column(
+        child:
 
+        Stack(
+
+          alignment: Alignment.center,
           children: [
+            Column(
 
-            SizedBox(height: 20),
-            ...widget.initialData.entries.map((entry) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
+              children: [
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    // Define the direction of the gradient
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    // List the colors of the gradient
-                    colors: [
-                      Colors.orange.shade200,
+                SizedBox(height: 20),
+                ...widget.initialData.entries.map((entry) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
 
-                      Colors.orange.shade50,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: LinearGradient(
+                        // Define the direction of the gradient
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        // List the colors of the gradient
+                        colors: [
+                          Colors.orange.shade200,
 
-                    ],
-                    // Define stops for each color
-                    stops: [0.0, 1.0],
+                          Colors.orange.shade50,
+
+                        ],
+                        // Define stops for each color
+                        stops: [0.0, 1.0],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
+                      child: TextField(
+                        controller: _textControllers[entry.key],
+                        obscureText: false,
+                        cursorColor: Colors.black,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                            fontFamily: 'PlayfairDisplay'
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+
+
+                            labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
+                            labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
+
+                        ),
+                      ),
+                    ),
+                  ),
+
+                )).toList(),
+                ElevatedButton(
+                  onPressed: () async {
+
+                    // Api Calling.
+
+                    if(_textControllers["service_name"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter service name');
+                    }else if(_textControllers["client_name"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter client name');
+                    }else if(_textControllers["type_of_coverage"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter type of coverage');
+                    }else if(_textControllers["duration"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter duration');
+                    }else if(_textControllers["hourly_rate"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter hourly rate.');
+                    }else if(_textControllers["vehicle_type"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter vehicle_type');
+                    }else if(_textControllers["pickup_location"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter pickup location');
+                    }else if(_textControllers["drop_off_location"]!.text.isEmpty){
+                      showAlertDialog(context, "Please enter drop_off_location information");
+                    }else if(_textControllers["contact_information"]!.text.isEmpty){
+                      showAlertDialog(context, "Please enter contact information");
+                    }
+
+
+                    else{
+                      await _handleTravelForm(viewmodel,_textControllers);
+
+                    }
+
+
+
+
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                    shadowColor: Colors.lightGreenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                    ),
+                  ),
+                  child:
+                  Text(
+                    'Create Event Travel',
+                    style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
-                  child: TextField(
-                    controller: _textControllers[entry.key],
-                    obscureText: false,
-                    cursorColor: Colors.black,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay'
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
 
+              ],
 
-                        labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
-                        labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
-
-                    ),
-                  ),
-                ),
-              ),
-
-            )).toList(),
-            ElevatedButton(
-              onPressed: () async {
-
-                // Api Calling.
-
-                if(_textControllers["service_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter service name');
-                }else if(_textControllers["client_name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter client name');
-                }else if(_textControllers["type_of_coverage"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter type of coverage');
-                }else if(_textControllers["duration"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter duration');
-                }else if(_textControllers["hourly_rate"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter hourly rate.');
-                }else if(_textControllers["vehicle_type"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter vehicle_type');
-                }else if(_textControllers["pickup_location"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter pickup location');
-                }else if(_textControllers["drop_off_location"]!.text.isEmpty){
-                  showAlertDialog(context, "Please enter drop_off_location information");
-                }else if(_textControllers["contact_information"]!.text.isEmpty){
-                  showAlertDialog(context, "Please enter contact information");
-                }
-
-
-                else{
-                  await _handleTravelForm(viewmodel,_textControllers);
-
-                }
-
-
-
-
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
-                shadowColor: Colors.lightGreenAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Keep consistent with container
-                ),
-              ),
-              child:
-              Text(
-                'Create Event Travel',
-                style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
-              ),
             ),
+            if(viewmodel.response.status==Status.LOADING)
+              const LoadingDialog()
 
           ],
 
-        )
-        ,
+        ),
+
       );
 
   }

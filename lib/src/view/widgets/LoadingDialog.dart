@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class LoadingDialog extends StatelessWidget {
@@ -7,8 +9,8 @@ class LoadingDialog extends StatelessWidget {
 
   const LoadingDialog({
     Key? key,
-    this.backgroundColor = Colors.black54, // Semi-transparent black by default
-    this.indicatorColor = Colors.white,
+    this.backgroundColor = const Color(0xFFFFD144), // Semi-transparent black by default
+    this.indicatorColor = const Color(0xff6e3e14),
     this.elevation = 8.0,
   }) : super(key: key);
 

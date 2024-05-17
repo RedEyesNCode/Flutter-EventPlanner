@@ -245,16 +245,23 @@ class MainViewModel with ChangeNotifier {
   Future<void> getUserPaymentStatus(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+
+    notifyListeners();
 
     try {
 
       get_user_payment_status_response? response = await MainRepository().getUserPaymentStatus(userData);
       print(response);
+      _get_user_payment_status_response = response;
 
       _apiResponse = ApiResponse.completed(response);
-      _get_user_payment_status_response = response;
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
     } catch (e) {
@@ -312,20 +319,32 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventTypeBand(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
 
     try {
 
       create_band_response? response = await MainRepository().createEventTypeBand(userData);
       print(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
 
       _apiResponse = ApiResponse.completed(response);
       _create_band_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -443,20 +462,28 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventTypePhotoVideo(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       create_photovideo_response? response = await MainRepository().createEventPhotoVideo(userData);
       print(response);
-
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _apiResponse = ApiResponse.completed(response);
       _create_photovideo_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -464,6 +491,10 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventtypeTentHouse(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+
 
     try {
 
@@ -471,13 +502,21 @@ class MainViewModel with ChangeNotifier {
       print(response);
 
       _apiResponse = ApiResponse.completed(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _create_tenthouse_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -485,7 +524,8 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventtypeVarmala(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       create_varmala_response? response = await MainRepository().createEventVarmala(userData);
@@ -493,12 +533,20 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_varmala_response = response;
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -509,6 +557,10 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventtypeDecoration(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+
 
     try {
 
@@ -517,33 +569,56 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_decoration_response = response;
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
+
+
+
   Future<void> createEventtypeDJBand(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
 
       create_djband_response? response = await MainRepository().createEventDjBand(userData);
       print(response);
-
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _apiResponse = ApiResponse.completed(response);
       _create_djband_response = response;
     } on BadRequestException {
+
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -572,6 +647,8 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventtypeTravel(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
 
@@ -580,12 +657,20 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_travel_response = response;
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -594,6 +679,7 @@ class MainViewModel with ChangeNotifier {
   Future<void> loginUser(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _apiResponse.status = Status.LOADING;
+    notifyListeners(); // Notify listeners only once after all state changes
 
     _shouldNotifyListeners = true; // Set flag to notify listeners
 
@@ -605,10 +691,14 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _loginResponse = response;
+      notifyListeners(); // Notify listeners only once after all state changes
+
     } on BadRequestException {
       _apiResponse.status = Status.ERROR;
 
       _apiResponse = ApiResponse.error('User Not found !');
+      notifyListeners(); // Notify listeners only once after all state changes
+
     } on FetchDataException {
       _apiResponse.status = Status.ERROR;
 
@@ -619,12 +709,14 @@ class MainViewModel with ChangeNotifier {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
       print(e);
     }
-    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+    notifyListeners(); // Notify listeners only once after all state changes
   }
 
   Future<void> createEvent(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
 
@@ -633,12 +725,21 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _create_event_response = response;
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
+
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -646,6 +747,8 @@ class MainViewModel with ChangeNotifier {
   Future<void> createEventTypeVenue(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
 
@@ -653,13 +756,25 @@ class MainViewModel with ChangeNotifier {
       print(response);
 
       _apiResponse = ApiResponse.completed(response);
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
+
       _create_event_venue_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
+
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
+
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.LOADING;
+      notifyListeners();
+
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -690,20 +805,28 @@ class MainViewModel with ChangeNotifier {
   Future<void> uploadVenueImage(Map<String, dynamic> uploadVenueImageData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       upload_image_response? response = await MainRepository().uploadVenueImage(uploadVenueImageData);
       print(response);
-
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _apiResponse = ApiResponse.completed(response);
       _upload_image_response = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -712,7 +835,8 @@ class MainViewModel with ChangeNotifier {
   Future<void> uploadBandImage(Map<String, dynamic> uploadVenueImageData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       upload_image_response? response = await MainRepository().uploadBandImage(uploadVenueImageData);
@@ -720,6 +844,8 @@ class MainViewModel with ChangeNotifier {
 
       _apiResponse = ApiResponse.completed(response);
       _upload_image_response = response;
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
     } on FetchDataException {
@@ -970,6 +1096,8 @@ class MainViewModel with ChangeNotifier {
   Future<void> registerUser(Map<String, dynamic> userRegisterData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
 
@@ -977,13 +1105,23 @@ class MainViewModel with ChangeNotifier {
       print(response);
 
       _apiResponse = ApiResponse.completed(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _registerResponse = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -1039,19 +1177,25 @@ class MainViewModel with ChangeNotifier {
   Future<void> getAllLocation() async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       all_location_response? response = await MainRepository().getAllEventLocations();
       print(response);
-      
 
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
       _apiResponse = ApiResponse.completed(response);
       _allLocationResponse = response;
     } on BadRequestException {
       _apiResponse = ApiResponse.error('Location Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
       print(e);
@@ -1061,21 +1205,30 @@ class MainViewModel with ChangeNotifier {
   Future<void> getAllEventCategories() async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
 
     try {
-
       getall_categories_response? response = await MainRepository().getAllEventCategories();
       print(response);
-
-
       _apiResponse = ApiResponse.completed(response);
       _getall_categories_response = response;
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
+
+
     } on BadRequestException {
       _apiResponse = ApiResponse.error('Location Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
