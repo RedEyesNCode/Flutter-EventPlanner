@@ -196,7 +196,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    'Venue General Information',
+                    'Hotel General Information',
                     style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,

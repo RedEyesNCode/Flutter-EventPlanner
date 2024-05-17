@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
+import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -47,114 +49,126 @@ class _WeddingDressForm extends State<WeddingDressForm> {
 
 
       SingleChildScrollView(
-        child:        Column(
+        child:
 
+        Stack(
+          alignment: Alignment.center,
           children: [
 
-            SizedBox(height: 20),
-            ...widget.initialData.entries.map((entry) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
+            Column(
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    // Define the direction of the gradient
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    // List the colors of the gradient
-                    colors: [
-                      Colors.orange.shade200,
+              children: [
 
-                      Colors.orange.shade50,
+                SizedBox(height: 20),
+                ...widget.initialData.entries.map((entry) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
 
-                    ],
-                    // Define stops for each color
-                    stops: [0.0, 1.0],
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: LinearGradient(
+                        // Define the direction of the gradient
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        // List the colors of the gradient
+                        colors: [
+                          Colors.orange.shade200,
+
+                          Colors.orange.shade50,
+
+                        ],
+                        // Define stops for each color
+                        stops: [0.0, 1.0],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
+                      child: TextField(
+                        controller: _textControllers[entry.key],
+                        obscureText: false,
+                        cursorColor: Colors.black,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                            fontFamily: 'PlayfairDisplay'
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+
+
+                            labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
+                            labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
+
+                        ),
+                      ),
+                    ),
+                  ),
+
+                )).toList(),
+                ElevatedButton(
+                  onPressed: () async {
+
+                    // Api Calling.
+
+                    if(_textControllers["name"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter  name');
+                    }else if(_textControllers["designer"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter designer');
+                    }else if(_textControllers["style"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter style');
+                    }else if(_textControllers["color"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter color');
+                    }else if(_textControllers["fabric"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter fabric');
+                    }else if(_textControllers["size"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter size');
+                    }else if(_textControllers["price"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter price');
+                    }else if(_textControllers["description"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter description');
+                    }else if(_textControllers["availability"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter availability');
+                    }else if(_textControllers["rating"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter rating');
+                    }else if(_textControllers["tags"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter tags');
+                    }
+
+
+                    else{
+                      await _handleWeddingDressForm(viewmodel,_textControllers);
+
+                    }
+
+
+
+
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
+                    shadowColor: Colors.lightGreenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Keep consistent with container
+                    ),
+                  ),
+                  child:
+                  Text(
+                    'Create Event Catering',
+                    style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
-                  child: TextField(
-                    controller: _textControllers[entry.key],
-                    obscureText: false,
-                    cursorColor: Colors.black,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontFamily: 'PlayfairDisplay'
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
 
+              ],
 
-                        labelText: entry.key.replaceAll('_', ' ').toUpperCase(),
-                        labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 15.0)
-
-                    ),
-                  ),
-                ),
-              ),
-
-            )).toList(),
-            ElevatedButton(
-              onPressed: () async {
-
-                // Api Calling.
-
-                if(_textControllers["name"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter  name');
-                }else if(_textControllers["designer"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter designer');
-                }else if(_textControllers["style"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter style');
-                }else if(_textControllers["color"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter color');
-                }else if(_textControllers["fabric"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter fabric');
-                }else if(_textControllers["size"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter size');
-                }else if(_textControllers["price"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter price');
-                }else if(_textControllers["description"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter description');
-                }else if(_textControllers["availability"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter availability');
-                }else if(_textControllers["rating"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter rating');
-                }else if(_textControllers["tags"]!.text.isEmpty){
-                  showAlertDialog(context, 'Please enter tags');
-                }
-
-
-                else{
-                  await _handleWeddingDressForm(viewmodel,_textControllers);
-
-                }
-
-
-
-
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(left: 55.0,right: 55.0,top: 15.0,bottom: 15.0), backgroundColor: Colors.green,
-                shadowColor: Colors.lightGreenAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Keep consistent with container
-                ),
-              ),
-              child:
-              Text(
-                'Create Event Catering',
-                style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w700), // Adjust text style
-              ),
-            ),
-
+            )
+            ,
+            if(viewmodel.response.status==Status.LOADING)
+              const LoadingDialog()
           ],
 
-        )
-        ,
+        ),
+
       );
 
   }

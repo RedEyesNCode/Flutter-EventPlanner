@@ -72,6 +72,14 @@ abstract class BaseService {
 
 
   //Multipart-Related Api's
+
+  Future<dynamic> uploadDjBandImage(Map<String,dynamic> uploadDjBandImage);
+
+  Future<dynamic> uploadHotelImage(Map<String,dynamic> uploadHotelImage);
+
+
+
+
   Future<dynamic> uploadVenueImage(Map<String,dynamic> uploadVenueImageData);
 
   Future<dynamic> uploadDecorationImage(Map<String,dynamic> uploadDecorationImageData);

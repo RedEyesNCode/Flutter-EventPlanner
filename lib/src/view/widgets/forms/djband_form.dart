@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
@@ -169,6 +170,16 @@ class _DjBandForm extends State<DjBandForm>{
 
 
   }
+  void _showImagePickerOptions(String categoryId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          final data = <String,String>{"categoryType" : "DJ_BAND", "id" : categoryId};
+
+          return ImagePickerBottomSheet(imageUploadData: data,);
+        }
+    );
+  }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -249,7 +260,7 @@ class _DjBandForm extends State<DjBandForm>{
 
         if (viewmodel.createDJBandResponse!.data !=null) {
           // Success! Navigate to appropriate screen
-          showAlertDialog(context, viewmodel.createDJBandResponse!.message.toString());
+          _showImagePickerOptions(viewmodel.createDJBandResponse!.data!.sId.toString());
 
 
         } else {

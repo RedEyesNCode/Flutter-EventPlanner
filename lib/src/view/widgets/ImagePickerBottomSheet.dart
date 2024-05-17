@@ -235,6 +235,16 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
         "entertainmentId": id,
         "file": _imageFile!
       });
+    }else if(categoryType=="DJ_BAND"){
+      await viewmodel.uploadDJBandImage({
+        "djId": id,
+        "file": _imageFile!
+      });
+    }else if(categoryType=="HOTEL"){
+      await viewmodel.uploadHotelImage({
+        "HotelId": id,
+        "file": _imageFile!
+      });
     }
     if(viewmodel.response.status == Status.COMPLETED && viewmodel.uploadImageResponse!=null){
       showAlertDialog(context, viewmodel.uploadImageResponse!.message.toString());

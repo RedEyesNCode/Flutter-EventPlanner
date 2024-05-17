@@ -118,7 +118,7 @@ class _EventListScreen extends State<EventListScreen>{
      final viewmodel = Provider.of<MainViewModel>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFF2A190D),
+      backgroundColor: const Color(0xFF2A190D),
 
       appBar: AppBar(
         backgroundColor: Color(0xFFFFD553),

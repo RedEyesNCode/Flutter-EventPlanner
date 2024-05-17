@@ -890,6 +890,59 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future uploadDjBandImage(Map<String, dynamic> uploadDjBandImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadDjBandImage['djId'];
+      File file = uploadDjBandImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-dj-image'),
+      );
+
+      request.fields['djId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+
+  }
+
+  @override
+  Future uploadHotelImage(Map<String, dynamic> uploadHotelImage) async {
+
+    try {
+      // Assuming 'uploadVenueImageData' contains the venueId and 'file' is a File object
+      String venueId = uploadHotelImage['HotelId'];
+      File file = uploadHotelImage['file'];
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(BaseUrl + 'megma/upload-hotel-image'),
+      );
+
+      request.fields['HotelId'] = venueId;
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response);
+
+    return returnResponse(response);
+    } on SocketException {
+    throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 

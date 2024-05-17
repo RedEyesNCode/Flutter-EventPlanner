@@ -155,7 +155,7 @@ class _HotelForm extends State<HotelForm> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "BAND", "id" : categoryId};
+          final data = <String,String>{"categoryType" : "HOTEL", "id" : categoryId};
 
           return ImagePickerBottomSheet(imageUploadData: data,);
         }

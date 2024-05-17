@@ -9,7 +9,9 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/catalogue_screen.dart';
+import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/payments_screen.dart';
+import 'package:flutter_eventplanner/src/view/screens/vendor_profile_screen.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CouponCard.dart';
 import 'package:flutter_eventplanner/src/view/widgets/EventCategoryCard.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/view/widgets/two_text_card.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -62,41 +65,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
             Text('Vendor \nOTM',style: TextStyle(fontFamily: 'Raleway',fontSize: 15,fontWeight: FontWeight.w900),),
 
-            Container(
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFFFD144),
-                    Color(0xff6e3e14),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.circular(
-                    30), // Adjust border radius as needed
-              ),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 5.0,
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  // Adjust for desired shadow depth
-                ),
-                onPressed: () {
-                  // Your button's action here
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, // Keep the button compact
-                  children: [
-                    Icon(Icons.wallet,color: Colors.white,), // Replace with your icon path
-                    SizedBox(
-                        width: 8.0), // Add spacing between icon and text
-                    Text('Your Wallet',style: TextStyle(color: Colors.white,fontFamily: 'SFPro',fontSize: 15,),),
-                  ],
-                ),
-              ),
-            )
+            // Container(
+            //   margin: EdgeInsets.all(5),
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         Color(0xFFFFD144),
+            //         Color(0xff6e3e14),
+            //       ],
+            //       begin: Alignment.topCenter,
+            //       end: Alignment.bottomCenter,
+            //     ),
+            //     borderRadius: BorderRadius.circular(
+            //         30), // Adjust border radius as needed
+            //   ),
+            //   child: ElevatedButton(
+            //     style: ElevatedButton.styleFrom(
+            //       elevation: 5.0,
+            //       backgroundColor: Colors.transparent,
+            //       shadowColor: Colors.transparent,
+            //       // Adjust for desired shadow depth
+            //     ),
+            //     onPressed: () {
+            //       // Your button's action here
+            //     },
+            //     child: Row(
+            //       mainAxisSize: MainAxisSize.min, // Keep the button compact
+            //       children: [
+            //         Icon(Icons.wallet,color: Colors.white,), // Replace with your icon path
+            //         SizedBox(
+            //             width: 8.0), // Add spacing between icon and text
+            //         Text('Your Wallet',style: TextStyle(color: Colors.white,fontFamily: 'SFPro',fontSize: 15,),),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -210,6 +213,8 @@ class _HomeScreen extends State<HomeScreen> {
     Provider.of<MainViewModel>(context, listen: false).getUserEventsBYCateogry(
         {"userId": sessionUserString, "categoryName": category_id});
   }
+  final Uri _url = Uri.parse('https://onetouchmoments.co.in/privacy-policy/'); // Replace with your URL
+
 
   @override
   Widget build(BuildContext context) {
@@ -437,32 +442,306 @@ class _HomeScreen extends State<HomeScreen> {
     ));
   }
 }
+Future<bool?> showConfirmationDialog(BuildContext context, String title, String content) async {
+  return showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              )
+            },
+            child: Text('Confirm'),
+          ),
+        ],
+      );
+    },
+  );
+}
+void showAlertDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      // Changed context to dialogContext
+      return AlertDialog(
+        title: Text("Info",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'PlayfairDisplay',
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            )),
+        content: Text(message,
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'PlayfairDisplay',
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            )),
+        actions: [
+          TextButton(
+            child: Text(
+              "OK",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontFamily: 'PlayfairDisplay',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.of(dialogContext).pop(); // Use the dialogContext here
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
 class NavigationDrawer extends StatelessWidget {
+  final Uri _url = Uri.parse('https://onetouchmoments.co.in/privacy-policy/'); // Replace with your URL
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.black,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.greenAccent),
-            child: Text(
-              'Event Planner',
-              style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'PlayfairDisplay',
-                  color: Colors.black),
+            decoration: BoxDecoration(gradient: LinearGradient(
+          colors: [
+            Color(0xFFFFD144),
+            Color(0xff6e3e14),
+            Colors.black,
+          ])
+
+            ),
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.brown,
+                  width: 2,
+                )
+
+              ),
+              child: Column(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          30), // Adjust the value to change the amount of circularity
+                      child: Image.asset(
+                        width: 70,
+                          height: 70,
+                          'lib/src/images/ic_app_logo_red.png')),
+                  Text(
+                    'One Touch Moments Vendor',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'SFPro',
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFFFD144),
+                    Color(0xff6e3e14),
+                  ]
+              ),
+              borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                color: Colors.black,
+                width: 1,
+              )
+              
+            ),
+            child: ListTile(
+              onTap: () => {
+                showAlertDialog(context, 'Under-Development (After Customer App Release)')
+                
+              },
+              leading: Icon(Icons.airplane_ticket_outlined,color: Colors.white,),
+              title: Text('Bookings',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VendorProfileScreen()),
+                )
+              },
+              leading: Icon(Icons.account_circle,color: Colors.white,),
+              title: Text('Profile',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
           ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+                showAlertDialog(context, 'Under-Development (After Customer App Release)')
+
+              },
+              leading: Icon(Icons.account_balance_wallet,color: Colors.white,),
+              title: Text('Payments',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+                showAlertDialog(context, 'Under-Development (Provide design or url)')
+                
+              },
+              leading: Icon(Icons.live_help_sharp,color: Colors.white,),
+              title: Text('Help',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+                _launchUrl()
+              },
+              leading: Icon(Icons.privacy_tip_rounded,color: Colors.white,),
+              title: Text('Privacy Policy',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+                launchUrl('https://onetouchmoments.co.in/privacy-policy/' as Uri)
+
+              },
+              leading: Icon(Icons.document_scanner_sharp,color: Colors.white,),
+              title: Text('Terms & Conditions',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+
+                showConfirmationDialog(context, 'Info', 'Are you sure you want to logout ?')
+
+              },
+              leading: Icon(Icons.logout_sharp,color: Colors.white,),
+              title: Text('Logout',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+
         ],
       ),
     );

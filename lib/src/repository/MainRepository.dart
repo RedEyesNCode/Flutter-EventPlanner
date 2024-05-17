@@ -449,6 +449,20 @@ class MainRepository {
 
 
   }
+  Future<upload_image_response> uploadDjBandImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadDjBandImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
 
 
   Future<upload_image_response> uploadTravelImage(Map<String,dynamic> uploadVenueImageData) async{
@@ -465,6 +479,21 @@ class MainRepository {
 
 
   }
+  Future<upload_image_response> uploadHotelImage(Map<String,dynamic> uploadVenueImageData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.uploadHotelImage(uploadVenueImageData);
+      // Assuming the response is in the format you provided earlier
+      return upload_image_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
   Future<upload_image_response> uploadTenthouseImages(Map<String,dynamic> uploadVenueImageData) async{
 
     try {
