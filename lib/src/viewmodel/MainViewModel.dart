@@ -828,21 +828,31 @@ class MainViewModel with ChangeNotifier {
   Future<void> getUserEvents(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-    
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
     
     try {
 
       user_events_response? response = await MainRepository().getAllUserEvents(userData);
       print('USER-EVENTS-RESPONSE--> '+jsonEncode(response));
       _user_events_response = response;
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
 
       _apiResponse = ApiResponse.completed(response);
     } on BadRequestException {
       _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
@@ -1258,22 +1268,30 @@ class MainViewModel with ChangeNotifier {
   Future<void> getUserEventsBYName(Map<String,dynamic> mapper) async {
     _apiResponse = ApiResponse.loading('Checking user');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
     try {
 
       user_event_name_search_response? response = await MainRepository().getAllUserEventsByName(mapper);
       print(response);
-
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
 
       _apiResponse = ApiResponse.completed(response);
       _user_event_name_search_response = response;
 
     } on BadRequestException {
       _apiResponse = ApiResponse.error('Location Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } on FetchDataException {
       _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
     } catch (e) {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes

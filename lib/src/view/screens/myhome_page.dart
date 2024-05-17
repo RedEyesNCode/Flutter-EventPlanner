@@ -9,6 +9,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/booking_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/catalogue_screen.dart';
+import 'package:flutter_eventplanner/src/view/screens/event_search_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/payments_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/vendor_profile_screen.dart';
@@ -235,7 +236,13 @@ class _HomeScreen extends State<HomeScreen> {
             height: 50,
 
             child: TextField(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventSearchScreen()),
+                )
 
+              },
               controller: _controllerSearch,
               style: TextStyle(fontFamily:   'SFPro',color: Colors.white,fontSize:  17),
               decoration: InputDecoration(
