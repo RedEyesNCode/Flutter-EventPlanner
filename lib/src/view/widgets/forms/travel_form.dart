@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,20 @@ class _TravelForm extends State<TravelForm>{
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
+  void _showTravelSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["PASSENGER VEHICLE", "LOADING VEHICLE","RENTAL CARS","SUV","BIKES"],
+        onItemSelected: (selectedItem) {
+          _textControllers['travel_subcategory']?.text = selectedItem;
 
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
@@ -90,6 +104,11 @@ class _TravelForm extends State<TravelForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "travel_subcategory")
+                            {_showTravelSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -134,10 +153,10 @@ class _TravelForm extends State<TravelForm>{
                       showAlertDialog(context, "Please enter drop_off_location information");
                     }else if(_textControllers["contact_information"]!.text.isEmpty){
                       showAlertDialog(context, "Please enter contact information");
-                    }
+                    }else if(_textControllers["travel_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, "Please select travel sub category");
 
-
-                    else{
+                    } else{
                       await _handleTravelForm(viewmodel,_textControllers);
 
                     }
@@ -247,6 +266,7 @@ class _TravelForm extends State<TravelForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeTravel({
           "service_name" : _textControllers["service_name"]!.text.toString(),
+          "travel_subcategory" : _textControllers["travel_subcategory"]!.text.toString(),
           "client_name" : _textControllers["client_name"]!.text.toString(),
           "type_of_coverage" : _textControllers["type_of_coverage"]!.text.toString(),
           "duration" : _textControllers["duration"]!.text.toString(),

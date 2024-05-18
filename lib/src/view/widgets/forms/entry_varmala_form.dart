@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,20 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
     // Dispose controllers
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
+  }
+  void showVarmalaSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Amateur Varmala", "Mediocre Varmala","Expensive Varmala","Varmala with Fireworks"],
+        onItemSelected: (selectedItem) {
+          _textControllers['varmala_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
 
   @override
@@ -87,6 +102,11 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "varmala_subcategory")
+                            {showVarmalaSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -132,6 +152,9 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
                     }else if(_textControllers["requirements"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter requirements');
+                    }else if(_textControllers["varmala_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter varmala subcategory');
+
                     }
 
                     else{
@@ -247,6 +270,7 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeVarmala({
           "name" : _textControllers["name"]!.text.toString(),
+          "varmala_subcategory" : _textControllers["varmala_subcategory"]!.text.toString(),
           "date" : _textControllers["date"]!.text.toString(),
           "location" : _textControllers["location"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),

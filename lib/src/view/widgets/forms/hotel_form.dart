@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +80,11 @@ class _HotelForm extends State<HotelForm> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                     child: TextField(
+                      onTap: () => {
+                        if (entry.key == "hotel_subcategory")
+                          {_showHotelSubcategory(context)}
+
+                      },
                       controller: _textControllers[entry.key],
                       obscureText: false,
                       cursorColor: Colors.black,
@@ -119,6 +125,8 @@ class _HotelForm extends State<HotelForm> {
                     showAlertDialog(context, 'Please enter hotel checkout');
                   }else if(_textControllers["hotel_price"]!.text.isEmpty){
                     showAlertDialog(context, 'Please enter hotel price');
+                  }else if(_textControllers["hotel_subcategory"]!.text.isEmpty){
+                    showAlertDialog(context, 'Please enter hotel subcategory');
                   }
                   else{
                     await _handleHotelForm(viewmodel,_textControllers);
@@ -159,6 +167,20 @@ class _HotelForm extends State<HotelForm> {
 
           return ImagePickerBottomSheet(imageUploadData: data,);
         }
+    );
+  }
+  void _showHotelSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Motels", "Apartment Hotel","Botique Hotel","Resorts"],
+        onItemSelected: (selectedItem) {
+          _textControllers['hotel_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
     );
   }
   void showAlertDialog(BuildContext context, String message) {
@@ -225,6 +247,7 @@ class _HotelForm extends State<HotelForm> {
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createHotel({
           "hotel_name" : _textControllers["hotel_name"]!.text.toString(),
+          "hotel_subcategory" : _textControllers["hotel_subcategory"]!.text.toString(),
           "hotel_address" : _textControllers["hotel_address"]!.text.toString(),
           "hotel_capacity" : _textControllers["hotel_capacity"]!.text.toString(),
           "hotel_number" : _textControllers["hotel_number"]!.text.toString(),

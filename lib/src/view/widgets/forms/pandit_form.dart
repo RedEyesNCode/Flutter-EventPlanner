@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,20 @@ class _PanditForm extends State<PanditForm> {
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
+  void _showPanditSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["EXPERIENCED PANDIT", "VERIFIED PANDIT","OTHERS","EXPERIENCED & VERIFIED PANDIT"],
+        onItemSelected: (selectedItem) {
+          _textControllers['pandit_subcategory']?.text = selectedItem;
 
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
@@ -84,6 +98,11 @@ class _PanditForm extends State<PanditForm> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "pandit_subcategory")
+                            {_showPanditSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -122,6 +141,9 @@ class _PanditForm extends State<PanditForm> {
                       showAlertDialog(context, 'Please enter speciality');
                     }else if(_textControllers["years_of_experience"]!.text.isEmpty){
                       showAlertDialog(context, 'Please enter  years_of_experience');
+                    }else if(_textControllers["pandit_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter  pandit subcategory');
+
                     }
 
                     else{
@@ -234,6 +256,7 @@ class _PanditForm extends State<PanditForm> {
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventTypePandit({
           "name" : _textControllers["name"]!.text.toString(),
+          "pandit_subcategory" : _textControllers["pandit_subcategory"]!.text.toString(),
           "address" : _textControllers["address"]!.text.toString(),
           "contact" : _textControllers["contact"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),

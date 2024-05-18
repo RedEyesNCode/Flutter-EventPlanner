@@ -7,6 +7,7 @@ import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -46,11 +47,26 @@ class _VenueForm extends State<VenueForm>{
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
+  void _showVenueSubCategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["GARDEN", "HOTEL", "BANQUET","RESORT & FARMHOUSE"],
+        onItemSelected: (selectedItem) {
+          _textControllers['venue_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     final viewmodel = Provider.of<MainViewModel>(context);
+
 
     return SingleChildScrollView(
       child:
@@ -89,6 +105,10 @@ class _VenueForm extends State<VenueForm>{
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                     child: TextField(
+                      onTap: () =>{
+                        if (entry.key == "venue_subcategory")
+                          {_showVenueSubCategory(context)}
+                      },
                       controller: _textControllers[entry.key],
                       obscureText: false,
                       cursorColor: Colors.black,
@@ -137,7 +157,12 @@ class _VenueForm extends State<VenueForm>{
                     showAlertDialog(context, "Please enter payment terms");
                   }else if(_textControllers["security_needs"]!.text.isEmpty){
                     showAlertDialog(context, "Please enter security needs");
-                  }else{
+                  }else if(_textControllers["venue_subcategory"]!.text.isEmpty){
+                    showAlertDialog(context, "Please enter venue subcategory");
+
+                  }
+
+                  else{
                     await _handleVenueForm(viewmodel,_textControllers);
 
                   }
@@ -260,6 +285,7 @@ class _VenueForm extends State<VenueForm>{
         await viewModel.createEventTypeVenue({
 
           'venue_name': _textControllers["venue_name"]!.text.toString(),
+          'venue_subcategory': _textControllers["venue_subcategory"]!.text.toString(),
           'venue_address': _textControllers["venue_address"]!.text.toString(),
           'venue_capacity': _textControllers["venue_capacity"]!.text.toString(),
           'venue_contact_person': _textControllers["venue_contact_person"]!.text.toString(),
@@ -297,4 +323,6 @@ class _VenueForm extends State<VenueForm>{
   }
 
 }
+
+
 

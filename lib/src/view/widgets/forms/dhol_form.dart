@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -76,6 +77,11 @@ class _DholForm extends State<DholForm> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                   child: TextField(
+                    onTap: () => {
+                      if (entry.key == "dhol_subcategory")
+                        {_showDholSubcategory(context)}
+
+                    },
                     controller: _textControllers[entry.key],
                     obscureText: false,
                     cursorColor: Colors.black,
@@ -112,6 +118,9 @@ class _DholForm extends State<DholForm> {
                   showAlertDialog(context, 'Please enter email');
                 }else if(_textControllers["address"]!.text.isEmpty){
                   showAlertDialog(context, 'Please enter address');
+                }else if(_textControllers["dhol_subcategory"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please select dhol subcategory');
+
                 }
                 else{
                   await _handleDholForm(viewmodel,_textControllers);
@@ -190,6 +199,20 @@ class _DholForm extends State<DholForm> {
           ],
         );
       },
+    );
+  }
+  void _showDholSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Punjabi Dhol", "Nashik Dhol","Local Dhol","Tasse"],
+        onItemSelected: (selectedItem) {
+          _textControllers['dhol_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
     );
   }
 

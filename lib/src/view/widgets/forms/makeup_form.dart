@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,20 @@ class _MakeupForm extends State<MakeupForm>{
       _textControllers[key] = TextEditingController(text: value);
     });
   }
+  void _showMakeupSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["MAKEUP ARTIST", "MEHANDI ARTIST","BRIDAL MAKEUP EXPERT","GROOM MAKEUP EXPERT"],
+        onItemSelected: (selectedItem) {
+          _textControllers['makeup_subcategory']?.text = selectedItem;
 
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
+  }
   @override
   void dispose() {
     // Dispose controllers
@@ -90,6 +104,11 @@ class _MakeupForm extends State<MakeupForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "makeup_subcategory")
+                            {_showMakeupSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -138,6 +157,8 @@ class _MakeupForm extends State<MakeupForm>{
                     }else if(_textControllers["min_hours"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter min_hours details');
+                    }else if(_textControllers["makeup_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please select makeup subcategory');
                     }
 
                     else{
@@ -251,6 +272,7 @@ class _MakeupForm extends State<MakeupForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeMakeup({
           "service_name" : _textControllers["service_name"]!.text.toString(),
+          "makeup_subcategory" : _textControllers["makeup_subcategory"]!.text.toString(),
           "first_name" : _textControllers["first_name"]!.text.toString(),
           "last_name" : _textControllers["last_name"]!.text.toString(),
           "members" : _textControllers["members"]!.text.toString(),

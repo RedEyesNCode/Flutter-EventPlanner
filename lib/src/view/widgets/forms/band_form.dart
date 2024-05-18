@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,11 @@ class _BandForm extends State<BandForm> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                         child: TextField(
+                          onTap: () => {
+                            if (entry.key == "band_subcategory")
+                              {_showBandSubcategory(context)}
+
+                          },
                           controller: _textControllers[entry.key],
                           obscureText: false,
                           cursorColor: Colors.black,
@@ -119,6 +125,10 @@ class _BandForm extends State<BandForm> {
                         showAlertDialog(context, 'Please enter email');
                       }else if(_textControllers["address"]!.text.isEmpty){
                         showAlertDialog(context, 'Please enter address');
+                      }else if(_textControllers["band_subcategory"]!.text.isEmpty){
+
+                        showAlertDialog(context, 'Please enter band category');
+
                       }
                       else{
                         await _handleCateringForm(viewmodel,_textControllers);
@@ -158,6 +168,20 @@ class _BandForm extends State<BandForm> {
         ,
       );
 
+  }
+  void _showBandSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Ghoodha & Baggi", "Barat and lighting","Theme Band & Singers"],
+        onItemSelected: (selectedItem) {
+          _textControllers['band_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
   void _showImagePickerOptions(String categoryId) {
     showModalBottomSheet(

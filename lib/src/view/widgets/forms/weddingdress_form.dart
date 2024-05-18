@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,20 @@ class _WeddingDressForm extends State<WeddingDressForm> {
     // Dispose controllers
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
+  }
+  void _showWeddingDressSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["BRIDAL DRESS", "GROOM DRESS", "DESIGNER DRESS","OTHER"],
+        onItemSelected: (selectedItem) {
+          _textControllers['wedding_dress_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
 
   @override
@@ -85,6 +100,11 @@ class _WeddingDressForm extends State<WeddingDressForm> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap:  () => {
+                          if (entry.key == "wedding_dress_subcategory")
+                            {_showWeddingDressSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -133,6 +153,8 @@ class _WeddingDressForm extends State<WeddingDressForm> {
                       showAlertDialog(context, 'Please enter rating');
                     }else if(_textControllers["tags"]!.text.isEmpty){
                       showAlertDialog(context, 'Please enter tags');
+                    }else if(_textControllers["wedding_dress_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please select dress category');
                     }
 
 
@@ -246,6 +268,7 @@ class _WeddingDressForm extends State<WeddingDressForm> {
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventTypeWeddingDress({
           "name" : _textControllers["name"]!.text.toString(),
+          "wedding_dress_subcategory" : _textControllers["wedding_dress_subcategory"]!.text.toString(),
           "designer" : _textControllers["designer"]!.text.toString(),
           "style" : _textControllers["style"]!.text.toString(),
           "color" : _textControllers["color"]!.text.toString(),

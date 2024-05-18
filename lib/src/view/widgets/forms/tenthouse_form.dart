@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,20 @@ class _TentHouseForm extends State<TentHouseForm>{
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
+  void _showTenthouseSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["WEDDING TENT", "SMALL TENT","LARGE TENT"],
+        onItemSelected: (selectedItem) {
+          _textControllers['tenthouse_subcategory']?.text = selectedItem;
 
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
@@ -88,6 +102,11 @@ class _TentHouseForm extends State<TentHouseForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "tenthouse_subcategory")
+                            {_showTenthouseSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -130,9 +149,9 @@ class _TentHouseForm extends State<TentHouseForm>{
                     else if(_textControllers["availability"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter availability');
-                    }
-
-                    else{
+                    }else if(_textControllers["tent_house_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, "Please select tent house category");
+                    } else{
                       await _handleTenthouseForm(viewmodel,_textControllers);
 
                     }
@@ -243,6 +262,7 @@ class _TentHouseForm extends State<TentHouseForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeTentHouse({
           "name" : _textControllers["name"]!.text.toString(),
+          "tenthouse_subcategory" : _textControllers["tenthouse_subcategory"]!.text.toString(),
           "number" : _textControllers["number"]!.text.toString(),
           "adderss" : _textControllers["adderss"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),

@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -84,6 +85,11 @@ class _CateringForm extends State<CateringForm> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "catering_subcategory")
+                            {_showCateringSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -120,6 +126,9 @@ class _CateringForm extends State<CateringForm> {
                       showAlertDialog(context, 'Please enter description');
                     }else if(_textControllers["price"]!.text.isEmpty){
                       showAlertDialog(context, 'Please enter price');
+                    }else if(_textControllers["catering_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please catering subcategory');
+
                     }
                     else{
                       await _handleCateringForm(viewmodel,_textControllers);
@@ -156,6 +165,20 @@ class _CateringForm extends State<CateringForm> {
 
       );
 
+  }
+  void _showCateringSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Non-Veg", "Veg","North Indian","South Indian"],
+        onItemSelected: (selectedItem) {
+          _textControllers['catering_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
   void _showImagePickerOptions(String categoryId) {
     showModalBottomSheet(
@@ -231,6 +254,7 @@ class _CateringForm extends State<CateringForm> {
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventTypeCatering({
           "name" : _textControllers["name"]!.text.toString(),
+          "catering_subcategory" : _textControllers["catering_subcategory"]!.text.toString(),
           "address" : _textControllers["address"]!.text.toString(),
           "contact" : _textControllers["contact"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),

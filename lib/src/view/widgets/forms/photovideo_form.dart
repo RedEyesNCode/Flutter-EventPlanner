@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,20 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
     // Dispose controllers
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
+  }
+  void _showPhotoVideoSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["PRE-WEDDING PHOTOGRAPHY", "WEDDING SHOOT","ALL PURPOSE VIDEOGRAPHY & PHOTOGRAPHY"],
+        onItemSelected: (selectedItem) {
+          _textControllers['photovideo_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
 
   @override
@@ -91,6 +106,11 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "photovideo_subcategory")
+                            {_showPhotoVideoSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -133,9 +153,10 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
                     else if(_textControllers["contact_information"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter contact information');
-                    }
+                    }else if(_textControllers["photovideo_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please select photo video subcategory');
 
-                    else{
+                    } else{
                       await _handleDJBandForm(viewmodel,_textControllers);
 
                     }
@@ -249,6 +270,7 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventTypePhotoVideo({
           "service_name" : _textControllers["service_name"]!.text.toString(),
+          "photovideo_subcategory" : _textControllers["photovideo_subcategory"]!.text.toString(),
           "client_name" : _textControllers["client_name"]!.text.toString(),
           "type_of_coverage" : _textControllers["type_of_coverage"]!.text.toString(),
           "duration" : _textControllers["duration"]!.text.toString(),

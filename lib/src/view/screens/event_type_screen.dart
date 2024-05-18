@@ -208,6 +208,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   HotelForm(initialData: {
                     "hotel_name": "",
+                    "hotel_subcategory": "",
                     "hotel_address": "",
                     "hotel_capacity": "",
                     "hotel_number": "",
@@ -240,6 +241,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   VenueForm(initialData: {
                     "venue_name": "",
+                    "venue_subcategory": "",
                     "venue_address": "",
                     "venue_capacity": "",
                     "venue_contact_person": "",
@@ -271,6 +273,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   WeddingDressForm(initialData: {
                     "name": "",
+                    "wedding_dress_subcategory" : "",
                     "designer": "",
                     "style": "",
                     "color": "",
@@ -299,6 +302,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   CateringForm(initialData: {
                     "name": "",
+                    "catering_subcategory": "",
                     "address": "",
                     "contact": "",
                     "description": "",
@@ -322,6 +326,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   DjBandForm(initialData: {
                     "dj_band_name": "",
+                    "djband_subcategory": "",
                     "members": "",
                     "genre": "",
                     "description": "",
@@ -350,6 +355,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   BandForm(initialData: {
                     "band_name": "",
+                    "band_subcategory": "",
                     "genre": "",
                     "contact_person": "",
                     "contact_number": "",
@@ -373,6 +379,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   EntertainmentForm(initialData: {
                     "event_name": "",
+                    "entertainment_subcategory": "",
                     "event_description": "",
                     "event_type": "",
                     "event_date_time": "",
@@ -395,6 +402,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   DholForm(initialData: {
                     "group_name": "",
+                    "dhol_subcategory": "",
                     "contact_person": "",
                     "contact_number": "",
                     "email": "",
@@ -418,6 +426,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   DecorationForm(initialData: {
                     "decoration_name": "",
+                    "decor_subcategory": "",
                     "members": "",
                     "description": "",
                     "hourly_rate": "",
@@ -442,6 +451,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   MakeupForm(initialData: {
                     "service_name": "",
+                    "makeup_subcategory": "",
                     "first_name" : "",
                     "last_name" : "",
                     "members": "",
@@ -468,6 +478,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   PhotoVideoForm(initialData: {
                     "service_name": "",
+                    "photovideo_subcategory": "",
                     "client_name" : "",
                     "type_of_coverage" : "",
                     "duration" : "",
@@ -490,6 +501,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   TravelForm(initialData: {
                     "service_name": "",
+                    "travel_subcategory": "",
                     "client_name" : "",
                     "type_of_coverage" : "",
                     "duration" : "",
@@ -515,6 +527,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   EntryVarmalaForm(initialData: {
                     "name": "",
+                    "varmala_subcategory": "",
                     "date" : "",
                     "location" : "",
                     "description" : "",
@@ -538,6 +551,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   TentHouseForm(initialData: {
                     "name": "",
+                    "tenthouse_subcategory": "",
                     "number" : "",
                     "adderss" : "",
                     "description" : "",
@@ -559,6 +573,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   ),
                   PanditForm(initialData: {
                     "name" : "",
+                    "pandit_subcategory" : "",
                     "address" : "",
                     "contact" : "",
                     "description" : "",

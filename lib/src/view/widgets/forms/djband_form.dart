@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,20 @@ class _DjBandForm extends State<DjBandForm>{
     // Dispose controllers
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
+  }
+  void _showDjBandSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Mobile DJ", "Baarat and Road Show","Floor show","Horse & Baggi","Lighting","Security"],
+        onItemSelected: (selectedItem) {
+          _textControllers['djband_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
 
   @override
@@ -88,6 +103,11 @@ class _DjBandForm extends State<DjBandForm>{
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                       child: TextField(
+                        onTap: () => {
+                          if (entry.key == "djband_subcategory")
+                            {_showDjBandSubcategory(context)}
+
+                        },
                         controller: _textControllers[entry.key],
                         obscureText: false,
                         cursorColor: Colors.black,
@@ -133,6 +153,9 @@ class _DjBandForm extends State<DjBandForm>{
                     }else if(_textControllers["equiment"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter equipment details');
+                    }else if(_textControllers["djband_subcategory"]!.text.isEmpty){
+                      showAlertDialog(context, 'Please enter equipment details');
+
                     }
 
                     else{
@@ -244,6 +267,7 @@ class _DjBandForm extends State<DjBandForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeDJBand({
           "dj_band_name" : _textControllers["dj_band_name"]!.text.toString(),
+          "djband_subcategory" : _textControllers["djband_subcategory"]!.text.toString(),
           "members" : _textControllers["members"]!.text.toString(),
           "genre" : _textControllers["genre"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),

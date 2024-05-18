@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +37,20 @@ class _EntertainmentForm extends State<EntertainmentForm> {
     // Dispose controllers
     _textControllers.forEach((_, controller) => controller.dispose());
     super.dispose();
+  }
+  void _showEntertainmentSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Choreographer", "Mehandi","Singers","Dancers","Photographers","Security"],
+        onItemSelected: (selectedItem) {
+          _textControllers['entertainment_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
 
   @override
@@ -76,6 +91,11 @@ class _EntertainmentForm extends State<EntertainmentForm> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                   child: TextField(
+                    onTap: () => {
+                      if (entry.key == "entertainment_subcategory")
+                        {_showEntertainmentSubcategory(context)}
+
+                    },
                     controller: _textControllers[entry.key],
                     obscureText: false,
                     cursorColor: Colors.black,
@@ -114,6 +134,9 @@ class _EntertainmentForm extends State<EntertainmentForm> {
                   showAlertDialog(context, 'Please enter duration');
                 }else if(_textControllers["ticket_price"]!.text.isEmpty){
                   showAlertDialog(context, 'Please enter ticket price');
+
+                }else if(_textControllers["entertainment_subcategory"]!.text.isEmpty){
+                  showAlertDialog(context, 'Please enter entertainment subcategory');
 
                 }
                 else{
@@ -220,6 +243,7 @@ class _EntertainmentForm extends State<EntertainmentForm> {
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventTypeEntertainment({
           "EventName" : _textControllers["event_name"]!.text.toString(),
+          "entertainment_subcategory" : _textControllers["entertainment_subcategory"]!.text.toString(),
           "EventDescription" : _textControllers["event_description"]!.text.toString(),
           "EventType" : _textControllers["event_type"]!.text.toString(),
           "EventDateTime" : _textControllers["event_date_time"]!.text.toString(),

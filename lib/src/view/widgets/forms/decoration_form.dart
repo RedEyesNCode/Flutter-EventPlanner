@@ -6,6 +6,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
+import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -88,6 +89,11 @@ class _DecorationForm extends State<DecorationForm>{
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                           child: TextField(
+                            onTap: () => {
+                              if (entry.key == "decor_subcategory")
+                                {_showDecorationSubcategory(context)}
+
+                            },
                             controller: _textControllers[entry.key],
                             obscureText: false,
                             cursorColor: Colors.black,
@@ -130,7 +136,12 @@ class _DecorationForm extends State<DecorationForm>{
                           showAlertDialog(context, 'Please enter location');
                         }else if(_textControllers["contact_information"]!.text.isEmpty){
                           showAlertDialog(context, "Please enter contact information");
-                        }else{
+                        }else if(_textControllers["decor_subcategory"]!.text.isEmpty){
+                          showAlertDialog(context, "Please select decor subcategory.");
+
+                        }
+
+                        else{
                           await _handleDecorationForm(viewmodel,_textControllers);
 
                         }
@@ -172,6 +183,20 @@ class _DecorationForm extends State<DecorationForm>{
 
 
 
+  }
+  void _showDecorationSubcategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => OptionsSheet(
+        options: ["Baloon Decoration", "Flowers Decoration","Cloth Decoration","Theme Decoration"],
+        onItemSelected: (selectedItem) {
+          _textControllers['decor_subcategory']?.text = selectedItem;
+
+          Navigator.pop(context);
+          setState(() {}); // Trigger rebuild
+        },
+      ),
+    );
   }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(
@@ -247,6 +272,7 @@ class _DecorationForm extends State<DecorationForm>{
       if(viewmodel.createEventResponse!=null){
         await viewmodel.createEventtypeDecoration({
           "name" : _textControllers["decoration_name"]!.text.toString(),
+          "decor_subcategory" : _textControllers["decor_subcategory"]!.text.toString(),
           "members" : _textControllers["members"]!.text.toString(),
           "description" : _textControllers["description"]!.text.toString(),
           "hourlyRate" : _textControllers["hourly_rate"]!.text.toString(),
