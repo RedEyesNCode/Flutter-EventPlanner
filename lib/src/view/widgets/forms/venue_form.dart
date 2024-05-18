@@ -106,7 +106,7 @@ class _VenueForm extends State<VenueForm>{
                     padding: const EdgeInsets.only(left: 10.0 ,right: 10.0),
                     child: TextField(
                       onTap: () =>{
-                        if (entry.key == "venue_subcategory")
+                          if (entry.key == "venue_subcategory")
                           {_showVenueSubCategory(context)}
                       },
                       controller: _textControllers[entry.key],

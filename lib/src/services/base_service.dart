@@ -1,6 +1,6 @@
 abstract class BaseService {
-  final String BaseUrl = "http://13.235.205.112:4001/";
-  // final String BaseUrl = "http://192.168.1.7:4000/";
+  // final String BaseUrl = "http://13.235.205.112:4001/";
+  final String BaseUrl = "http://192.168.1.5:4000/";
 
   Future<dynamic> loginUser(Map<String, dynamic> userData);
 

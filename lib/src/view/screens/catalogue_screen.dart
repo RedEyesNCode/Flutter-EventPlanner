@@ -358,25 +358,28 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
         await SharedPrefManager().getString('CREATE-EVENT');
     if (retrievedEvent!=null) {
       print(jsonDecode(retrievedEvent));
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EventTypeScreen()),
+      );
       // check the payment status of the user.
 
-      viewmodel.getUserPaymentStatus({
-        'userId' : sessionUserString,
-      });
-      if(viewmodel.userPaymentStatus!.code==200){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('You have already paid ! '),
-          backgroundColor: Colors.green,
-        ));
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EventTypeScreen()),
-        );
-      }else if(viewmodel.userPaymentStatus!.code==400){
-        _showPaymentSheet(context);
-
-      }
+      // viewmodel.getUserPaymentStatus({
+      //   'userId' : sessionUserString,
+      // });
+      // if(viewmodel.userPaymentStatus!.code==200){
+      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text('You have already paid ! '),
+      //     backgroundColor: Colors.green,
+      //   ));
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => EventTypeScreen()),
+      //   );
+      // }else if(viewmodel.userPaymentStatus!.code==400){
+      //   _showPaymentSheet(context);
+      //
+      // }
 
 
 

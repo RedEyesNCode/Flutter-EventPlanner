@@ -39,10 +39,8 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
       'amount' : '499'
 
     });
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => EventTypeScreen()),
-    );
+    Navigator.pop(context);
+
 
   }
   void externalWalletHandler(ExternalWalletResponse response) {
