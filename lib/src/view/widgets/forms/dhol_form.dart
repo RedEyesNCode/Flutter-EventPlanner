@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_dhol.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
@@ -219,49 +220,30 @@ class _DholForm extends State<DholForm> {
   Future<void> _handleDholForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeDhol({
-          "GroupName" : _textControllers["group_name"]!.text.toString(),
-          "ContactPerson" : _textControllers["contact_person"]!.text.toString(),
-          "ContactNumber" : _textControllers["contact_number"]!.text.toString(),
-          "Email" : _textControllers["email"]!.text.toString(),
-          "Address" : _textControllers["address"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventDholData = body_create_dhol(
+          dholSubcategory : _textControllers["dhol_subcategory"]!.text.toString(),
+          groupName : _textControllers["group_name"]!.text.toString(),
+          contactPerson : _textControllers["contact_person"]!.text.toString(),
+          contactNumber : _textControllers["contact_number"]!.text.toString(),
+          email : _textControllers["email"]!.text.toString(),
+          address : _textControllers["address"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-DHOL', jsonEncode(eventDholData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DHOL');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createDholResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createDholResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

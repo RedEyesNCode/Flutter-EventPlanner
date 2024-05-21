@@ -1,5 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_band.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_decoration.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_dhol.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_djband.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_pandit.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_venue.dart';
+import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
@@ -244,12 +253,12 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
                   onPressed: _imageFiles.isNotEmpty
                       ? () {
                     if(isUserPaid){
-                      for (var image in _imageFiles) {
-                        _handleUploadImage(widget.imageUploadData, context,viewmodel, image);
+                      if(_imageFiles.isNotEmpty){
+                        _handleUploadImage(widget.imageUploadData, context,viewmodel, _imageFiles);
+
                       }
-                      setState(() {
-                        _imageFiles.clear();
-                      });
+
+
                     }else{
                       _checkPaymentStatus(viewmodel);
 
@@ -296,108 +305,189 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   }
 
-  Future<void> _handleUploadImage(Map<String, String> imageUploadData, BuildContext context,MainViewModel viewmodel,File imageFile) async {
+  Future<void> _handleUploadImage(Map<String, String> imageUploadData, BuildContext context,MainViewModel viewmodel, List<File> imageFiles) async {
 
     String? id = imageUploadData['id'];
     print(id);
-    print(imageFile.path.toString());
     String? categoryType = imageUploadData['categoryType'];
     if(categoryType=="VENUE"){
-      await viewmodel.uploadVenueImage({
-        "venueId" : id,
-        "file" : imageFile
 
-      });
+      await _createCategoryEvent(viewmodel);
+
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventVenue(viewmodel);
+
+        if(viewmodel.createEventVenueResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadVenueImage({
+            "venueId" :  viewmodel.createEventVenueResponse?.data!.sId.toString(),
+            "file" : imageFiles[0]
+
+          });
+
+
+        }
+      }
+
     }else if(categoryType=="TRAVEL"){
       await viewmodel.uploadTravel({
         "travelId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
     }else if(categoryType=="TENTHOUSE"){
       await viewmodel.uploadTentHouseImage({
         "tenthouseId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
     }else if(categoryType=="PHOTO_VIDEO"){
       await viewmodel.uploadPhotoVideoImage({
         "photoVideoId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
 
     }else if(categoryType=="PANDIT"){
-      await viewmodel.uploadPanditImage({
-        "panditId" : id,
-        "file" : imageFile
+      // 1. create event first
+      await _createCategoryEvent(viewmodel);
 
-      });
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventPandit(viewmodel);
 
+        if(viewmodel.createPanditResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadPanditImage({
+            "panditId" : viewmodel.createPanditResponse?.data!.sId.toString(),
+            "file" : imageFiles.first
+
+          });
+
+
+        }
+      }
     }else if(categoryType=="MAKE_UP"){
       await viewmodel.uploadMakeImage({
         "makeupId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
 
     }else if(categoryType=="VARMALA"){
       await viewmodel.uploadVarmalaImage({
         "varmalaId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
     }else if(categoryType=="DECOR"){
-      await viewmodel.uploadDecorationImage({
-        "decorationId" : id,
-        "file" : imageFile
 
-      });
+
+      // 1. create event first
+      await _createCategoryEvent(viewmodel);
+
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventDecoration(viewmodel);
+
+        if(viewmodel.createDecorationResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadDecorationImage({
+            "decorationId" : viewmodel.createDecorationResponse?.data!.sId.toString(),
+            "file" : imageFiles[0]
+
+          });
+
+
+        }
+      }
+
     }else if(categoryType=="CATERING"){
 
       await viewmodel.uploadCateringImage({
         "cateringId" : id,
-        "file" : imageFile
+        "file" : imageFiles[0]
 
       });
     }else if(categoryType=="WEDDING_DRESS") {
       await viewmodel.uploadWeddingDressImage({
         "weddingDressId": id,
-        "file": imageFile
+        "file": imageFiles[0]
       });
     }else if(categoryType=="BAND"){
-      await viewmodel.uploadBandImage({
-        "bandId": id,
-        "file": imageFile
-      });
+      // 1. create event first
+      await _createCategoryEvent(viewmodel);
+
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventBand(viewmodel);
+
+        if(viewmodel.createBandResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadBandImage({
+            "bandId": viewmodel.createBandResponse?.data
+            !.sId.toString(),
+            "file": imageFiles[0]
+          });
+        }
+      }
+
 
     }else if(categoryType=="DHOL"){
-      await viewmodel.uploadDholImage({
-        "dholId": id,
-        "file": imageFile
-      });
+
+      // 1. create event first
+      await _createCategoryEvent(viewmodel);
+
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventDhol(viewmodel);
+
+        if(viewmodel.createDholResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadDholImage({
+            "dholId": viewmodel.createDholResponse?.data
+            !.sId.toString(),
+            "file": imageFiles[0]
+          });
+        }
+      }
     }else if(categoryType=="ENTERTAINMENT"){
       await viewmodel.uploadEntertainmentImage({
         "entertainmentId": id,
-        "file": imageFile
+        "file": imageFiles[0]
       });
     }else if(categoryType=="DJ_BAND"){
-      await viewmodel.uploadDJBandImage({
-        "djId": id,
-        "file": imageFile
-      });
+
+
+      // 1. create event first
+      await _createCategoryEvent(viewmodel);
+
+      if(viewmodel.createEventResponse?.data!=null){
+        // 2. call the create-pandit-api
+        await _createEventDJBand(viewmodel);
+
+        if(viewmodel.createDJBandResponse?.data!=null){
+          // 3. call the upload image api finally
+          await viewmodel.uploadDJBandImage({
+            "djId": viewmodel.createDJBandResponse?.data!.sId.toString(),
+            "file": imageFiles.first
+          });
+        }
+      }
+
+
+
     }else if(categoryType=="HOTEL"){
       await viewmodel.uploadHotelImage({
         "HotelId": id,
-        "file": imageFile
+        "file": imageFiles[0]
       });
     }
 
 
     if(viewmodel.response.status == Status.COMPLETED && viewmodel.uploadImageResponse!=null){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(viewmodel.uploadImageResponse!.message.toString())),
-      );
+      showAlertDialog(context, viewmodel.uploadImageResponse!.message.toString());
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(viewmodel.response.message.toString())),
@@ -407,6 +497,132 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
 
 
+
+  }
+
+  Future<void> _createCategoryEvent(MainViewModel viewmodel) async {
+    String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
+    print(sessionEventString);
+    await viewmodel.createEvent({
+      'event_name' : sessionJsonEvent!.eventname,
+      'event_type' : sessionJsonEvent.eventtype,
+      'start_date' : sessionJsonEvent.startdate,
+      'end_date' : sessionJsonEvent.enddate,
+      'description' : sessionJsonEvent.description,
+      'Status' : sessionJsonEvent.status,
+      'userId' : sessionUserString,
+      'location_id' : sessionJsonEvent.locationid,
+      'category_id' : widget.imageUploadData['id'],
+
+    });
+  }
+
+  Future<void> _createEventPandit(MainViewModel viewmodel) async{
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-PANDIT');
+    body_create_pandit? sessionJsonEventPandit = body_create_pandit.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventTypePandit({
+      "name" : sessionJsonEventPandit.name,
+      "pandit_subcategory" : sessionJsonEventPandit.panditSubcateogry,
+      "address" : sessionJsonEventPandit.address,
+      "contact" : sessionJsonEventPandit.contact,
+      "description" : sessionJsonEventPandit.description,
+      "speciality" : sessionJsonEventPandit.speciality,
+      "years_of_experience" : sessionJsonEventPandit.yearsOfExperience,
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
+
+  }
+  Future<void> _createEventDJBand(MainViewModel viewmodel) async{
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DJBAND');
+    body_create_djband? sessionJsonEventPandit = body_create_djband.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventtypeDJBand({
+      "dj_band_name" : sessionJsonEventPandit.djBandName,
+
+      "members" : sessionJsonEventPandit.members,
+      "genre" : sessionJsonEventPandit.genre,
+      "description" : sessionJsonEventPandit.description,
+      "availability" : sessionJsonEventPandit.availability,
+      "rate" : sessionJsonEventPandit.rate,
+      "location" : sessionJsonEventPandit.location,
+      "equiment" : sessionJsonEventPandit.equipment,
+      "reviews" : sessionJsonEventPandit.reviews,
+      "rating" : sessionJsonEventPandit.rating,
+      "contact_information" : sessionJsonEventPandit.contactInformation,
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
+
+  }
+  Future<void> _createEventVenue(MainViewModel viewmodel) async{
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-VENUE');
+    body_create_venue? sessionJsonEventPandit = body_create_venue.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventTypeVenue({
+      "venue_name" : sessionJsonEventPandit.venueName,
+      "venue_subcategory" : sessionJsonEventPandit.venueName,
+      "venue_address" : sessionJsonEventPandit.venueAddress,
+      "venue_capacity" : sessionJsonEventPandit.venueCapacity,
+      "venue_contact_person" : sessionJsonEventPandit.venueContactPerson,
+      "contact_email_phone" : sessionJsonEventPandit.contactEmailPhone,
+      "additional_services" : sessionJsonEventPandit.additionalServices,
+      "parking_facility" : sessionJsonEventPandit.parkingFacility,
+      "accessibility" : sessionJsonEventPandit.additionalServices,
+      "alcohol_permission" : sessionJsonEventPandit.alcoholPermission,
+      "cost" : sessionJsonEventPandit.cost,
+      "payment_terms" : sessionJsonEventPandit.paymentTerms,
+      "security_needs" : sessionJsonEventPandit.securityNeeds,
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
+
+  }
+
+  Future<void> _createEventBand(MainViewModel viewmodel) async {
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-BAND');
+    body_create_band? sessionJsonEventPandit = body_create_band.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventTypeBand({
+      "band_name" : sessionJsonEventPandit.bandName,
+      "genre" : sessionJsonEventPandit.genre,
+      "contact_person" : sessionJsonEventPandit.contactPerson,
+      "contact_number" : sessionJsonEventPandit.contactNumber,
+      "email" : sessionJsonEventPandit.email,
+      "address" : sessionJsonEventPandit.address,
+
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
+  }
+
+  Future<void> _createEventDhol(MainViewModel viewmodel) async {
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DHOL');
+    body_create_dhol? sessionJsonEventPandit = body_create_dhol.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventTypeDhol({
+      "group_name" : sessionJsonEventPandit.groupName,
+      "dhol_subcategory" : sessionJsonEventPandit.dholSubcategory,
+      "contact_person" : sessionJsonEventPandit.contactPerson,
+      "contact_number" : sessionJsonEventPandit.contactNumber,
+      "email" : sessionJsonEventPandit.email,
+      "address" : sessionJsonEventPandit.address,
+
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
+
+  }
+  Future<void> _createEventDecoration(MainViewModel viewmodel) async {
+    String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DECOR');
+    body_create_decoration? sessionJsonEventPandit = body_create_decoration.fromJson(jsonDecode(sessionEventPandit!));
+    await viewmodel.createEventtypeDecoration({
+      "decoration_name" : sessionJsonEventPandit.name,
+      "decor_subcategory" : sessionJsonEventPandit.decorSubcategory,
+      "members" : sessionJsonEventPandit.members,
+      "description" : sessionJsonEventPandit.description,
+      "hourlyRate" : sessionJsonEventPandit.hourlyRate,
+      "minHours" : sessionJsonEventPandit.minHours,
+      "rate" : sessionJsonEventPandit.rate,
+      "location" : sessionJsonEventPandit.location,
+      "number" : sessionJsonEventPandit.number,
+
+
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
 
   }
 }

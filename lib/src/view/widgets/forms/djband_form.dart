@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_djband.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -246,55 +247,33 @@ class _DjBandForm extends State<DjBandForm>{
   Future<void> _handleDJBandForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeDJBand({
-          "dj_band_name" : _textControllers["dj_band_name"]!.text.toString(),
-          "djband_subcategory" : _textControllers["djband_subcategory"]!.text.toString(),
-          "members" : _textControllers["members"]!.text.toString(),
-          "genre" : _textControllers["genre"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "availability" : _textControllers["availability"]!.text.toString(),
-          "rate" : _textControllers["rate"]!.text.toString(),
-          "location" : _textControllers["location"]!.text.toString(),
-          "equipment" : _textControllers["equiment"]!.text.toString(),
-          "reviews" : _textControllers["reviews"]!.text.toString(),
-          "rating" : _textControllers["rating"]!.text.toString(),
-          "contact_information" : _textControllers["contact_information"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventDJBandData = body_create_djband(
+          djBandName : _textControllers["dj_band_name"]!.text.toString(),
+          members : _textControllers["members"]!.text.toString(),
+          genre : _textControllers["genre"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          availability : _textControllers["availability"]!.text.toString(),
+          rate : _textControllers["rate"]!.text.toString(),
+          location : _textControllers["location"]!.text.toString(),
+          equipment : _textControllers["equiment"]!.text.toString(),
+          reviews : _textControllers["reviews"]!.text.toString(),
+          rating : _textControllers["rating"]!.text.toString(),
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-DJBAND', jsonEncode(eventDJBandData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DJBAND');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createDJBandResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createDJBandResponse!.data!.sId.toString());
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

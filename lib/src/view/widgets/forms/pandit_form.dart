@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_pandit.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -235,56 +236,48 @@ class _PanditForm extends State<PanditForm> {
   Future<void> _handlePanditForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypePandit({
-          "name" : _textControllers["name"]!.text.toString(),
-          "pandit_subcategory" : _textControllers["pandit_subcategory"]!.text.toString(),
-          "address" : _textControllers["address"]!.text.toString(),
-          "contact" : _textControllers["contact"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "speciality" : _textControllers["speciality"]!.text.toString(),
-          "years_of_experience" : _textControllers["years_of_experience"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_pandit(
+          name : _textControllers["name"]!.text.toString(),
+          panditSubcateogry : _textControllers["pandit_subcategory"]!.text.toString(),
+          address : _textControllers["address"]!.text.toString(),
+          contact : _textControllers["contact"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          speciality : _textControllers["speciality"]!.text.toString(),
+          yearsOfExperience : _textControllers["years_of_experience"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-PANDIT', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-PANDIT');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createPanditResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createPanditResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }
 
 
+  }
+  void _callCreatePanditApi(MainViewModel viewmodel) async{
+    await viewmodel.createEventTypePandit({
+      "name" : _textControllers["name"]!.text.toString(),
+      "pandit_subcategory" : _textControllers["pandit_subcategory"]!.text.toString(),
+      "address" : _textControllers["address"]!.text.toString(),
+      "contact" : _textControllers["contact"]!.text.toString(),
+      "description" : _textControllers["description"]!.text.toString(),
+      "speciality" : _textControllers["speciality"]!.text.toString(),
+      "years_of_experience" : _textControllers["years_of_experience"]!.text.toString(),
+      'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
+    });
   }
 
 

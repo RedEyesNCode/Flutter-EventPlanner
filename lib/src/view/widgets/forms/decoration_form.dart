@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_decoration.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -249,58 +250,39 @@ class _DecorationForm extends State<DecorationForm>{
   }
  Future<void> _handleDecorationForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async{
 
+   try{
 
-    try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+     var eventDecorationData = body_create_decoration(
+         decorSubcategory : _textControllers["decor_subcategory"]!.text.toString(),
+         name : _textControllers["decoration_name"]!.text.toString(),
+         members : _textControllers["members"]!.text.toString(),
+         description : _textControllers["description"]!.text.toString(),
+         hourlyRate : _textControllers["hourly_rate"]!.text.toString(),
+         minHours : _textControllers["min_hours"]!.text.toString(),
+         rate : _textControllers["rate"]!.text.toString(),
+         location : _textControllers["location"]!.text.toString(),
+         number : _textControllers["contact_information"]!.text.toString(),
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeDecoration({
-          "name" : _textControllers["decoration_name"]!.text.toString(),
-          "decor_subcategory" : _textControllers["decor_subcategory"]!.text.toString(),
-          "members" : _textControllers["members"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "hourlyRate" : _textControllers["hourly_rate"]!.text.toString(),
-          "minHours" : _textControllers["min_hours"]!.text.toString(),
-          "rate" : _textControllers["rate"]!.text.toString(),
-          "location" : _textControllers["location"]!.text.toString(),
-          "number" : _textControllers["contact_information"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+         eventId : ''
+     );
+     await SharedPrefManager().setString('CREATE-EVENT-DECOR', jsonEncode(eventDecorationData));
+     String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-DECOR');
+     print(sessionEventPandit);
 
 
-        if (viewmodel.createDecorationResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewmodel.createDecorationResponse!.message.toString());
-          _showImagePickerOptions(viewmodel.createDecorationResponse!.data!.sId.toString());
+     if (sessionEventPandit !=null) {
+       // Success! Navigate to appropriate screen
+       _showImagePickerOptions(widget.categoryEventID);
+     } else {
+       // Show error message
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(content: Text(viewmodel.response.message.toString())),
+       );
+     }
+   }finally{
+     print('Finally Code.');
+   }
 
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
-      }
-
-    }finally{
-      print('Finally Code.');
-    }
 
 
 

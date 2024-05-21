@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_venue.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -257,69 +258,46 @@ class _VenueForm extends State<VenueForm>{
   Future<void> _handleVenueForm(MainViewModel viewModel, Map<String, TextEditingController> textControllers) async {
     // Consider disabling the button to prevent multiple login attempts
 
-    try {
-      // Call the create-event api first to get the eventID.
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    try{
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
+      var eventVenueData = body_create_venue(
+          venueName : _textControllers["venue_name"]!.text.toString(),
+          venueAddress : _textControllers["venue_subcategory"]!.text.toString(),
+          venueCapacity : _textControllers["venue_address"]!.text.toString(),
+          venueContactPerson : _textControllers["venue_capacity"]!.text.toString(),
+          contactEmailPhone : _textControllers["contact_email_phone"]!.text.toString(),
+          additionalServices : _textControllers["additional_services"]!.text.toString(),
+          parkingFacility : _textControllers["parking_facility"]!.text.toString(),
+          alcoholPermission : _textControllers["alcohol_permission"]!.text.toString(),
+          cost : _textControllers["cost"]!.text.toString(),
+          paymentTerms : _textControllers["payment_terms"]!.text.toString(),
+          securityNeeds : _textControllers["security_needs"]!.text.toString(),
+
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-VENUE', jsonEncode(eventVenueData));
+      String? sessionEventVenueString = await SharedPrefManager().getString('CREATE-EVENT-VENUE');
+      print(sessionEventVenueString);
 
 
-
-      await viewModel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewModel.createEventResponse!=null){
-        print(viewModel.createEventResponse);
-
-        await viewModel.createEventTypeVenue({
-
-          'venue_name': _textControllers["venue_name"]!.text.toString(),
-          'venue_subcategory': _textControllers["venue_subcategory"]!.text.toString(),
-          'venue_address': _textControllers["venue_address"]!.text.toString(),
-          'venue_capacity': _textControllers["venue_capacity"]!.text.toString(),
-          'venue_contact_person': _textControllers["venue_contact_person"]!.text.toString(),
-          'contact_email_phone': _textControllers["contact_email_phone"]!.text.toString(),
-          'additional_services': _textControllers["additional_services"]!.text.toString(),
-          'parking_facility': _textControllers["parking_facility"]!.text.toString(),
-          'alcohol_permission': _textControllers["alcohol_permission"]!.text.toString(),
-          'cost': _textControllers["cost"]!.text.toString(),
-          'payment_terms': _textControllers["payment_terms"]!.text.toString(),
-          'security_needs': _textControllers["security_needs"]!.text.toString(),
-          'event_id' : viewModel.createEventResponse!.data!.sId.toString()
-        });
-
-        if (viewModel.createEventVenueResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewModel.createEventVenueResponse!.message.toString());
-          _showImagePickerOptions(viewModel.createEventVenueResponse!.data!.sId.toString());
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewModel.response.message.toString())),
-          );
-        }
+      if (sessionEventVenueString !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewModel.response.message.toString())),
+        );
       }
-
-
-
-
-
-    } finally {
-      print('Finally Code');
-      // Re-enable the login button
+    }finally{
+      print('Finally Code.');
     }
+
+
+
+
+
+
   }
 
 }

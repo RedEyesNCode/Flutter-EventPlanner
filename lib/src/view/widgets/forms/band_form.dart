@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_band.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -236,50 +237,31 @@ class _BandForm extends State<BandForm> {
   Future<void> _handleCateringForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
+      var eventBandData = body_create_band(
 
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeBand({
-          "BandName" : _textControllers["band_name"]!.text.toString(),
-          "Genre" : _textControllers["genre"]!.text.toString(),
-          "ContactPerson" : _textControllers["contact_person"]!.text.toString(),
-          "ContactNumber" : _textControllers["contact_number"]!.text.toString(),
-          "Email" : _textControllers["email"]!.text.toString(),
-          "Address" : _textControllers["address"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+          bandName : _textControllers["band_subcategory"]!.text.toString(),
+          genre : _textControllers["genre"]!.text.toString(),
+          contactPerson : _textControllers["contact_person"]!.text.toString(),
+          contactNumber : _textControllers["contact_number"]!.text.toString(),
+          email : _textControllers["email"]!.text.toString(),
+          address : _textControllers["address"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-BAND', jsonEncode(eventBandData));
+      String? sessionEventBand = await SharedPrefManager().getString('CREATE-EVENT-BAND');
+      print(sessionEventBand);
 
 
-        if (viewmodel.createBandResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createBandResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventBand !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }
