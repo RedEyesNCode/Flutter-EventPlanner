@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_makeup.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -250,62 +251,46 @@ class _MakeupForm extends State<MakeupForm>{
 
   Future<void> _handleMakeupForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
+
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeMakeup({
-          "service_name" : _textControllers["service_name"]!.text.toString(),
-          "makeup_subcategory" : _textControllers["makeup_subcategory"]!.text.toString(),
-          "first_name" : _textControllers["first_name"]!.text.toString(),
-          "last_name" : _textControllers["last_name"]!.text.toString(),
-          "members" : _textControllers["members"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "hourly_rate" : _textControllers["hourly_rate"]!.text.toString(),
-          "min_hours" : _textControllers["min_hours"]!.text.toString(),
-          "rate" : _textControllers["rate"]!.text.toString(),
-          "location" : _textControllers["location"]!.text.toString(),
-          "contact_information" : _textControllers["contact_information"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_makeup(
+          serviceName : _textControllers["service_name"]!.text.toString(),
+          makeupSubcategory : _textControllers["makeup_subcategory"]!.text.toString(),
+          firstName : _textControllers["first_name"]!.text.toString(),
+          lastName : _textControllers["last_name"]!.text.toString(),
+          members : _textControllers["members"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          hourlyRate : _textControllers["hourly_rate"]!.text.toString(),
+          minHours : _textControllers["min_hours"]!.text.toString(),
+          rate : _textControllers["rate"]!.text.toString(),
+          location : _textControllers["location"]!.text.toString(),
+          contactInformation : _textControllers["contact_information"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-MAKEUP', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-MAKEUP');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createMakeupResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewmodel.createMakeupResponse!.message.toString());
-          _showImagePickerOptions(viewmodel.createMakeupResponse!.data!.sId.toString());
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }
 
 
   }
+
+
+
 
 
 }

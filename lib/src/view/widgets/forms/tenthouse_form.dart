@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_tenthouse.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -149,7 +150,7 @@ class _TentHouseForm extends State<TentHouseForm>{
                     else if(_textControllers["availability"]!.text.isEmpty){
 
                       showAlertDialog(context, 'Please enter availability');
-                    }else if(_textControllers["tent_house_subcategory"]!.text.isEmpty){
+                    }else if(_textControllers["tenthouse_subcategory"]!.text.isEmpty){
                       showAlertDialog(context, "Please select tent house category");
                     } else{
                       await _handleTenthouseForm(viewmodel,_textControllers);
@@ -241,51 +242,30 @@ class _TentHouseForm extends State<TentHouseForm>{
   Future<void> _handleTenthouseForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeTentHouse({
-          "name" : _textControllers["name"]!.text.toString(),
-          "tenthouse_subcategory" : _textControllers["tenthouse_subcategory"]!.text.toString(),
-          "number" : _textControllers["number"]!.text.toString(),
-          "adderss" : _textControllers["adderss"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "price" : _textControllers["price"]!.text.toString(),
-          "availability" : _textControllers["availability"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_tenthouse(
+          name : _textControllers["name"]!.text.toString(),
+          tenthouseSubcategory : _textControllers["tenthouse_subcategory"]!.text.toString(),
+          adderss : _textControllers["adderss"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          price : _textControllers["price"]!.text.toString(),
+          availability : _textControllers["availability"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-TENTHOUSE', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-TENTHOUSE');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createTenthouseResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createTenthouseResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

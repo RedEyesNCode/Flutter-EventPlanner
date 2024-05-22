@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_travel.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -245,53 +246,33 @@ class _TravelForm extends State<TravelForm>{
   Future<void> _handleTravelForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeTravel({
-          "service_name" : _textControllers["service_name"]!.text.toString(),
-          "travel_subcategory" : _textControllers["travel_subcategory"]!.text.toString(),
-          "client_name" : _textControllers["client_name"]!.text.toString(),
-          "type_of_coverage" : _textControllers["type_of_coverage"]!.text.toString(),
-          "duration" : _textControllers["duration"]!.text.toString(),
-          "hourly_rate" : _textControllers["hourly_rate"]!.text.toString(),
-          "vehcile_type" : _textControllers["vehicle_type"]!.text.toString(),
-          "pickup_location" : _textControllers["pickup_location"]!.text.toString(),
-          "dropoff_location" : _textControllers["drop_off_location"]!.text.toString(),
-          "number" : _textControllers["contact_information"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_travel(
+          serviceName : _textControllers["service_name"]!.text.toString(),
+          travelSubcategory : _textControllers["travel_subcategory"]!.text.toString(),
+          clientName : _textControllers["client_name"]!.text.toString(),
+          typeOfCoverage : _textControllers["type_of_coverage"]!.text.toString(),
+          duration : _textControllers["duration"]!.text.toString(),
+          hourlyRate : _textControllers["hourly_rate"]!.text.toString(),
+          vehcileType : _textControllers["vehicle_type"]!.text.toString(),
+          pickupLocation : _textControllers["pickup_location"]!.text.toString(),
+          dropoffLocation : _textControllers["drop_off_location"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-TRAVEL', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-TRAVEL');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createTravelResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewmodel.createTravelResponse!.message.toString());
-          _showImagePickerOptions(viewmodel.createTravelResponse!.data!.sId.toString());
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

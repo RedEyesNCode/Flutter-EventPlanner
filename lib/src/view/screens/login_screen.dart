@@ -39,7 +39,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
     // TODO: implement initState
     super.initState();
     _emailController.text = "new@gmail.com";
-    _passwordController.text = "123456";
+    _passwordController.text = "1234";
   }
 
   @override
@@ -135,7 +135,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(
-                            color: Colors.white,
+                            color: Colors.brown,
                             _obscureText ? Icons.visibility : Icons.visibility_off,
                           ),
                           onPressed: () {
@@ -145,6 +145,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                           },
                         ),
                         hintText: 'Password',
+                        hintStyle: TextStyle(color: Colors.grey),
                         enabledBorder: OutlineInputBorder( // Used when enabled and not focused
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(

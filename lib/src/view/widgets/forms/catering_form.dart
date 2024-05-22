@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_catering.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -233,49 +234,30 @@ class _CateringForm extends State<CateringForm> {
   Future<void> _handleCateringForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeCatering({
-          "name" : _textControllers["name"]!.text.toString(),
-          "catering_subcategory" : _textControllers["catering_subcategory"]!.text.toString(),
-          "address" : _textControllers["address"]!.text.toString(),
-          "contact" : _textControllers["contact"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_catering(
+          name : _textControllers["name"]!.text.toString(),
+          cateringSubcategory : _textControllers["catering_subcategory"]!.text.toString(),
+          address : _textControllers["address"]!.text.toString(),
+          contact : _textControllers["contact"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          price : _textControllers["price"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-CATERING', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-CATERING');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createCateringResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createCateringResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

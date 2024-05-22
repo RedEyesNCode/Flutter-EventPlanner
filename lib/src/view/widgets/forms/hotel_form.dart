@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_hotel.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
@@ -226,56 +227,34 @@ class _HotelForm extends State<HotelForm> {
   Future<void> _handleHotelForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createHotel({
-          "hotel_name" : _textControllers["hotel_name"]!.text.toString(),
-          "hotel_subcategory" : _textControllers["hotel_subcategory"]!.text.toString(),
-          "hotel_address" : _textControllers["hotel_address"]!.text.toString(),
-          "hotel_capacity" : _textControllers["hotel_capacity"]!.text.toString(),
-          "hotel_number" : _textControllers["hotel_number"]!.text.toString(),
-          "hotel_checkin" : _textControllers["hotel_checkin"]!.text.toString(),
-          "hotel_checkout" : _textControllers["hotel_checkout"]!.text.toString(),
-          "hotel_price" : _textControllers["hotel_price"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_hotel(
+          hotelName : _textControllers["hotel_name"]!.text.toString(),
+          hotelAddress : _textControllers["hotel_address"]!.text.toString(),
+          hotelCapacity : _textControllers["hotel_capacity"]!.text.toString(),
+          hotelNumber : _textControllers["hotel_number"]!.text.toString(),
+          hotelCheckin : _textControllers["hotel_checkin"]!.text.toString(),
+          hotelCheckout : _textControllers["hotel_checkout"]!.text.toString(),
+          hotelPrice : _textControllers["hotel_price"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-HOTEL', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-HOTEL');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createHotelResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createHotelResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }
-
 
   }
 

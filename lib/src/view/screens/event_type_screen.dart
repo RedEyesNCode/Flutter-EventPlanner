@@ -552,7 +552,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
                   TentHouseForm(initialData: {
                     "name": "",
                     "tenthouse_subcategory": "",
-                    "number" : "",
+                    "number": "",
                     "adderss" : "",
                     "description" : "",
                     "price" : "",

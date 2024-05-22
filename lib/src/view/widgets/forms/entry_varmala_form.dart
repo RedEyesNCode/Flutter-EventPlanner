@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_varmala.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
@@ -249,52 +250,32 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
   Future<void> _handleEntryVarmalaForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
 
     try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.categoryEventID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventtypeVarmala({
-          "name" : _textControllers["name"]!.text.toString(),
-          "varmala_subcategory" : _textControllers["varmala_subcategory"]!.text.toString(),
-          "date" : _textControllers["date"]!.text.toString(),
-          "location" : _textControllers["location"]!.text.toString(),
-          "description" : _textControllers["description"]!.text.toString(),
-          "category" : _textControllers["category"]!.text.toString(),
-          "number_of_guests" : _textControllers["number_of_guests"]!.text.toString(),
-          "requirements" : _textControllers["requirements"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+      var eventPanditData = body_create_varmala(
+          name : _textControllers["name"]!.text.toString(),
+          varmalaSubcategory : _textControllers["varmala_subcategory"]!.text.toString(),
+          date : _textControllers["date"]!.text.toString(),
+          location : _textControllers["location"]!.text.toString(),
+          description : _textControllers["description"]!.text.toString(),
+          category : _textControllers["category"]!.text.toString(),
+          numberOfGuests : _textControllers["number_of_guests"]!.text.toString(),
+          requirements : _textControllers["requirements"]!.text.toString(),
+          eventId : ''
+      );
+      await SharedPrefManager().setString('CREATE-EVENT-VARMALA', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString('CREATE-EVENT-VARMALA');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createVarmalaResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          // showAlertDialog(context, viewmodel.createVarmalaResponse!.message.toString());
-          _showImagePickerOptions(viewmodel.createVarmalaResponse!.data!.sId.toString());
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit !=null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.categoryEventID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
     }finally{
       print('Finally Code.');
     }

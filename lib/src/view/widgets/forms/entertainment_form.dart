@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_entertainment.dart';
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ImagePickerBottomSheet.dart';
@@ -220,58 +221,37 @@ class _EntertainmentForm extends State<EntertainmentForm> {
   }
 
   Future<void> _handleEntertainmentForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
-
-    try{
-      String? sessionEventString = await SharedPrefManager().getString('CREATE-EVENT');
-      String? sessionUserString = await SharedPrefManager().getString("USER_ID");
-
-      body_create_event? sessionJsonEvent = body_create_event.fromJson(jsonDecode(sessionEventString!));
-      print(sessionEventString);
-      await viewmodel.createEvent({
-        'event_name' : sessionJsonEvent!.eventname,
-        'event_type' : sessionJsonEvent.eventtype,
-        'start_date' : sessionJsonEvent.startdate,
-        'end_date' : sessionJsonEvent.enddate,
-        'description' : sessionJsonEvent.description,
-        'Status' : sessionJsonEvent.status,
-        'userId' : sessionUserString,
-        'location_id' : sessionJsonEvent.locationid,
-        'category_id' : widget.eventCategoryID,
-
-      });
-
-      if(viewmodel.createEventResponse!=null){
-        await viewmodel.createEventTypeEntertainment({
-          "EventName" : _textControllers["event_name"]!.text.toString(),
-          "entertainment_subcategory" : _textControllers["entertainment_subcategory"]!.text.toString(),
-          "EventDescription" : _textControllers["event_description"]!.text.toString(),
-          "EventType" : _textControllers["event_type"]!.text.toString(),
-          "EventDateTime" : _textControllers["event_date_time"]!.text.toString(),
-          "Duration" : _textControllers["duration"]!.text.toString(),
-          "TicketPrice" : _textControllers["ticket_price"]!.text.toString(),
-          'event_id' : viewmodel.createEventResponse!.data!.sId.toString()
-        });
+    try {
+      var eventPanditData = body_create_entertainment(
+          eventName: _textControllers["event_name"]!.text.toString(),
+          entertainmentSubcategory: _textControllers["entertainment_subcategory"]!
+              .text.toString(),
+          eventDescription: _textControllers["event_description"]!.text
+              .toString(),
+          eventType: _textControllers["event_type"]!.text.toString(),
+          eventDateTime: _textControllers["event_date_time"]!.text.toString(),
+          duration: _textControllers["duration"]!.text.toString(),
+          eventId: ''
+      );
+      await SharedPrefManager().setString(
+          'CREATE-EVENT-ENTERTAINMENT', jsonEncode(eventPanditData));
+      String? sessionEventPandit = await SharedPrefManager().getString(
+          'CREATE-EVENT-ENTERTAINMENT');
+      print(sessionEventPandit);
 
 
-        if (viewmodel.createEntertainmentResponse!.data !=null) {
-          // Success! Navigate to appropriate screen
-          _showImagePickerOptions(viewmodel.createEntertainmentResponse!.data!.sId.toString());
-
-
-
-        } else {
-          // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(viewmodel.response.message.toString())),
-          );
-        }
+      if (sessionEventPandit != null) {
+        // Success! Navigate to appropriate screen
+        _showImagePickerOptions(widget.eventCategoryID);
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(viewmodel.response.message.toString())),
+        );
       }
-
-    }finally{
+    } finally {
       print('Finally Code.');
     }
-
-
   }
 
 
