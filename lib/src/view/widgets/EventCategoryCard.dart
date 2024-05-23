@@ -91,7 +91,7 @@ class EventCategoryCard extends StatelessWidget {
 
                           style: const TextStyle(
 
-                              fontSize: 11,
+                              fontSize: 10,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'SFPro',
                               color: Colors.white

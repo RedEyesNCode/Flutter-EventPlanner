@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/common_response.dart';
 import 'package:flutter_eventplanner/src/model/complete_vendor_payment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_catering_response.dart';
@@ -90,6 +91,13 @@ class MainViewModel with ChangeNotifier {
   get_user_payment_status_response? _get_user_payment_status_response;
 
   complete_vendor_payment_response? _complete_vendor_payment_response;
+
+
+  common_response? _common_response;
+
+  common_response? get commonResponse => _common_response;
+
+
 
   complete_vendor_payment_response? get completeVendorPaymentResponse => _complete_vendor_payment_response;
 
@@ -193,6 +201,40 @@ class MainViewModel with ChangeNotifier {
       notifyListeners();
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
+  }
+  Future<void> deleteEvent(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+    try {
+
+      common_response? response = await MainRepository().deleteEvent(userData);
+      print(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
+
+      _apiResponse = ApiResponse.completed(response);
+      _common_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
 
   Future<void> createHotel(Map<String, dynamic> userData) async {

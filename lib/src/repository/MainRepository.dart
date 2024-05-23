@@ -2,6 +2,7 @@
 
 
 import 'package:flutter_eventplanner/src/model/all_location_response.dart';
+import 'package:flutter_eventplanner/src/model/common_response.dart';
 import 'package:flutter_eventplanner/src/model/complete_vendor_payment_response.dart';
 import 'package:flutter_eventplanner/src/model/create_band_response.dart';
 import 'package:flutter_eventplanner/src/model/create_decoration_response.dart';
@@ -434,6 +435,21 @@ class MainRepository {
 
 
   }
+  Future<common_response> deleteEvent(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.deleteEvent(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return common_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+
 
   Future<upload_image_response> uploadVenueImage(Map<String,dynamic> uploadVenueImageData) async{
 

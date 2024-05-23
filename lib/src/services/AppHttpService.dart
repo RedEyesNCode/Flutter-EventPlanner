@@ -943,6 +943,24 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future deleteEvent(Map<String, dynamic> createEventData) async{
+
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/deleteevent'), // Adjust the endpoint accordingly
+        body: jsonEncode(createEventData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 

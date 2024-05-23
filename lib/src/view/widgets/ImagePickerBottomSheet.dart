@@ -630,7 +630,14 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
 
     if(viewmodel.response.status == Status.COMPLETED && viewmodel.uploadImageResponse!=null){
-      showAlertDialog(context, viewmodel.uploadImageResponse!.message.toString());
+      for (int i = 0; i < 2; i++) {
+        Navigator.pop(context);
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Your Event Was Added Successfully !'.toString(),style: TextStyle(fontFamily: 'SFPro',color: Colors.white,fontSize: 21,fontWeight: FontWeight.w800),)),
+      );
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(viewmodel.response.message.toString())),

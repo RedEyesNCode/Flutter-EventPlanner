@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
+import 'package:flutter_eventplanner/src/view/widgets/NoRecordCard.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -95,7 +97,8 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
               child: Column(
 
                 children: [
-
+                  if (viewmodel.getEventDetailsResponse == null)
+                    NoRecordCard(),
                   if (viewmodel.getEventDetailsResponse != null &&
                       viewmodel.getEventDetailsResponse!.data!.eventImageUrl!.isNotEmpty)
                     Column(
@@ -468,7 +471,48 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
                         borderRadius: BorderRadius.circular(10), // Keep consistent with container
                       ),
                     ),
-                    onPressed: () { print('Hii'); },
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Confirm Delete'),
+                            content: Text('Are you sure you want to delete this event?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(false), // Dismiss dialog
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  // Call your delete event API here
+                                  viewmodel.deleteEvent({
+                                    "eventId" : widget.eventID.toString()
+                                  });
+                                  if(viewmodel.commonResponse!=null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text('Your Event Was Deleted Successfully !'.toString(),style: TextStyle(fontFamily: 'SFPro',color: Colors.white,fontSize: 21,fontWeight: FontWeight.w800),)),
+                                    );
+                                    for (int i = 0; i < 3; i++) {
+                                      Navigator.pop(context);
+                                    }
+
+                                  }
+                                  // ...
+                                },
+                                child: Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+
+
+
+                    },
                     child:
                     Text(
                       'Delete My Event',
@@ -485,5 +529,37 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
         ),
       ),
     );
+  }
+  Future<bool> showBackPressDialog(BuildContext context) async {
+    bool confirmExit = false;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Event Deleted !'),
+          content: Text('Event Deleted Successfully'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                confirmExit = true;
+                for (int i = 0; i < 4; i++) {
+                  Navigator.pop(context);
+                } // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+
+    return confirmExit; // Return true if the user confirmed exit
   }
 }

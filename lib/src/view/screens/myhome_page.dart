@@ -348,15 +348,15 @@ class _HomeScreen extends State<HomeScreen> {
 
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Travel',
-                            subcategories: ['Passenger Vehicle Loading Vehicle'],
+                            category: 'TRAVEL',
+                            subcategories: ['Passenger Vehicle', 'Loading Vehicle'],
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
                           ),
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Catering',
+                            category: 'CATERING',
                             subcategories: ['PureVeg', 'NonVeg','Jain Food without garlic onion'],
 
                             categoryUrl:
@@ -365,8 +365,8 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Varmala',
-                            subcategories: [''],
+                            category: 'VARMALA-ENTRY',
+                            subcategories: ['VARMALA-STAGE','VARMALA-THEME'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
@@ -381,7 +381,7 @@ class _HomeScreen extends State<HomeScreen> {
                       children: [
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Tent\nhouse',
+                            category: 'TENTHOUSE',
                             subcategories: ['Pandal','Crockery','Cooler','Carpet','Cooler Fans','Carpets Mets','Chair & Sofa','Tables'],
 
                             categoryUrl:
@@ -390,7 +390,7 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Photo\nVideo',
+                            category: 'PHOTO-VIDEO',
                             subcategories: ['Pre Wedding Shoot','Wedding Shoot','Shoot All Purpose'],
 
                             categoryUrl:
@@ -400,7 +400,7 @@ class _HomeScreen extends State<HomeScreen> {
 
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Makeup',
+                            category: 'MAKEUP',
                             subcategories: ['Beauty Health Style'],
 
                             categoryUrl:
@@ -415,7 +415,7 @@ class _HomeScreen extends State<HomeScreen> {
 
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Hotel',
+                            category: 'HOTEL',
                             subcategories: ['Resorts','Hotels','Apartments','Halls'],
 
                             categoryUrl:
@@ -425,7 +425,7 @@ class _HomeScreen extends State<HomeScreen> {
 
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Pandit',
+                            category: 'PANDIT',
                             subcategories: ['Expericened Pandit','Pandit for all Purpose'],
 
                             categoryUrl:
@@ -434,7 +434,7 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Wedding\nDress',
+                            category: 'WEDDING DRESS',
                             subcategories: ['LadkeWale','LadkiWale','Bridal','Groom'],
 
                             categoryUrl:
@@ -447,7 +447,7 @@ class _HomeScreen extends State<HomeScreen> {
                       children: [
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Entertainment',
+                            category: 'ENTERTAINMENT',
                             subcategories: ['Dancers','Singers','Band','DJ'],
 
                             categoryUrl:
@@ -456,7 +456,7 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Dhol',
+                            category: 'DHOL',
                             subcategories: ['Punjabi Dhol','Nashik Dhol','Local Dhol','Tasse'],
 
                             categoryUrl:
@@ -465,7 +465,7 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: EventCategoryCard(
-                            category: 'Band',
+                            category: 'BAND',
                             subcategories: ['Horse & Baggi','Baarat'],
 
                             categoryUrl:

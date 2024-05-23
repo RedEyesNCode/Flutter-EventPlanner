@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_eventplanner/src/view/screens/event_list_screen.dart';
 import 'package:flutter_eventplanner/src/view/screens/login_screen.dart';
+import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
+import 'package:flutter_eventplanner/src/view/screens/signup_screen.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +26,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized(); // Add this
     return MaterialApp(
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/signup': (context) => SignupScreen(),
+        '/home': (context) => HomeScreen(),
+      },
       title: 'Vendor OTM',
       home: LoginScreen(), // Your login_screen.dart goes here
     );
