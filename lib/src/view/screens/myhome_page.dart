@@ -296,6 +296,8 @@ class _HomeScreen extends State<HomeScreen> {
                     Expanded(
                       child: EventCategoryCard(
                         category: 'VENUE',
+                        subcategories: ['Garden ','Banquet','Hall','Resort','Farmhouse'],
+
                         categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
                       ),
@@ -303,24 +305,22 @@ class _HomeScreen extends State<HomeScreen> {
                     Expanded(
                       child: EventCategoryCard(
                         category: 'DJ',
+                        subcategories: ['Mobile DJ ','Show DJ','Floor Show'],
+
                         categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
                       ),
                     ),
                     Expanded(
                       child: EventCategoryCard(
-                        category: 'Decor',
+                        category: 'DECORATION',
+                        subcategories: ['Ballon Decoration','Flower Decoration','Theme Decoration'],
+
                         categoryUrl:
                         'https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png',
                       ),
                     ),
-                    Expanded(
-                      child: EventCategoryCard(
-                        category: 'Catering',
-                        categoryUrl:
-                        'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
-                      ),
-                    )
+
 
                     //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
                   ],
@@ -345,9 +345,45 @@ class _HomeScreen extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
+
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Travel',
+                            subcategories: ['Passenger Vehicle Loading Vehicle'],
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Catering',
+                            subcategories: ['PureVeg', 'NonVeg','Jain Food without garlic onion'],
+
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: EventCategoryCard(
+                            category: 'Varmala',
+                            subcategories: [''],
+
+                            categoryUrl:
+                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
+                          ),
+                        ),
+
+                        //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
+                      ],
+                    ),
+
+                    Row(
+                      children: [
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Tent\nhouse',
+                            subcategories: ['Pandal','Crockery','Cooler','Carpet','Cooler Fans','Carpets Mets','Chair & Sofa','Tables'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png',
                           ),
@@ -355,6 +391,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Photo\nVideo',
+                            subcategories: ['Pre Wedding Shoot','Wedding Shoot','Shoot All Purpose'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png',
                           ),
@@ -363,34 +401,23 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Makeup',
+                            subcategories: ['Beauty Health Style'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png',
                           ),
                         ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'Travel',
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
-                          ),
-                        ),
-
-
-                        //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
                       ],
                     ),
+
                     Row(
                       children: [
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'Varmala',
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
-                          ),
-                        ),
+
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Hotel',
+                            subcategories: ['Resorts','Hotels','Apartments','Halls'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
                           ),
@@ -399,6 +426,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Pandit',
+                            subcategories: ['Expericened Pandit','Pandit for all Purpose'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/hindu.png',
                           ),
@@ -406,6 +435,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Wedding\nDress',
+                            subcategories: ['LadkeWale','LadkiWale','Bridal','Groom'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
                           ),
@@ -417,6 +448,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Entertainment',
+                            subcategories: ['Dancers','Singers','Band','DJ'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
                           ),
@@ -424,6 +457,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Dhol',
+                            subcategories: ['Punjabi Dhol','Nashik Dhol','Local Dhol','Tasse'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/drum.png',
                           ),
@@ -431,6 +466,8 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'Band',
+                            subcategories: ['Horse & Baggi','Baarat'],
+
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',
                           ),

@@ -32,11 +32,12 @@ class Data {
   String? phoneNumber;
   String? address;
   String? password;
-  bool? isLoggedIn;
+  bool? isPaid;
+  List<Subscriptions>? subscriptions;
+  List<Events>? events;
   String? createdAt;
   String? updatedAt;
   int? iV;
-  List<Events>? events;
 
   Data(
       {this.sId,
@@ -45,11 +46,12 @@ class Data {
         this.phoneNumber,
         this.address,
         this.password,
-        this.isLoggedIn,
+        this.isPaid,
+        this.subscriptions,
+        this.events,
         this.createdAt,
         this.updatedAt,
-        this.iV,
-        this.events});
+        this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -58,16 +60,22 @@ class Data {
     phoneNumber = json['PhoneNumber'];
     address = json['Address'];
     password = json['password'];
-    isLoggedIn = json['isLoggedIn'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    isPaid = json['isPaid'];
+    if (json['subscriptions'] != null) {
+      subscriptions = <Subscriptions>[];
+      json['subscriptions'].forEach((v) {
+        subscriptions!.add(new Subscriptions.fromJson(v));
+      });
+    }
     if (json['events'] != null) {
       events = <Events>[];
       json['events'].forEach((v) {
         events!.add(new Events.fromJson(v));
       });
     }
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,13 +86,42 @@ class Data {
     data['PhoneNumber'] = this.phoneNumber;
     data['Address'] = this.address;
     data['password'] = this.password;
-    data['isLoggedIn'] = this.isLoggedIn;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    data['isPaid'] = this.isPaid;
+    if (this.subscriptions != null) {
+      data['subscriptions'] =
+          this.subscriptions!.map((v) => v.toJson()).toList();
+    }
     if (this.events != null) {
       data['events'] = this.events!.map((v) => v.toJson()).toList();
     }
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Subscriptions {
+  String? paymentId;
+  String? orderId;
+  String? amount;
+  int? date;
+
+  Subscriptions({this.paymentId, this.orderId, this.amount, this.date});
+
+  Subscriptions.fromJson(Map<String, dynamic> json) {
+    paymentId = json['paymentId'];
+    orderId = json['orderId'];
+    amount = json['amount'];
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['paymentId'] = this.paymentId;
+    data['orderId'] = this.orderId;
+    data['amount'] = this.amount;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -98,7 +135,7 @@ class Events {
   String? locationId;
   String? description;
   String? status;
-  List<Null>? eventImageUrl;
+  List<String>? eventImageUrl;
   List<Null>? bookingDetails;
   String? userId;
   String? categoryId;
@@ -132,6 +169,7 @@ class Events {
     locationId = json['location_id'];
     description = json['description'];
     status = json['Status'];
+    eventImageUrl = json['eventImageUrl'].cast<String>();
 
     userId = json['userId'];
     categoryId = json['category_id'];
@@ -150,6 +188,7 @@ class Events {
     data['location_id'] = this.locationId;
     data['description'] = this.description;
     data['Status'] = this.status;
+    data['eventImageUrl'] = this.eventImageUrl;
 
     data['userId'] = this.userId;
     data['category_id'] = this.categoryId;

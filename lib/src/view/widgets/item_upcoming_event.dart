@@ -48,7 +48,7 @@ class ItemUpcomingEvent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.network(
                 
-                  'https://placehold.jp/150x150.png',
+                  events.eventImageUrl!.first,
                   width: 120,
                   height: 120,
                   fit: BoxFit.scaleDown,

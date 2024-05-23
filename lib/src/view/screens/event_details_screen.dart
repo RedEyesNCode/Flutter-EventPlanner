@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventsDetailsScreen extends StatefulWidget {
   
@@ -16,9 +17,10 @@ class EventsDetailsScreen extends StatefulWidget {
 
 
 class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
-  
-  
-  
+
+  var eventDetailsData;
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +36,7 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
     print('event-details-screen-id'+widget.eventID);
     Provider.of<MainViewModel>(context, listen: false).getEventDetails(
         {"eventId": widget.eventID});
+
   }
 
 
@@ -41,7 +44,6 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<MainViewModel>(context);
-    var eventDetailsData = viewmodel.getEventDetailsResponse?.data;
 
 
     return Scaffold(
@@ -94,134 +96,194 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
 
                 children: [
 
-                  if(eventDetailsData!=null)
-                    Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(1.0),
-                      image: DecorationImage(
-
-                        image: NetworkImage('https://picsum.photos/400/200'), // Replace with actual image URL
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10,),
-
-                      Row(
-                        children: [
-                          SizedBox(height: 10,),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Color(0xff6e3e14),
-                                border: Border.all(
-                                  color: Color(0xFFFFD144),
-                                  width: 2.0, // Adjust border width here
+                  if (viewmodel.getEventDetailsResponse != null &&
+                      viewmodel.getEventDetailsResponse!.data!.eventImageUrl!.isNotEmpty)
+                    Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          child: PageView.builder(
+                            itemCount: viewmodel.getEventDetailsResponse!.data!.eventImageUrl!.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(1.0),
                                 ),
-                                borderRadius: BorderRadius.circular(20.0), // Adjust curvature
+                                child: Image.network(
+                                  viewmodel.getEventDetailsResponse!.data!.eventImageUrl![index],
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10,),
+
+                            Row(
+                              children: [
+                                SizedBox(height: 10,),
+                                Container(
+                                    margin: EdgeInsets.all(10),
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff6e3e14),
+                                      border: Border.all(
+                                        color: Color(0xFFFFD144),
+                                        width: 2.0, // Adjust border width here
+                                      ),
+                                      borderRadius: BorderRadius.circular(20.0), // Adjust curvature
+                                    ),
+                                    child: Text(viewmodel.getEventDetailsResponse!.data!.categoryId!.categoriesName.toString(),style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white,fontFamily: 'SFPro',fontSize: 14),)),
+                              ],
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.access_time,size: 25,color: Colors.white,),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:
+
+                                          Column(
+                                            children: [
+                                              Text(
+                                                softWrap: true,
+
+                                                'Start Date : ${viewmodel.getEventDetailsResponse!.data!.startDate.toString()}',
+
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                              ),
+                                              Text(
+                                                softWrap: true,
+
+                                                'End Date : ${viewmodel.getEventDetailsResponse!.data!.endDate.toString()}',
+
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+
+
+                                  ),
+                                ],
                               ),
-                              child: Text('Category Name',style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white,fontFamily: 'SFPro',fontSize: 14),)),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.access_time,size: 25,color: Colors.white,),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:
-
-                              Text(
-                                softWrap: true,
-                                'Tuesday-Sunday 10 a.m - 6:30 pm \n(last location 1 hour before close)',
-
-                                textAlign: TextAlign.start,
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
-                              )
-
                             ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.type_specimen,size: 25,color: Colors.white,),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:
+
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+
+                                        children: [
+                                          Text(
+                                            softWrap: true,
+
+                                            'Event Type : ${viewmodel.getEventDetailsResponse!.data!.eventType.toString()}',
+
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                          ),
+                                          Text(
+                                            softWrap: true,
+
+                                            'Event Name : ${viewmodel.getEventDetailsResponse!.data!.eventType.toString()}',
+
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                          ),
+                                        ],
+                                      )
+
+
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+
+                                children: [
+                                  Icon(Icons.location_on,size: 25,color: Colors.white,),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:
+
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+
+                                        children: [
+                                          Text(
+                                            softWrap: true,
+
+                                            'Location : ${viewmodel.getEventDetailsResponse!.data!.locationId!.venueName.toString()}',
+
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                          ),
+                                          Text(
+                                            softWrap: true,
+
+                                            'Location ID : ${viewmodel.getEventDetailsResponse!.data!.locationId!.sId.toString()}',
+
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                          ),
+                                        ],
+                                      )
+
+
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.panorama_fish_eye,size: 25,color: Colors.white,),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:
+
+                                      Text(
+                                        softWrap: true,
+                                        'EVENT STATUS : ${viewmodel.getEventDetailsResponse?.data!.status.toString()}',
+
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
+                                      )
+
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.people,size: 25,color: Colors.white,),
-                            Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child:
 
-                                Text(
-                                  softWrap: true,
-                                  'No Suitable for children.',
-
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
-                                )
-
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.panorama_fish_eye,size: 25,color: Colors.white,),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:
-
-                                Text(
-                                  softWrap: true,
-                                  'Duration 1 Hour',
-
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
-                                )
-
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.currency_rupee_rounded,size: 25,color: Colors.white,),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:
-
-                                Text(
-                                  softWrap: true,
-                                  '32/person',
-
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,fontFamily: 'SFPro',color: Colors.white),
-                                )
-
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                    ],
-                  ),
+                      ],
+                    ),
 
 
                 ],
@@ -268,7 +330,7 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold,color: Colors.white,fontFamily:  'SFPro'),
                         ),
                         SizedBox(height: 8.0),
-                        Text('Ashu',style: TextStyle(color: Colors.white,fontFamily: 'SFPro',fontSize: 18.0),),
+                        Text(viewmodel.getEventDetailsResponse!.data!.userId!.name.toString(),style: TextStyle(color: Colors.white,fontFamily: 'SFPro',fontSize: 18.0),),
                       ],
                     ),
                     Row(
@@ -276,36 +338,85 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(width: 20.0,),
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          child: Icon(
-                            Icons.call,
-                            color: Colors.green, // Example: Set icon color to white
-                          ),
-                          decoration: BoxDecoration(
 
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25.0),
 
+                        GestureDetector(
+                          onTap: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Confirm Call'),
+                                content: Text('Do you want to call ${viewmodel.getEventDetailsResponse!.data!.userId!.phoneNumber.toString()}?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      final Uri launchUri = Uri(scheme: 'tel', path: viewmodel.getEventDetailsResponse!.data!.userId!.phoneNumber.toString());
+                                      if (!await launchUrl(launchUri)) {
+                                        throw Exception('Could not launch $launchUri');
+                                      }
+                                      Navigator.pop(context); // Close dialog after initiating the call
+                                    },
+                                    child: Text('Call',style: TextStyle(fontFamily: 'PlayfairDisplay',fontWeight: FontWeight.w800),),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 50.0,
+                            width: 50.0,
+
+                            child: Icon(
+
+                              Icons.call,
+                              color: Colors.green, // Example: Set icon color to white
+                            ),
+                            decoration: BoxDecoration(
+
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25.0),
+
+                            ),
                           ),
                         ),
+
                         SizedBox(width: 20.0,),
 
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          child: Icon(
-                            Icons.message,
-                            color: Colors.green, // Example: Set icon color to white
-                          ),
-                          decoration: BoxDecoration(
+                        GestureDetector(
 
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25.0),
+                          onTap: () async {
+                            final Uri launchUri = Uri(
+                              scheme: 'sms',
+                              path: viewmodel.getEventDetailsResponse!.data!.userId!.phoneNumber.toString(), // Replace with the actual phone number (optional)
+                              queryParameters: {
+                                'body': Uri.encodeComponent('Hello! This is a pre-filled SMS message.'), // Optional message body
+                              },
+                            );
+                            if (!await launchUrl(launchUri)) {
+                              throw Exception('Could not launch $launchUri');
+                            }
+                          },
+                          child:  Container(
+                            height: 50.0,
+                            width: 50.0,
+                            child: Icon(
+                              Icons.message,
+                              color: Colors.green, // Example: Set icon color to white
+                            ),
+                            decoration: BoxDecoration(
 
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25.0),
+
+                            ),
                           ),
-                        ),
+
+                        )
+
 
 
                       ],

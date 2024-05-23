@@ -40,6 +40,8 @@ class Data {
   String? locationId;
   String? description;
   String? status;
+  List<String>? eventImageUrl;
+  List<Null>? bookingDetails;
   String? userId;
   CategoryId? categoryId;
   String? createdAt;
@@ -55,6 +57,8 @@ class Data {
         this.locationId,
         this.description,
         this.status,
+        this.eventImageUrl,
+        this.bookingDetails,
         this.userId,
         this.categoryId,
         this.createdAt,
@@ -70,6 +74,8 @@ class Data {
     locationId = json['location_id'];
     description = json['description'];
     status = json['Status'];
+    eventImageUrl = json['eventImageUrl'].cast<String>();
+
     userId = json['userId'];
     categoryId = json['category_id'] != null
         ? new CategoryId.fromJson(json['category_id'])
@@ -89,6 +95,7 @@ class Data {
     data['location_id'] = this.locationId;
     data['description'] = this.description;
     data['Status'] = this.status;
+    data['eventImageUrl'] = this.eventImageUrl;
 
     data['userId'] = this.userId;
     if (this.categoryId != null) {
@@ -106,27 +113,27 @@ class CategoryId {
   String? categoriesName;
   String? description;
   List<String>? events;
+  int? iV;
   String? createdAt;
   String? updatedAt;
-  int? iV;
 
   CategoryId(
       {this.sId,
         this.categoriesName,
         this.description,
         this.events,
+        this.iV,
         this.createdAt,
-        this.updatedAt,
-        this.iV});
+        this.updatedAt});
 
   CategoryId.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     categoriesName = json['categories_name'];
     description = json['description'];
     events = json['events'].cast<String>();
+    iV = json['__v'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
@@ -135,9 +142,9 @@ class CategoryId {
     data['categories_name'] = this.categoriesName;
     data['description'] = this.description;
     data['events'] = this.events;
+    data['__v'] = this.iV;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
     return data;
   }
 }

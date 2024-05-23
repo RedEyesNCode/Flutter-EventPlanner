@@ -203,6 +203,7 @@ class _EventListScreen extends State<EventListScreen>{
                           categoryId:  dataEvent.categoryId.toString(),
                           createdAt:  dataEvent.createdAt.toString(),
                           updatedAt:  dataEvent.updatedAt.toString(),
+                          eventImageUrl: dataEvent.eventImageUrl
 
 
 
@@ -214,13 +215,13 @@ class _EventListScreen extends State<EventListScreen>{
                   ),
                 ],
               ),
-            if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventByCategoryResponse==null || viewmodel.userEventByCategoryResponse?.data==null)
-              Column(
-                children: [
-                  SizedBox(height: 40,),
-                  NoRecordCard(),
-                ],
-              )
+            // if(viewmodel.response.status==Status.COMPLETED && viewmodel.userEventByCategoryResponse==null || viewmodel.userEventByCategoryResponse?.data==null)
+            //   Column(
+            //     children: [
+            //       SizedBox(height: 40,),
+            //       NoRecordCard(),
+            //     ],
+            //   )
           ],
 
         ),
