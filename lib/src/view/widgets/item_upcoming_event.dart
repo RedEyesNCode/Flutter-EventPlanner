@@ -47,11 +47,12 @@ class ItemUpcomingEvent extends StatelessWidget {
                 
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.network(
-                
-                  events.eventImageUrl!.first,
+                  events.eventImageUrl?.first ?? 'https://placeholder.com/120x120', // Placeholder URL
                   width: 120,
                   height: 120,
                   fit: BoxFit.scaleDown,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.network('https://placeholder.com/120x120'), // Error handling
                 ),
               ),
             ),

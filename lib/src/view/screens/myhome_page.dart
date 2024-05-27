@@ -366,7 +366,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'VARMALA-ENTRY',
-                            subcategories: ['VARMALA-STAGE','VARMALA-THEME'],
+                            subcategories: ['VARMALA-STAGE','VARMALA-THEME','COUPLE-ENTRY'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
@@ -416,7 +416,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'HOTEL',
-                            subcategories: ['Resorts','Hotels','Apartments','Halls'],
+                            subcategories: ['Resorts','Hotels','Apartments','Halls','Rooms'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
@@ -435,7 +435,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'WEDDING DRESS',
-                            subcategories: ['LadkeWale','LadkiWale','Bridal','Groom'],
+                            subcategories: ['LadkeWale','LadkiWale','Bridal','Groom','All Purpose','Garba Dress'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
@@ -448,7 +448,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'ENTERTAINMENT',
-                            subcategories: ['Dancers','Singers','Band','DJ'],
+                            subcategories: ['Dancers','Singers','Band','DJ','Anchor'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
@@ -466,7 +466,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'BAND',
-                            subcategories: ['Horse & Baggi','Baarat'],
+                            subcategories: ['None'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',
