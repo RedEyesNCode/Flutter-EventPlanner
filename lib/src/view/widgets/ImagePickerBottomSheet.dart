@@ -148,237 +148,229 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
       ),
       body: SingleChildScrollView(
         child:
-        Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if(isUserPaid)
-                Container(
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: Colors.green,
-                            width: 3
-                        )
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            if(isUserPaid)
+              Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: Colors.green,
+                          width: 3
+                      )
 
-                    ),
-                    child: Text('Subscription Amount Paid',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
-              if(!isUserPaid)
-                Container(
-
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: Colors.redAccent,
-                            width: 3
-                        )
-
-                    ),
-                    child: Text('Subscription Amount Pending',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
-
-              _imageFiles.isNotEmpty
-                  ? Container(
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _imageFiles.length,
-                  itemBuilder: (context, index) {
-                    if (_imageFiles[index].path.endsWith('.mp4')) {
-                      _videoController =
-                      VideoPlayerController.file(_imageFiles[index])
-                        ..initialize();
-                      return Stack(
-                        children: [
-                          AspectRatio(
-                            aspectRatio: _videoController!.value.aspectRatio,
-                            child: VideoPlayer(_videoController!),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-
-                            child: Container(
-                              height : 45,
-                              width  : 45,
-                              decoration: BoxDecoration(
-
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                      color: Colors.redAccent,
-                                      width: 2
-                                  )
-                              ),
-                              child: IconButton(
-
-                                icon: Icon(Icons.close, color: Colors.red),
-                                onPressed: () {
-                                  setState(() {
-                                    _imageFiles.removeAt(index);
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-
-                        ],
-                      );
-                    }else{
-                      return Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child:
-
-
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  30),
-                              child: Image.file(_imageFiles[index]),
-                            ),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-
-                            child: Container(
-                              height : 45,
-                              width  : 45,
-                              decoration: BoxDecoration(
-
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                      color: Colors.redAccent,
-                                      width: 2
-                                  )
-                              ),
-                              child: IconButton(
-
-                                icon: Icon(Icons.close, color: Colors.red),
-                                onPressed: () {
-                                  setState(() {
-                                    _imageFiles.removeAt(index);
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-
-                    }
-
-                  },
-                ),
-              )
-                  : Container(
-                  margin: EdgeInsets.all(10),
-
-                  child: Text('No Image Selected',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,fontWeight: FontWeight.w600,color: Colors.black),)),
-              // Show image preview (if any)
-
-              Row(
-                children: [
-                  Expanded(child:
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final XFile? image =
-                        await ImagePicker().pickImage(source: ImageSource.camera);
-                        if (image != null) {
-                          setState(() {
-                            _imageFiles.add(File(image.path));
-                          });
-                        }
-                      },
-                      child: const Text('Pick Image (Camera)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent),),
-                    ),
                   ),
+                  child: Text('Subscription Amount Paid',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
+            if(!isUserPaid)
+              Container(
+
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: Colors.redAccent,
+                          width: 3
+                      )
+
                   ),
+                  child: Text('Subscription Amount Pending',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
 
-                  Expanded(child:
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final List<XFile>? images =
-                        await ImagePicker().pickMultiImage();
-                        if (images != null) {
-                          setState(() {
-                            _imageFiles.addAll(images.map((image) => File(image.path)));
-                          });
-                        }
-                      },
-                      child: const Text('Pick Image (Gallery)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent)),
-                    ),
-                  ),
-                  ),
-
-                  // ... (your existing Upload and Close buttons)
-                ],
-              ),
-              Row( // Buttons for picking and recording videos
-                children: [
-                  Expanded(child: Container(
-                    margin: EdgeInsets.all(6),
-                    child: ElevatedButton(
-
-                      onPressed: () async {
-                        _pickVideo(ImageSource.gallery); // Pick video from gallery
-                      },
-                      child: const Text('Pick Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent),),
-                    ),
-                  ),),
-
-                  Container(
-                    margin: EdgeInsets.all(6),
-                    child: Expanded(child:
-                    ElevatedButton(
-
-                      onPressed: () async {
-                        _recordVideo(); // Record a new video
-                      },
-                      child: const Text('Record Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent)),
-                    ),
-                    ),
-                  ),
-
-                ],
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child:
-                ElevatedButton(
-                  onPressed: () {
-                    if (_imageFiles.length >= 4 && _imageFiles.length <= 10) {
-                      if (isUserPaid) {
-                        _handleUploadImage(
-                            widget.imageUploadData, context, viewmodel, _imageFiles);
-                      } else {
-                        _checkPaymentStatus(viewmodel);
-                      }
-                    } else {
-                      // Show a snackbar or dialog with error message
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please select between 4 and 10 media.'),
+            _imageFiles.isNotEmpty
+                ? Container(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _imageFiles.length,
+                itemBuilder: (context, index) {
+                  if (_imageFiles[index].path.endsWith('.mp4')) {
+                    _videoController =
+                    VideoPlayerController.file(_imageFiles[index])
+                      ..initialize();
+                    return Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: _videoController!.value.aspectRatio,
+                          child: VideoPlayer(_videoController!),
                         ),
-                      );
-                    }
-                  },
-                  child: const Text('Upload Event Media'),
-                ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+
+                          child: Container(
+                            height : 45,
+                            width  : 45,
+                            decoration: BoxDecoration(
+
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.redAccent,
+                                    width: 2
+                                )
+                            ),
+                            child: IconButton(
+
+                              icon: Icon(Icons.close, color: Colors.red),
+                              onPressed: () {
+                                setState(() {
+                                  _imageFiles.removeAt(index);
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    );
+                  }else{
+                    return Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child:
+
+
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                30),
+                            child: Image.file(_imageFiles[index]),
+                          ),
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+
+                          child: Container(
+                            height : 45,
+                            width  : 45,
+                            decoration: BoxDecoration(
+
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.redAccent,
+                                    width: 2
+                                )
+                            ),
+                            child: IconButton(
+
+                              icon: Icon(Icons.close, color: Colors.red),
+                              onPressed: () {
+                                setState(() {
+                                  _imageFiles.removeAt(index);
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+
+                  }
+
+                },
               ),
-            ],
-          ),
+            )
+                : Container(
+                margin: EdgeInsets.all(10),
+
+                child: Text('No Image Selected',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,fontWeight: FontWeight.w600,color: Colors.black),)),
+            // Show image preview (if any)
+
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final XFile? image =
+                      await ImagePicker().pickImage(source: ImageSource.camera);
+                      if (image != null) {
+                        setState(() {
+                          _imageFiles.add(File(image.path));
+                        });
+                      }
+                    },
+                    child: const Text('Pick Image (Camera)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent),),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final List<XFile>? images =
+                      await ImagePicker().pickMultiImage();
+                      if (images != null) {
+                        setState(() {
+                          _imageFiles.addAll(images.map((image) => File(image.path)));
+                        });
+                      }
+                    },
+                    child: const Text('Pick Image (Gallery)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent)),
+                  ),
+                ),
+
+                // ... (your existing Upload and Close buttons)
+              ],
+            ),
+            Row( // Buttons for picking and recording videos
+              children: [
+                Container(
+                  margin: EdgeInsets.all(6),
+                  child: ElevatedButton(
+
+                    onPressed: () async {
+                      _pickVideo(ImageSource.gallery); // Pick video from gallery
+                    },
+                    child: const Text('Pick Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent),),
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.all(6),
+                  child: ElevatedButton(
+
+                    onPressed: () async {
+                      _recordVideo(); // Record a new video
+                    },
+                    child: const Text('Record Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent)),
+                  ),
+                ),
+
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child:
+              ElevatedButton(
+                onPressed: () {
+                  if (_imageFiles.length >= 4 && _imageFiles.length <= 10) {
+                    if (isUserPaid) {
+                      _handleUploadImage(
+                          widget.imageUploadData, context, viewmodel, _imageFiles);
+                    } else {
+                      _checkPaymentStatus(viewmodel);
+                    }
+                  } else {
+                    // Show a snackbar or dialog with error message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please select between 4 and 10 media.'),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Upload Event Media'),
+              ),
+            ),
+          ],
         ),
       ),
     );
