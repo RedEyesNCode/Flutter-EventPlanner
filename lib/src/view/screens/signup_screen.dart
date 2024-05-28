@@ -69,7 +69,6 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 20,),
-
                       Container(
                         width: 100,
                         decoration: BoxDecoration(
@@ -93,7 +92,8 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                         'Register with Us',
                         style: TextStyle(
                             fontFamily: 'SFPro',
-                            color: Colors.black,
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.w800,
                             fontSize: 21),
                       ),
                       SizedBox(height: 20.0),
@@ -108,7 +108,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color(0xFFffd553),
+                              color: Colors.redAccent,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -141,7 +141,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color(0xFFffd553),
+                              color: Colors.redAccent,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -150,7 +150,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                               borderSide: BorderSide(
                                 width: 2,
 
-                                color: Color(0xFFffd553), // Set border color
+                                color: Colors.redAccent, // Set border color
                               )),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -174,7 +174,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color(0xFFffd553),
+                              color: Colors.redAccent,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -183,7 +183,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                               borderSide: BorderSide(
                                 width: 2,
 
-                                color: Color(0xFFffd553), // Set border color
+                                color: Colors.redAccent, // Set border color
                               )),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -209,7 +209,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color(0xFFffd553),
+                              color: Colors.redAccent,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -218,7 +218,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                               borderSide: BorderSide(
                                 width: 2,
 
-                                color: Color(0xFFffd553), // Set border color
+                                color: Colors.redAccent, // Set border color
                               )),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -242,7 +242,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color(0xFFffd553),
+                              color: Colors.redAccent,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -251,7 +251,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                               borderSide: BorderSide(
                                 width: 2,
 
-                                color: Color(0xFFffd553), // Set border color
+                                color: Colors.redAccent, // Set border color
                               )),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -267,8 +267,8 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.green,
-                              Colors.greenAccent,
+                              Colors.red,
+                              Colors.redAccent,
                             ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -295,7 +295,7 @@ class _SignupScreenUI extends State<SignupScreenUI> {
                             'Create New Account',
                             style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontFamily: 'PlayfairDisplay',
                                 fontWeight:
                                 FontWeight.w800), // Adjust text style

@@ -188,8 +188,7 @@ class _MakeupForm extends State<MakeupForm>{
               ],
 
             ),
-            if(viewModel.response.status==Status.LOADING)
-              const LoadingDialog()
+
           ],
         ),
 
@@ -239,14 +238,21 @@ class _MakeupForm extends State<MakeupForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "MAKE_UP", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "MAKE_UP", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "MAKE_UP", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
 
   Future<void> _handleMakeupForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {

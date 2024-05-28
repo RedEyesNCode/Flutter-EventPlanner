@@ -296,7 +296,7 @@ class _HomeScreen extends State<HomeScreen> {
                     Expanded(
                       child: EventCategoryCard(
                         category: 'VENUE',
-                        subcategories: ['Garden ','Banquet','Hall','Resort','Farmhouse'],
+                        subcategories: ['Garden ','Banquet','Hall','Resort','Farmhouse','Cafe & Bar'],
 
                         categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
@@ -401,7 +401,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'MAKEUP',
-                            subcategories: ['Beauty Health Style'],
+                            subcategories: ['Beautician','Make up artist','Hair dresser','Gromming'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png',
@@ -448,7 +448,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'ENTERTAINMENT',
-                            subcategories: ['Dancers','Singers','Band','DJ','Anchor'],
+                            subcategories: ['Band','DJ','Anchor','Choreographer','Dancer','Singer'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
@@ -466,7 +466,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'BAND',
-                            subcategories: ['None'],
+                            subcategories: ['Band','Ghodha Baggi'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',

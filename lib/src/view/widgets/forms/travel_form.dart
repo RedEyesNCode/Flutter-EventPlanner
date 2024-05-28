@@ -183,8 +183,7 @@ class _TravelForm extends State<TravelForm>{
               ],
 
             ),
-            if(viewmodel.response.status==Status.LOADING)
-              const LoadingDialog()
+
 
           ],
 
@@ -233,14 +232,21 @@ class _TravelForm extends State<TravelForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "TRAVEL", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "TRAVEL", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "TRAVEL", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
 
   Future<void> _handleTravelForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {

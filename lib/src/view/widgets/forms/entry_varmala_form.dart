@@ -184,8 +184,7 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
               ],
 
             ),
-            if(viewmodel.response.status==Status.LOADING)
-              const LoadingDialog()
+
 
           ],
 
@@ -237,14 +236,21 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "VARMALA", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "VARMALA", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "VARMALA", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
 
   Future<void> _handleEntryVarmalaForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {

@@ -54,6 +54,7 @@ class _EventTypeScreen extends State<EventTypeScreen>{
     );
   }
   void _showCategorySheet(BuildContext context,MainViewModel mainViewModel) {
+
     showModalBottomSheet(
         context: context,
         builder: (context) => CategorySheet(

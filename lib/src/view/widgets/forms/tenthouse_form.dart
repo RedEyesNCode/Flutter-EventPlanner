@@ -178,8 +178,7 @@ class _TentHouseForm extends State<TentHouseForm>{
               ],
 
             ),
-            if(viewmodel.response.status==Status.LOADING)
-              const LoadingDialog()
+
           ],
 
         ),
@@ -229,14 +228,21 @@ class _TentHouseForm extends State<TentHouseForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "TENTHOUSE", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "TENTHOUSE", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "TENTHOUSE", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
 
   Future<void> _handleTenthouseForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {

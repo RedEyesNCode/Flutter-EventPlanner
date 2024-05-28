@@ -185,8 +185,7 @@ class _DjBandForm extends State<DjBandForm>{
               ],
 
             ),
-            if(viewmodel.response.status==Status.LOADING)
-              const LoadingDialog()
+
           ],
         )
         ,
@@ -195,14 +194,21 @@ class _DjBandForm extends State<DjBandForm>{
 
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "DJ_BAND", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "DJ_BAND", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "DJ_BAND", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(

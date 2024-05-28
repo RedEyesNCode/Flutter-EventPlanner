@@ -171,14 +171,21 @@ class _EntertainmentForm extends State<EntertainmentForm> {
 
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "ENTERTAINMENT", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "ENTERTAINMENT", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "ENTERTAINMENT", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(

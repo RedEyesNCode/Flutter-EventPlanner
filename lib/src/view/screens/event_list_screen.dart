@@ -120,7 +120,10 @@ class _EventListScreen extends State<EventListScreen>{
     return Scaffold(
       backgroundColor: const Color(0xFF2A190D),
 
-      appBar: AppBar(
+      appBar:
+
+      AppBar(
+
         backgroundColor: Color(0xFFFFD553),
 
         title:         Row(

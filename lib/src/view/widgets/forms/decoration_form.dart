@@ -168,8 +168,7 @@ class _DecorationForm extends State<DecorationForm>{
                   ],
 
                 ),
-                if(viewmodel.response.status == Status.LOADING)
-                  const LoadingDialog()
+
 
               ],
             ),
@@ -239,14 +238,21 @@ class _DecorationForm extends State<DecorationForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "DECOR", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "DECOR", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "DECOR", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
  Future<void> _handleDecorationForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async{
 

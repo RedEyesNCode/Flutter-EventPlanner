@@ -38,8 +38,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _emailController.text = "new@gmail.com";
-    _passwordController.text = "1234";
+    _emailController.text = "new@mail.com";
+    _passwordController.text = "SF";
   }
 
   @override
@@ -89,7 +89,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                       'Login To Your Account',
                       style: TextStyle(
                           fontFamily: 'SFPro',
-                          color:  Color(0xFFffd553), // Dark brown color from hex code #2a190d,
+                          color:  Colors.redAccent, // Dark brown color from hex code #2a190d,
 
                           fontWeight: FontWeight.w600,
                           fontSize: 21),
@@ -104,7 +104,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             width: 1,
-                            color: Color(0xFFffd553),
+                            color: Colors.redAccent,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -121,7 +121,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                               10.0), // Adjust border radius as needed
                           borderSide: BorderSide(
                             width: 2,
-                            color: Color(0xFFffd553), // Set border color
+                            color: Colors.redAccent, // Set border color
                           ),
                         ),
                       ),
@@ -150,7 +150,7 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             width: 1,
-                            color: Color(0xFFffd553),
+                            color: Colors.redAccent,
                           ),
                         ),
 
@@ -177,8 +177,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.greenAccent,
-                            Colors.green,
+                            Colors.redAccent,
+                            Colors.red,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -238,8 +238,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.greenAccent,
-                            Colors.green,
+                            Colors.redAccent,
+                            Colors.red,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,

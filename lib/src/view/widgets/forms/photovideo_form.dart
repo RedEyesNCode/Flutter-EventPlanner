@@ -183,8 +183,6 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
               ],
 
             ),
-            if(viewmodel.response.status==Status.LOADING)
-              const LoadingDialog()
 
 
           ],
@@ -237,14 +235,21 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
     );
   }
   void _showImagePickerOptions(String categoryId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          final data = <String,String>{"categoryType" : "PHOTO_VIDEO", "id" : categoryId};
+    final data = <String,String>{"categoryType" : "PHOTO_VIDEO", "id" : categoryId};
 
-          return ImagePickerBottomSheet(imageUploadData: data,);
-        }
+    Navigator.push(
+
+      context,
+      MaterialPageRoute(builder: (context) => ImagePickerBottomSheet(imageUploadData: data)),
     );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       final data = <String,String>{"categoryType" : "PHOTO_VIDEO", "id" : categoryId};
+    //
+    //       return ImagePickerBottomSheet(imageUploadData: data,);
+    //     }
+    // );
   }
 
   Future<void> _handleDJBandForm(MainViewModel viewmodel, Map<String, TextEditingController> textControllers) async {
