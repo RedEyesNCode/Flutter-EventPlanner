@@ -36,7 +36,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
       'userId' : sessionUserString,
       'paymentId' : response.paymentId!,
       'orderId' : response.orderId.toString(),
-      'amount' : '499'
+      'amount' : '699'
 
     });
     Navigator.pop(context);

@@ -96,7 +96,9 @@ class PaymentScreen extends StatelessWidget {
 
                       },
                       child: Expanded(
-                        child: Card(
+                        child:
+
+                        Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(

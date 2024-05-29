@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_band.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_catering.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_decoration.dart';
@@ -22,12 +24,14 @@ import 'package:flutter_eventplanner/src/model/body/body_create_weddingdress.dar
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
 import 'dart:io'; // For File
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../main.dart';
 import '../../viewmodel/MainViewModel.dart';
 
 class ImagePickerBottomSheet extends StatefulWidget {
@@ -41,13 +45,14 @@ class ImagePickerBottomSheet extends StatefulWidget {
   _ImagePickerBottomSheetState createState() => _ImagePickerBottomSheetState();
 }
 
-class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
+class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with RouteAware {
   File? _imageFile;
 
   List<File> _imageFiles = []; // List to store selected images
   bool isUserPaid = false;
   VideoPlayerController? _videoController;
 
+  Timer? _timer;
 
 
   // Future<void> _pickImage(ImageSource source) async {
@@ -68,14 +73,49 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
     }
   }
 
+
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     _checkPaymentStatus(Provider.of<MainViewModel>(context,listen: false));
+    _startApiTimer();
+
+    super.initState();
 
 
   }
+  void _startApiTimer() {
+    if(!isUserPaid){
+      _timer = Timer.periodic(Duration(seconds: 6), (Timer timer) {
+        _checkPaymentStatusOnly(Provider.of<MainViewModel>(context,listen: false));
+      });
+    }
+
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    final ModalRoute? modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      routeObserver.subscribe(this, modalRoute);
+    }
+    super.didChangeDependencies();
+
+
+  }
+
+  @override
+  void didPopNext() {
+    // TODO: implement didPopNext
+    _checkPaymentStatus(Provider.of<MainViewModel>(context,listen: false));
+
+  }
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
   void _showPaymentSheet(BuildContext context) {
 
     showModalBottomSheet(
@@ -148,229 +188,371 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
       ),
       body: SingleChildScrollView(
         child:
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if(isUserPaid)
-              Container(
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: Colors.green,
-                          width: 3
-                      )
+            Stack(
 
-                  ),
-                  child: Text('Subscription Amount Paid',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
-            if(!isUserPaid)
-              Container(
-
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: Colors.redAccent,
-                          width: 3
-                      )
-
-                  ),
-                  child: Text('Subscription Amount Pending',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w300,fontSize: 15),)),
-
-            _imageFiles.isNotEmpty
-                ? Container(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _imageFiles.length,
-                itemBuilder: (context, index) {
-                  if (_imageFiles[index].path.endsWith('.mp4')) {
-                    _videoController =
-                    VideoPlayerController.file(_imageFiles[index])
-                      ..initialize();
-                    return Stack(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: _videoController!.value.aspectRatio,
-                          child: VideoPlayer(_videoController!),
-                        ),
-                        Positioned(
-                          top: 10,
-                          right: 10,
-
-                          child: Container(
-                            height : 45,
-                            width  : 45,
-                            decoration: BoxDecoration(
-
-                                borderRadius: BorderRadius.circular(20.0),
-                                border: Border.all(
-                                    color: Colors.redAccent,
-                                    width: 2
-                                )
-                            ),
-                            child: IconButton(
-
-                              icon: Icon(Icons.close, color: Colors.red),
-                              onPressed: () {
-                                setState(() {
-                                  _imageFiles.removeAt(index);
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    );
-                  }else{
-                    return Stack(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child:
-
-
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                30),
-                            child: Image.file(_imageFiles[index]),
-                          ),
-                        ),
-                        Positioned(
-                          top: 10,
-                          right: 10,
-
-                          child: Container(
-                            height : 45,
-                            width  : 45,
-                            decoration: BoxDecoration(
-
-                                borderRadius: BorderRadius.circular(20.0),
-                                border: Border.all(
-                                    color: Colors.redAccent,
-                                    width: 2
-                                )
-                            ),
-                            child: IconButton(
-
-                              icon: Icon(Icons.close, color: Colors.red),
-                              onPressed: () {
-                                setState(() {
-                                  _imageFiles.removeAt(index);
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-
-                  }
-
-                },
-              ),
-            )
-                : Container(
-                margin: EdgeInsets.all(10),
-
-                child: Text('No Image Selected',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,fontWeight: FontWeight.w600,color: Colors.black),)),
-            // Show image preview (if any)
-
-            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final XFile? image =
-                      await ImagePicker().pickImage(source: ImageSource.camera);
-                      if (image != null) {
-                        setState(() {
-                          _imageFiles.add(File(image.path));
-                        });
-                      }
-                    },
-                    child: const Text('Pick Image (Camera)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent),),
-                  ),
-                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    if(isUserPaid)
+                      Container(
+                        width: double.infinity, // Fill the full width
+                        decoration: BoxDecoration(
+                          color: Colors.green, // Background color
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10), // Rounded bottom left corner
+                            bottomRight: Radius.circular(10), // Rounded bottom right corner
+                          ),
+                          border: Border.all(
+                            color: Colors.transparent,
+                            width: 3,
+                          ),
+                        ),
+                        child: Padding( // Add some padding for better text display
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Subscription Amount Paid',
+                            style: TextStyle(
+                              fontFamily: 'PlayfairDisplay',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
 
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final List<XFile>? images =
-                      await ImagePicker().pickMultiImage();
-                      if (images != null) {
-                        setState(() {
-                          _imageFiles.addAll(images.map((image) => File(image.path)));
-                        });
-                      }
-                    },
-                    child: const Text('Pick Image (Gallery)',style: TextStyle(fontFamily: 'SFPro',fontSize: 10,fontWeight: FontWeight.w300,color : Colors.redAccent)),
-                  ),
-                ),
-
-                // ... (your existing Upload and Close buttons)
-              ],
-            ),
-            Row( // Buttons for picking and recording videos
-              children: [
-                Container(
-                  margin: EdgeInsets.all(6),
-                  child: ElevatedButton(
-
-                    onPressed: () async {
-                      _pickVideo(ImageSource.gallery); // Pick video from gallery
-                    },
-                    child: const Text('Pick Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent),),
-                  ),
-                ),
-
-                Container(
-                  margin: EdgeInsets.all(6),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      _recordVideo(); // Record a new video
-                    },
-                    child: const Text('Record Video',style: TextStyle(fontFamily: 'SFPro',fontWeight: FontWeight.w500,fontSize: 10,color: Colors.redAccent)),
-                  ),
-                ),
-
-              ],
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child:
-              ElevatedButton(
-                onPressed: () {
-                  if (_imageFiles.length >= 4 && _imageFiles.length <= 10) {
-                    if (isUserPaid) {
-                      _handleUploadImage(
-                          widget.imageUploadData, context, viewmodel, _imageFiles);
-                    } else {
-                      _checkPaymentStatus(viewmodel);
-                    }
-                  } else {
-                    // Show a snackbar or dialog with error message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Please select between 4 and 10 media.'),
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  }
-                },
-                child: const Text('Upload Event Media'),
-              ),
-            ),
-          ],
-        ),
+                    if(!isUserPaid)
+                      Container(
+                        width: double.infinity, // Fill the full width
+                        decoration: BoxDecoration(
+                          color: Colors.yellow, // Background color
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10), // Rounded bottom left corner
+                            bottomRight: Radius.circular(10), // Rounded bottom right corner
+                          ),
+                          border: Border.all(
+                            color: Colors.transparent,
+                            width: 3,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding( // Add some padding for better text display
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Subscription Amount Pending',
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.refresh, color: Colors.black),
+                              onPressed: () {
+                                // Add your refresh logic here
+                                _checkPaymentStatus(viewmodel);
+
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    _imageFiles.isNotEmpty
+                        ? Container(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _imageFiles.length,
+                        itemBuilder: (context, index) {
+                          if (_imageFiles[index].path.endsWith('.mp4')) {
+
+                            return Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child:
+
+
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        30),
+                                    child: Image.asset(
+                          'lib/src/images/ic_placeholder_video.png'),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 20,
+                                  right: 20,
+
+                                  child: Container(
+                                    decoration: BoxDecoration(
+
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        border: Border.all(
+                                            color: Colors.redAccent,
+                                            width: 2
+                                        )
+                                    ),
+                                    child: IconButton(
+
+                                      icon: Icon(Icons.close, color: Colors.red),
+                                      onPressed: () {
+                                        setState(() {
+                                          _imageFiles.removeAt(index);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+
+                                  top : 20,
+                                  left : 20,
+
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+
+                                      decoration: BoxDecoration(
+                                          color: Colors.greenAccent,
+
+                                          borderRadius: BorderRadius.circular(5.0),
+                                          border: Border.all(
+                                              color: Colors.grey,
+                                              width: 2
+                                          )
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Video',style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontWeight: FontWeight.w400),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            );
+                          }else{
+                            return Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child:
+
+
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        5),
+                                    child: Image.file(_imageFiles[index]),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 10,
+                                  right: 10,
+
+                                  child: Container(
+                                    height : 45,
+                                    width  : 45,
+                                    decoration: BoxDecoration(
+
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        border: Border.all(
+                                            color: Colors.redAccent,
+                                            width: 2
+                                        )
+                                    ),
+                                    child: IconButton(
+
+                                      icon: Icon(Icons.close, color: Colors.red),
+                                      onPressed: () {
+                                        setState(() {
+                                          _imageFiles.removeAt(index);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+
+                          }
+
+                        },
+                      ),
+                    )
+                        : Container(
+                        margin: EdgeInsets.all(10),
+
+                        child: Text('No Image Selected',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,fontWeight: FontWeight.w600,color: Colors.black),)),
+                    // Show image preview (if any)
+
+                    Row(
+                      children: [
+
+                        Expanded(
+                          child: GestureDetector(
+                            onTap:  () async {
+                              final XFile? image =
+                              await ImagePicker().pickImage(source: ImageSource.camera);
+                              if (image != null) {
+                                setState(() {
+                                  _imageFiles.add(File(image.path));
+                                });
+                              }
+
+                            },
+                            child:
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const <Widget>[
+                                    Icon(Icons.camera_alt_outlined, size: 40.0, color: Colors.redAccent),
+                                    SizedBox(height: 8.0),
+                                    Text('Pick Image Camera'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                       Expanded(
+                         child: GestureDetector(
+                           onTap: () async {
+                             final List<XFile>? images =
+                             await ImagePicker().pickMultiImage();
+                             if (images != null) {
+                               setState(() {
+                                 _imageFiles.addAll(images.map((image) => File(image.path)));
+                               });
+                             }
+                           },
+                           child:
+                           Card(
+                             child: Padding(
+                               padding: const EdgeInsets.all(16.0),
+                               child: Column(
+                                 mainAxisAlignment: MainAxisAlignment.center,
+                                 children: const <Widget>[
+                                   Icon(Icons.collections_rounded, size: 40.0, color: Colors.redAccent),
+                                   SizedBox(height: 8.0),
+                                   Text('Pick Image Gallery'),
+                                 ],
+                               ),
+                             ),
+                           )
+
+                             ,
+                         ),
+                       )
+
+
+
+                        // ... (your existing Upload and Close buttons)
+                      ],
+                    ),
+                    Row( // Buttons for picking and recording videos
+                      children: [
+
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              _pickVideo(ImageSource.gallery); // Pick video from gallery
+
+                            },
+
+                            child:                          Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const <Widget>[
+                                    Icon(Icons.video_file, size: 40.0, color: Colors.redAccent),
+                                    SizedBox(height: 8.0),
+                                    Text('Pick Video Gallery '),
+                                  ],
+                                ),
+                              ),
+                            )
+                            ,
+
+                          ),
+                        ),
+
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              _recordVideo(); // Record a new video
+
+                            },
+
+                            child:                          Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const <Widget>[
+                                    Icon(Icons.video_call, size: 40.0, color: Colors.redAccent),
+                                    SizedBox(height: 8.0),
+                                    Text('Record Video'),
+                                  ],
+                                ),
+                              ),
+                            )
+                            ,
+
+                          ),
+                        ),
+
+
+                      ],
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child:
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_imageFiles.length >= 0 && _imageFiles.length <= 10) {
+                            if (isUserPaid) {
+                              _handleUploadImage(
+                                  widget.imageUploadData, context, viewmodel, _imageFiles);
+                            } else {
+                              _checkPaymentStatus(viewmodel);
+                            }
+                          } else {
+                            // Show a snackbar or dialog with error message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Please select between 1 and 10 media.'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Upload Event Media'),
+                      ),
+                    ),
+                  ],
+                ),
+                if(viewmodel.response.status == Status.LOADING)
+                  LoadingDialog(),
+              ],
+
+            )
+
       ),
     );
 
@@ -414,6 +596,30 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
     }else if(viewmodel.userPaymentStatus!.code==400){
       _showPaymentSheet(context);
+      setState(() {
+        isUserPaid =false;
+
+      });
+
+    }
+
+  }
+  Future<void> _checkPaymentStatusOnly(MainViewModel viewmodel) async{
+
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+
+    viewmodel.getUserPaymentStatus({
+      'userId' : sessionUserString,
+    });
+    if(viewmodel.userPaymentStatus!.code==200){
+
+      // proceed with uploading the images.
+      setState(() {
+        isUserPaid = true;
+
+      });
+
+    }else if(viewmodel.userPaymentStatus!.code==400){
       setState(() {
         isUserPaid =false;
 

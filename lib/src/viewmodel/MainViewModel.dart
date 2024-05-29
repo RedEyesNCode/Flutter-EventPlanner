@@ -379,9 +379,9 @@ class MainViewModel with ChangeNotifier {
 
 
   Future<void> getUserPaymentStatus(Map<String, dynamic> userData) async {
-    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    // _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
-    _apiResponse.status = Status.LOADING;
+    // _apiResponse.status = Status.LOADING;
 
     notifyListeners();
 

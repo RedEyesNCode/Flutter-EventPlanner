@@ -17,6 +17,7 @@ void main() {
 
   );
 }
+final RouteObserver<PageRoute<dynamic>> routeObserver = RouteObserver<PageRoute<dynamic>>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized(); // Add this
     return MaterialApp(
+      navigatorObservers: [routeObserver],
+
       routes: {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
