@@ -6,6 +6,10 @@ abstract class BaseService {
 
   Future<dynamic> registerUser(Map<String,dynamic> userRegisterData);
 
+  Future<dynamic> forgotPassword(Map<String,dynamic> forgotPassword);
+
+  Future<dynamic> resetPassword(Map<String, dynamic> resetPassword);
+
 
   Future<dynamic> getEventLocations();
 

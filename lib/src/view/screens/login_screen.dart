@@ -8,6 +8,7 @@ import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/screens/signup_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ForgotPasswordBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,16 @@ class _LoginScreenUI extends State<LoginScreenUI> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+  void _showForgotPasswordBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allow scrolling if content exceeds screen
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ), // Add rounded corners
+      builder: (context) => const ForgotPasswordBottomSheet(),
+    );
   }
 
   @override
@@ -170,6 +181,19 @@ class _LoginScreenUI extends State<LoginScreenUI> {
                           ),
                         ),
                       ),
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => {
+                            _showForgotPasswordBottomSheet(context)
+                          },
+                          child:
+                          Text('Forgot password ?',style : TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'SFPro',color: Colors.grey)),
+
+                        )
+
+                      ],
                     ),
                     SizedBox(height: 20.0),
                     SizedBox(height: 20.0),

@@ -45,7 +45,7 @@ class _PanditForm extends State<PanditForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["EXPERIENCED PANDIT", "VERIFIED PANDIT","OTHERS","EXPERIENCED & VERIFIED PANDIT"],
+        options: ["PANDIT"],
         onItemSelected: (selectedItem) {
           _textControllers['pandit_subcategory']?.text = selectedItem;
 

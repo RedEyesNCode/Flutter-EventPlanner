@@ -961,6 +961,40 @@ class AppHttpService extends BaseService{
     }
   }
 
+  @override
+  Future forgotPassword(Map<String, dynamic> forgotPassword) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/forgot-password'), // Adjust the endpoint accordingly
+        body: jsonEncode(forgotPassword),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
+  @override
+  Future resetPassword(Map<String, dynamic> resetPassword) async {
+    try {
+      final response = await http.post(
+        Uri.parse(BaseUrl + 'megma/reset-password'), // Adjust the endpoint accordingly
+        body: jsonEncode(resetPassword),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+  }
+
 
 
 

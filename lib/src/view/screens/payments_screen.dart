@@ -2,6 +2,45 @@ import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({super.key});
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Changed context to dialogContext
+        return AlertDialog(
+          title: Text("Info",
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          content: Text(message,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlayfairDisplay',
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontFamily: 'PlayfairDisplay',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Use the dialogContext here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,37 +65,53 @@ class PaymentScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Expanded(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              Icon(Icons.monetization_on_outlined, size: 40.0, color: Colors.green),
-                              SizedBox(height: 8.0),
-                              Text('Withdraw'),
-                            ],
+                    GestureDetector(
+                      onTap: () => {
+                        showAlertDialog(context, 'Under Development')
+                      },
+                      child: Expanded(
+                        child: Card(
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const <Widget>[
+                                Icon(Icons.monetization_on_outlined, size: 40.0, color: Colors.green),
+                                SizedBox(height: 8.0),
+                                Text('Withdraw',),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    )
+                    ,
                     const SizedBox(width: 16.0), // Add some horizontal space
-                    Expanded(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              Icon(Icons.account_balance_wallet_outlined, size: 40.0, color: Colors.green),
-                              SizedBox(height: 8.0),
-                              Text('Payment History'),
-                            ],
+
+                    GestureDetector(
+                      onTap: () => {
+                        showAlertDialog(context, 'Under Development')
+
+
+                      },
+                      child: Expanded(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const <Widget>[
+                                Icon(Icons.account_balance_wallet_outlined, size: 40.0, color: Colors.green),
+                                SizedBox(height: 8.0),
+                                Text('Payment History'),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
+
                   ],
                 ),
                 const SizedBox(height: 16.0), // Add some vertical space

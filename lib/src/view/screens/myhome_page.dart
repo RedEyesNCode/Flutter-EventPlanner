@@ -16,6 +16,7 @@ import 'package:flutter_eventplanner/src/view/screens/vendor_profile_screen.dart
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CouponCard.dart';
 import 'package:flutter_eventplanner/src/view/widgets/EventCategoryCard.dart';
+import 'package:flutter_eventplanner/src/view/widgets/ResetPasswordBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/image_text_row.dart';
 import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
 import 'package:flutter_eventplanner/src/view/widgets/two_text_card.dart';
@@ -145,6 +146,7 @@ class _HomeScreen extends State<HomeScreen> {
     super.initState();
     _initializeData();
   }
+
 
   void _showCategorySheet(BuildContext context, MainViewModel mainViewModel) {
     showModalBottomSheet(
@@ -426,7 +428,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'PANDIT',
-                            subcategories: ['Expericened Pandit','Pandit for all Purpose'],
+                            subcategories: ['Pandit'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/hindu.png',
@@ -448,7 +450,7 @@ class _HomeScreen extends State<HomeScreen> {
                         Expanded(
                           child: EventCategoryCard(
                             category: 'ENTERTAINMENT',
-                            subcategories: ['Band','DJ','Anchor','Choreographer','Dancer','Singer'],
+                            subcategories: ['Band','DJ','Anchor','Choreographer','Dancer','Singer','Mehandi Artist'],
 
                             categoryUrl:
                             'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
@@ -559,6 +561,18 @@ class NavigationDrawer extends StatelessWidget {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
+  }
+
+
+  void _showResetPasswordSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allow scrolling if content exceeds screen
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ), // Add rounded corners
+      builder: (context) => const ResetPasswordBottomSheet(),
+    );
   }
 
 
@@ -759,6 +773,32 @@ class NavigationDrawer extends StatelessWidget {
               title: Text('Terms & Conditions',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
             ),
           ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+
+                _showResetPasswordSheet(context)
+              },
+              leading: Icon(Icons.password,color: Colors.white,),
+              title: Text('Reset Password',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
+
           Container(
             margin: EdgeInsets.all(5),
             decoration: BoxDecoration(

@@ -112,6 +112,15 @@ class MainViewModel with ChangeNotifier {
   create_hotel_response? _create_hotel_response;
 
 
+  common_response? _forgot_pass_response;
+  common_response? _reset_pass_response;
+
+
+  common_response? get forgotPasswordResponse => _forgot_pass_response;
+  common_response? get resetPasswordResponse => _reset_pass_response;
+
+
+
 
   user_event_by_category_response? get userEventByCategoryResponse => _user_event_by_category_response;
   user_event_name_search_response? get userEventNameSearchResponse => _user_event_name_search_response;
@@ -133,6 +142,8 @@ class MainViewModel with ChangeNotifier {
 
 
   create_hotel_response? get createHotelResponse => _create_hotel_response;
+
+
 
 
 
@@ -202,6 +213,76 @@ class MainViewModel with ChangeNotifier {
       _shouldNotifyListeners = false; // Reset flag after notifying listeners
     }
   }
+  Future<void> forgotPassword(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+    try {
+
+      common_response? response = await MainRepository().forgotPassword(userData);
+      print(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
+
+      _apiResponse = ApiResponse.completed(response);
+      _forgot_pass_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+  Future<void> resetPassword(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+    try {
+
+      common_response? response = await MainRepository().resetPassword(userData);
+      print(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
+
+      _apiResponse = ApiResponse.completed(response);
+      _reset_pass_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
+
   Future<void> deleteEvent(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners

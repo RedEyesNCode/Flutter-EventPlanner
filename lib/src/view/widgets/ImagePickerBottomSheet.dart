@@ -335,7 +335,6 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
                 Container(
                   margin: EdgeInsets.all(6),
                   child: ElevatedButton(
-
                     onPressed: () async {
                       _recordVideo(); // Record a new video
                     },
