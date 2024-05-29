@@ -43,7 +43,7 @@ class _EntertainmentForm extends State<EntertainmentForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Choreographer", "Mehandi","Singers","Dancers","Photographers","Security","Mehandi Artist"],
+        options: ['Band','DJ','Anchor','Choreographer','Dancer','Singer','Mehandi Artist'],
         onItemSelected: (selectedItem) {
           _textControllers['entertainment_subcategory']?.text = selectedItem;
 

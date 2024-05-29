@@ -213,10 +213,9 @@ class _DholForm extends State<DholForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Punjabi Dhol", "Nashik Dhol","Local Dhol","Tasse"],
+        options: ['Punjabi Dhol','Nashik Dhol','Local Dhol','Tasse'],
         onItemSelected: (selectedItem) {
           _textControllers['dhol_subcategory']?.text = selectedItem;
-
           Navigator.pop(context);
           setState(() {}); // Trigger rebuild
         },

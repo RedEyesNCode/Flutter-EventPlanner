@@ -45,7 +45,7 @@ class _WeddingDressForm extends State<WeddingDressForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["BRIDAL DRESS", "GROOM DRESS", "DESIGNER DRESS","OTHER"],
+        options: ['LadkeWale','LadkiWale','Bridal','Groom','All Purpose','Garba Dress'],
         onItemSelected: (selectedItem) {
           _textControllers['wedding_dress_subcategory']?.text = selectedItem;
 

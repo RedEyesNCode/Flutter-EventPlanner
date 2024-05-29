@@ -52,7 +52,7 @@ class _VenueForm extends State<VenueForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["GARDEN", "HOTEL", "BANQUET","RESORT & FARMHOUSE"],
+        options: ['Garden ','Banquet','Hall','Resort','Farmhouse','Cafe & Bar'],
         onItemSelected: (selectedItem) {
           _textControllers['venue_subcategory']?.text = selectedItem;
 

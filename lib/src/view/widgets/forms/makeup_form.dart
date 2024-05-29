@@ -44,7 +44,7 @@ class _MakeupForm extends State<MakeupForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["MAKEUP ARTIST", "MEHANDI ARTIST","BRIDAL MAKEUP EXPERT","GROOM MAKEUP EXPERT"],
+        options:['Beautician','Make up artist','Hair dresser','Gromming'],
         onItemSelected: (selectedItem) {
           _textControllers['makeup_subcategory']?.text = selectedItem;
 

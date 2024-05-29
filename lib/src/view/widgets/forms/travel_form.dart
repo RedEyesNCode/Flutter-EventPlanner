@@ -50,7 +50,7 @@ class _TravelForm extends State<TravelForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["PASSENGER VEHICLE", "LOADING VEHICLE","RENTAL CARS","SUV","BIKES"],
+        options: ['Passenger Vehicle', 'Loading Vehicle'],
         onItemSelected: (selectedItem) {
           _textControllers['travel_subcategory']?.text = selectedItem;
 

@@ -49,7 +49,7 @@ class _TentHouseForm extends State<TentHouseForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["WEDDING TENT", "SMALL TENT","LARGE TENT"],
+        options: ['Pandal','Crockery','Cooler','Carpet','Cooler Fans','Carpets Mets','Chair & Sofa','Tables'],
         onItemSelected: (selectedItem) {
           _textControllers['tenthouse_subcategory']?.text = selectedItem;
 

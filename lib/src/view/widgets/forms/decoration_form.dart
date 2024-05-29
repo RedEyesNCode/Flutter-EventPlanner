@@ -188,7 +188,7 @@ class _DecorationForm extends State<DecorationForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Baloon Decoration", "Flowers Decoration","Cloth Decoration","Theme Decoration"],
+        options: ['Ballon Decoration','Flower Decoration','Theme Decoration'],
         onItemSelected: (selectedItem) {
           _textControllers['decor_subcategory']?.text = selectedItem;
 

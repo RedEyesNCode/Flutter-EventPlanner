@@ -170,7 +170,7 @@ class _CateringForm extends State<CateringForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Non-Veg", "Veg","North Indian","South Indian"],
+        options: ['PureVeg', 'NonVeg','Jain Food without garlic onion'],
         onItemSelected: (selectedItem) {
           _textControllers['catering_subcategory']?.text = selectedItem;
 

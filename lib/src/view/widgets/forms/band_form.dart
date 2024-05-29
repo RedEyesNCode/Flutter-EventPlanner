@@ -172,7 +172,7 @@ class _BandForm extends State<BandForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Ghoodha & Baggi", "Barat and lighting","Theme Band & Singers"],
+        options: ['Band','Ghodha Baggi'],
         onItemSelected: (selectedItem) {
           _textControllers['band_subcategory']?.text = selectedItem;
 

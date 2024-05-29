@@ -49,7 +49,7 @@ class _EntryVarmalaForm extends State<EntryVarmalaForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Amateur Varmala", "Mediocre Varmala","Expensive Varmala","Varmala with Fireworks"],
+        options: ['VARMALA-STAGE','VARMALA-THEME','COUPLE-ENTRY'],
         onItemSelected: (selectedItem) {
           _textControllers['varmala_subcategory']?.text = selectedItem;
 

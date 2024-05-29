@@ -49,7 +49,7 @@ class _DjBandForm extends State<DjBandForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Mobile DJ", "Baarat and Road Show","Floor show","Horse & Baggi","Lighting","Security"],
+        options:['Mobile DJ ','Show DJ','Floor Show'],
         onItemSelected: (selectedItem) {
           _textControllers['djband_subcategory']?.text = selectedItem;
 

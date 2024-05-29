@@ -50,7 +50,7 @@ class _PhotoVideoForm extends State<PhotoVideoForm>{
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["PRE-WEDDING PHOTOGRAPHY", "WEDDING SHOOT","ALL PURPOSE VIDEOGRAPHY & PHOTOGRAPHY"],
+        options: ['Pre Wedding Shoot','Wedding Shoot','Shoot All Purpose'],
         onItemSelected: (selectedItem) {
           _textControllers['photovideo_subcategory']?.text = selectedItem;
 

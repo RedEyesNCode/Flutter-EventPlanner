@@ -181,7 +181,7 @@ class _HotelForm extends State<HotelForm> {
     showModalBottomSheet(
       context: context,
       builder: (context) => OptionsSheet(
-        options: ["Motels", "Apartment Hotel","Botique Hotel","Resorts"],
+        options: ['Resorts','Hotels','Apartments','Halls','Rooms'],
         onItemSelected: (selectedItem) {
           _textControllers['hotel_subcategory']?.text = selectedItem;
 
