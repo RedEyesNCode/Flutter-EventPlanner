@@ -92,22 +92,12 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
     }
 
   }
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    final ModalRoute? modalRoute = ModalRoute.of(context);
-    if (modalRoute is PageRoute) {
-      routeObserver.subscribe(this, modalRoute);
-    }
-    super.didChangeDependencies();
 
-
-  }
 
   @override
   void didPopNext() {
     // TODO: implement didPopNext
-    _checkPaymentStatus(Provider.of<MainViewModel>(context,listen: false));
+    _checkPaymentStatusOnly(Provider.of<MainViewModel>(context,listen: false));
 
   }
   @override
@@ -117,12 +107,16 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
   }
 
   void _showPaymentSheet(BuildContext context) {
+    Navigator.push(
 
-    showModalBottomSheet(
-        context: context,
-        builder: (context) => const VendorPaymentSheet(
-
-        ));
+      context,
+      MaterialPageRoute(builder: (context) => const VendorPaymentSheet()),
+    );
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (context) => const VendorPaymentSheet(
+    //
+    //     ));
   }
   void showAlertDialog(BuildContext context, String message) {
     showDialog(

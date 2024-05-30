@@ -107,9 +107,10 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
     final viewmodel = Provider.of<MainViewModel>(context,listen: false);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Start Subscription",style: TextStyle(fontFamily: 'SFPro',fontSize: 22,fontWeight: FontWeight.bold,color: Colors.brown),), // Customize as needed
+        automaticallyImplyLeading: true,
+        title: Text("Start Subscription",style: TextStyle(fontFamily: 'SFPro',fontSize: 22,fontWeight: FontWeight.bold,color: Colors.redAccent.shade400),), // Customize as needed
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -125,7 +126,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                  color: Color(0xff6e3e14),
+                  color: Colors.redAccent.shade100,
                     width: 2
 
                   ),
@@ -135,28 +136,63 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 10,),
+
+
+                    Center( // Center the SVG
+                      child: Image.asset(
+                          width: 220,
+                          height: 220,
+
+                          'lib/src/images/ic_transfer_money.png'),
+                    ),
+
+                    SizedBox(height: 20),
                     Text(
-                      'Rs 699/-',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: Colors.black),
+                      'Go Premium',
+                      style: TextStyle(fontFamily: 'PlayFairDisplay',fontSize: 24, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          softWrap: true,
+                          'Upgrade to Premium for unlimited \n access & exclusive benefits.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[600],fontFamily: 'SFPro'),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 20),
-                    _buildFeatureRow('Unlimted Events', 'Banking'),
-                    SizedBox(height: 20,),
-                    _buildFeatureRow('Communication', 'Offers'),
-                    SizedBox(height: 20),
+                    Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.brown,
+                            width: 2,
+
+                          ),
+                              borderRadius : BorderRadius.circular(8)
+                        ),
+                        margin: EdgeInsets.all(10.0),
+                        child: _buildSubscriptionPlan('6 Months', '116/month', 'Billed every 6 Months')),
+
+                    SizedBox(height: 30),
+                    
+
+                    SizedBox(height: 30),
+
                     Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color(0xFFFFD144),
-                            Color(0xff6e3e14),
+                            Colors.redAccent.shade700,
+                            Colors.redAccent.shade400
+                            ,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
                         borderRadius: BorderRadius.circular(
-                            30), // Adjust border radius as needed
+                            3), // Adjust border radius as needed
                       ),
 
                       child: ElevatedButton(
@@ -171,10 +207,10 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                10), // Keep consistent with container
+                                3), // Keep consistent with container
                           ),
                         ),
-                        child: Text('Proceed to payment →',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,color: Colors.white),),
+                        child: Text('Get 6 Months / 699.00 →',style: TextStyle(fontFamily: 'SFPro',fontSize: 21,color: Colors.white),),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -182,6 +218,15 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
                 ),
               ),
               _buildGuaranteeSection(),
+              Text(
+                'Frequently Asked Questions',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+
+              _buildFAQItem('When will I be billed?', 'You will be billed immediately upon selecting a plan.'),
+              _buildFAQItem('Does my subscription auto-renew?', 'Yes, your subscription will automatically renew unless you cancel it before the end of the current billing cycle.'),
+
             ],
           ),
         ),
@@ -224,6 +269,60 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
       leading: Icon(icon),
       title: Text(title),
       subtitle: Text(description),
+    );
+  }
+
+
+  Widget _buildSubscriptionPlan(String duration, String price, String billing) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          colors: [
+            Colors.redAccent.shade200,
+            Colors.red.shade400
+          ]
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.redAccent.shade100,
+            spreadRadius: 10,
+            blurRadius: 8,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(duration, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: 'PlayFairDisplay',color: Colors.white)),
+
+              SizedBox(height: 10,),
+              Text(price, style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: 'PlayFairDisplay')),
+            ],
+          ),
+          Text(billing, style: TextStyle(color: Colors.white,fontFamily: 'SFPro')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFAQItem(String question, String answer) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(question, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          SizedBox(height: 5),
+          Text(answer, style: TextStyle(fontSize: 14)),
+        ],
+      ),
     );
   }
 
