@@ -38,12 +38,18 @@ dependencies:
   url_launcher: ^6.1.10 # Or the latest version
   video_player: ^2.8.6
   lottie: ^3.1.2
+  flutter_launcher_icons: ^0.9.2
 
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/src/images/ic_app_logo.jpeg"
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +82,7 @@ flutter:
     - lib/src/images/ic_credit_card.png
     - lib/src/images/ic_transfer_money.png
     - lib/src/images/confetti_one.json
+    - lib/src/images/anim_check.json
 
   fonts:
     - family: PlayfairDisplay  # Use a custom name for your font family

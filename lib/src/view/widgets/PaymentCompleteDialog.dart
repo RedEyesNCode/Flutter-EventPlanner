@@ -28,8 +28,15 @@ class PaymentCompleteDialog extends StatelessWidget {
           children: [
             Stack(
               children: [
+
+                // Lottie.asset(
+                //   lottieAssetPath,
+                //   width: 100,
+                //   height: 100,
+                //   repeat: true,
+                // ),
                 Lottie.asset(
-                  lottieAssetPath,
+                  'lib/src/images/anim_check.json',
                   width: 100,
                   height: 100,
                   repeat: true,
