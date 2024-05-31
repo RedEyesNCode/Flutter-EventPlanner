@@ -28,6 +28,7 @@ import 'package:flutter_eventplanner/src/model/razorpay_create_order_response.da
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_count_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_name_search_response.dart';
 import 'package:flutter_eventplanner/src/model/user_events_response.dart';
 import 'package:flutter_eventplanner/src/repository/MainRepository.dart';
@@ -75,6 +76,8 @@ class MainViewModel with ChangeNotifier {
 
   create_catering_response? _create_catering_response;
 
+  user_event_count_response? _user_event_count_response;
+
 
 
   create_band_response? _create_band_response;
@@ -96,6 +99,9 @@ class MainViewModel with ChangeNotifier {
   common_response? _common_response;
 
   common_response? get commonResponse => _common_response;
+
+  user_event_count_response? get userEventCountResponse => _user_event_count_response;
+
 
 
 
@@ -247,6 +253,41 @@ class MainViewModel with ChangeNotifier {
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
+  Future<void> userEventCount(Map<String, dynamic> userData) async {
+    _apiResponse = ApiResponse.loading('Checking event type decoration');
+    _shouldNotifyListeners = true; // Set flag to notify listeners
+    _apiResponse.status = Status.LOADING;
+    notifyListeners();
+
+    try {
+
+      user_event_count_response? response = await MainRepository().getUserEventCount(userData);
+      print(response);
+      _apiResponse.status = Status.COMPLETED;
+      notifyListeners();
+
+      _apiResponse = ApiResponse.completed(response);
+      _user_event_count_response = response;
+    } on BadRequestException {
+      _apiResponse = ApiResponse.error('User Not found !');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } on FetchDataException {
+      _apiResponse = ApiResponse.error('No Internet Connection');
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+    } catch (e) {
+      _apiResponse = ApiResponse.error('Error : '+e.toString());
+      _apiResponse.status = Status.ERROR;
+      notifyListeners();
+
+      print(e);
+    }
+    _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
+  }
+
   Future<void> resetPassword(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners

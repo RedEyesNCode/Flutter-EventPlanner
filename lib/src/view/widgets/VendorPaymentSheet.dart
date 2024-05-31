@@ -183,7 +183,7 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
                               borderRadius : BorderRadius.circular(8)
                         ),
                         margin: EdgeInsets.all(10.0),
-                        child: _buildSubscriptionPlan('6 Months', '116/month', 'Billed every 6 Months')),
+                        child: _buildSubscriptionPlan('6 Months', '', 'Billed every 6 Months')),
 
                     SizedBox(height: 30),
                     

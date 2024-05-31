@@ -26,6 +26,7 @@ import 'package:flutter_eventplanner/src/model/razorpay_create_order_response.da
 import 'package:flutter_eventplanner/src/model/register_response.dart';
 import 'package:flutter_eventplanner/src/model/upload_image_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_by_category_response.dart';
+import 'package:flutter_eventplanner/src/model/user_event_count_response.dart';
 import 'package:flutter_eventplanner/src/model/user_event_name_search_response.dart';
 import 'package:flutter_eventplanner/src/services/AppHttpService.dart';
 import 'package:flutter_eventplanner/src/services/base_service.dart';
@@ -470,6 +471,20 @@ class MainRepository {
       dynamic response = await _userService.resetPassword(getUserEventsData);
       // Assuming the response is in the format you provided earlier
       return common_response.fromJson(response);
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+
+
+  }
+  Future<user_event_count_response> getUserEventCount(Map<String,dynamic> getUserEventsData) async{
+
+    try {
+      // Assuming _userService handles the registration request
+      dynamic response = await _userService.getUserEventCount(getUserEventsData);
+      // Assuming the response is in the format you provided earlier
+      return user_event_count_response.fromJson(response);
     } catch (error) {
       // Handle error
       throw error;

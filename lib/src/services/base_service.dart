@@ -18,6 +18,9 @@ abstract class BaseService {
 
   Future<dynamic> deleteEvent(Map<String,dynamic> createEventData);
 
+  Future<dynamic> getUserEventCount(Map<String,dynamic> userEventCount);
+
+
 
 
   Future<dynamic> getUserEvents(Map<String,dynamic> getUserEvents);
