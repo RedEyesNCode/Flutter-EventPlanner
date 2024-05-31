@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/view/screens/event_type_screen.dart';
+import 'package:flutter_eventplanner/src/view/widgets/PaymentCompleteDialog.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -40,6 +41,15 @@ class _VendorPaymentSheet extends State<VendorPaymentSheet>{
 
     });
     Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (context) => PaymentCompleteDialog(
+        onPressed: () {
+          Navigator.pop(context); // Close the dialog
+          // Additional actions after dialog dismissal
+        },
+      ),
+    );
 
 
   }
