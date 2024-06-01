@@ -3,14 +3,21 @@ class get_event_details_response {
   int? code;
   String? message;
   Data? data;
+  String? eventCategoryData;
 
-  get_event_details_response({this.status, this.code, this.message, this.data});
+  get_event_details_response(
+      {this.status,
+        this.code,
+        this.message,
+        this.data,
+        this.eventCategoryData});
 
   get_event_details_response.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     code = json['code'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    eventCategoryData = json['eventCategoryData'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,6 +28,7 @@ class get_event_details_response {
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
+    data['eventCategoryData'] = this.eventCategoryData;
     return data;
   }
 }

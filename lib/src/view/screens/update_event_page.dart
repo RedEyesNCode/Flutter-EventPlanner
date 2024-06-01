@@ -318,8 +318,13 @@ class _UpdateEventPage extends State<UpdateEventPage> {
                               Navigator.push(
 
                                 context,
-                                MaterialPageRoute(builder: (context) => UpdateEventCategoryPage()),
+                                MaterialPageRoute(builder: (context) => UpdateEventCategoryPage(
+                                  eventId: widget.eventID,
+
+                                  incomingCategoryName: viewmodel.getEventDetailsResponse!.data!.categoryId!.categoriesName.toString(),
+                                )),
                               )
+
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.only(

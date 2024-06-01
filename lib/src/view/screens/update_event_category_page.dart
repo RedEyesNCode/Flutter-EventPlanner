@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
@@ -30,6 +31,28 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
 
   final TextEditingController _controllerCategory = TextEditingController();
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controllerCategory.text = widget.incomingCategoryName.toString();
+    _callEventDetailsApi();
+
+  }
+
+  Future<void> _callEventDetailsApi() async {
+    Provider.of<MainViewModel>(context, listen: false).getEventDetails(
+        {"eventId": widget.eventId});
+    if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse!=null){
+      var eventDetails =Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse;
+      //parse the json string received in key eventCategoryData.
+      if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='VENUE'){
+        //parse json string for venue.
+        
+      }
+    }
+  }
 
   final TextEditingController _controllerCategoryID = TextEditingController();
 
@@ -169,7 +192,8 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
 
                     onTap: () {
 
-                      _showCategorySheet(context,viewmodel);
+                      // _showCategorySheet(context,viewmodel);
+                      showAlertDialog(context, 'You cannot change event subcategory !');
                     },
                     obscureText: false,
                     cursorColor: Colors.black,
@@ -604,7 +628,14 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
 
 
 class UpdateEventCategoryPage extends StatefulWidget {
-  const UpdateEventCategoryPage({super.key});
+
+
+  final String incomingCategoryName;
+
+  final String eventId;
+
+
+  const UpdateEventCategoryPage({super.key, required this.incomingCategoryName,required this.eventId});
 
 
   @override
