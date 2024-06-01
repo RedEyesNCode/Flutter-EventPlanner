@@ -24,6 +24,7 @@ import 'package:flutter_eventplanner/src/model/body/body_create_weddingdress.dar
 import 'package:flutter_eventplanner/src/model/body_create_event.dart';
 import 'package:flutter_eventplanner/src/session/SharedPrefManager.dart';
 import 'package:flutter_eventplanner/src/utils/api_response.dart';
+import 'package:flutter_eventplanner/src/view/widgets/EventMediaDialog.dart';
 import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/view/widgets/VendorPaymentSheet.dart';
 import 'dart:io'; // For File
@@ -522,6 +523,15 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
                         onPressed: () {
                           if (_imageFiles.length >= 0 && _imageFiles.length <= 10) {
                             if (isUserPaid) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => EventMediaDialog(
+                                  onPressed: () {
+                                    Navigator.pop(context); // Close the dialog
+                                    // Additional actions after dialog dismissal
+                                  },
+                                ),
+                              );
                               _handleUploadImage(
                                   widget.imageUploadData, context, viewmodel, _imageFiles);
                             } else {
@@ -541,7 +551,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
                     ),
                   ],
                 ),
-                if(viewmodel.response.status == Status.LOADING || viewmodel.uploadImageResponse==null)
+                if(viewmodel.response.status == Status.LOADING )
                   LoadingDialog(),
               ],
 
@@ -638,11 +648,36 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
 
         if(viewmodel.createEventVenueResponse?.data!=null){
           // 3. call the upload image api finally
-          await viewmodel.uploadVenueImage({
-            "venueId" :  viewmodel.createEventVenueResponse?.data!.sId.toString(),
-            "file" : imageFiles[0]
-
-          });
+          // await viewmodel.uploadVenueImage({
+          //   "venueId" :  viewmodel.createEventVenueResponse?.data!.sId.toString(),
+          //   "file" : imageFiles[0]
+          //
+          // });
+          for (final imageFile in imageFiles) {
+            try {
+              await viewmodel.uploadVenueImage(
+                {
+                  "venueId": viewmodel.createEventVenueResponse?.data!.sId.toString(),
+                  "file": imageFile,
+                }
+              );
+              print("Image uploaded successfully"); // Optional feedback
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    backgroundColor: Colors.yellow,
+                    content: Text('Image uploaded successfullly !'+imageFile.path.toString(),style: TextStyle(fontFamily: 'SFPro',color: Colors.black,fontSize: 15,fontWeight: FontWeight.w800),)),
+              );
+            } catch (error) {
+              // Example error handling
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text("Upload Error"),
+                  content: Text("Failed to upload an image: $error"),
+                ),
+              );
+            }
+          }
 
 
         }

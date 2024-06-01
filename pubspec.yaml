@@ -83,6 +83,7 @@ flutter:
     - lib/src/images/ic_transfer_money.png
     - lib/src/images/confetti_one.json
     - lib/src/images/anim_check.json
+    - lib/src/images/anim_loader.json
 
   fonts:
     - family: PlayfairDisplay  # Use a custom name for your font family
