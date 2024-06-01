@@ -33,6 +33,7 @@ class ItemUpcomingEvent extends StatelessWidget {
         child: Row(
           children: [
             // Image
+
             Container(
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(

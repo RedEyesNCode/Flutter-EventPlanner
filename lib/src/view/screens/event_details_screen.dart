@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
+import 'package:flutter_eventplanner/src/view/screens/update_event_page.dart';
 import 'package:flutter_eventplanner/src/view/widgets/NoRecordCard.dart';
 import 'package:flutter_eventplanner/src/viewmodel/MainViewModel.dart';
 import 'package:provider/provider.dart';
@@ -522,7 +523,62 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 10.0,)
+            SizedBox(height: 10.0,),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFFFD144),
+                    Color(0xff6e3e14),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(
+                    30), // Adjust border radius as needed
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Api Calling.
+                  print('clicked');
+                  Navigator.push(
+
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdateEventPage(
+
+                      initialData: {
+                        "event_name": "",
+                        "event_type": "",
+                        "start_date": "",
+                        "end_date": "",
+                        "location_id": "",
+                        "description": "",
+                        "Status": ""
+                      },
+                      eventID: widget.eventID,
+                    )),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.only(
+                      left: 95.0, right: 95.0, top: 15.0, bottom: 15.0),
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        10), // Keep consistent with container
+                  ),
+                ),
+                child: Text(
+                  'Update Event Details',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontFamily: 'PlayfairDisplay',
+                      fontWeight: FontWeight.w700), // Adjust text style
+                ),
+              ),
+            ),
 
 
           ],
