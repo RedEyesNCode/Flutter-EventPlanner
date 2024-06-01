@@ -248,12 +248,11 @@ class MainViewModel with ChangeNotifier {
       _apiResponse = ApiResponse.error('Error : '+e.toString());
       _apiResponse.status = Status.ERROR;
       notifyListeners();
-
       print(e);
     }
     _notifyListenersIfNeeded(); // Notify listeners only once after all state changes
   }
-  Future<void> userEventCount(Map<String, dynamic> userData) async {
+  Future<void> getDashboarduserEventCount(Map<String, dynamic> userData) async {
     _apiResponse = ApiResponse.loading('Checking event type decoration');
     _shouldNotifyListeners = true; // Set flag to notify listeners
     _apiResponse.status = Status.LOADING;

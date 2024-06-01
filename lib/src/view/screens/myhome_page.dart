@@ -16,6 +16,7 @@ import 'package:flutter_eventplanner/src/view/screens/vendor_profile_screen.dart
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CouponCard.dart';
 import 'package:flutter_eventplanner/src/view/widgets/EventCategoryCard.dart';
+import 'package:flutter_eventplanner/src/view/widgets/LoadingDialog.dart';
 import 'package:flutter_eventplanner/src/view/widgets/ResetPasswordBottomSheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/image_text_row.dart';
 import 'package:flutter_eventplanner/src/view/widgets/item_upcoming_event.dart';
@@ -145,6 +146,7 @@ class _HomeScreen extends State<HomeScreen> {
   void initState() {
     super.initState();
     _initializeData();
+    callApiUserEventCount();
   }
 
 
@@ -161,6 +163,19 @@ class _HomeScreen extends State<HomeScreen> {
                 setState(() {}); // Trigger rebuild
               },
             ));
+  }
+  Future<void> callApiUserEventCount() async {
+
+    String? sessionUserString = await SharedPrefManager().getString("USER_ID");
+    String? sessionUserLogin =
+    await SharedPrefManager().getString("LOGIN_RESPONSE");
+    login_response? userLoginResponse =
+    login_response.fromJson(jsonDecode(sessionUserLogin!));
+
+    Provider.of<MainViewModel>(context, listen: false)
+        .getDashboarduserEventCount({"userId": sessionUserString});
+
+
   }
 
   Future<void> _initializeData() async {
@@ -279,209 +294,233 @@ class _HomeScreen extends State<HomeScreen> {
               ),
             ),
           ),
+          if(viewmodel.userEventCountResponse!=null)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                          topRight: Radius.circular(10))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 1.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: EventCategoryCard(
+                              category: 'VENUE',
+                              categoryEventCount: viewmodel.userEventCountResponse!.data!.vENUE.toString(),
+                              subcategories: ['Garden ','Banquet','Hall','Resort','Farmhouse','Cafe & Bar'],
 
-          Container(
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                    topRight: Radius.circular(10))),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 1.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: EventCategoryCard(
-                        category: 'VENUE',
-                        subcategories: ['Garden ','Banquet','Hall','Resort','Farmhouse','Cafe & Bar'],
+                              categoryUrl:
+                              'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
+                            ),
+                          ),
+                          Expanded(
+                            child: EventCategoryCard(
+                              category: 'DJ',
+                              categoryEventCount: viewmodel.userEventCountResponse!.data!.dJANDBAND.toString(),
 
-                        categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/VENUE-removebg-preview.png',
+                              subcategories: ['Mobile DJ ','Show DJ','Floor Show'],
+
+                              categoryUrl:
+                              'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
+                            ),
+                          ),
+                          Expanded(
+                            child: EventCategoryCard(
+                              category: 'DECORATION',
+                              subcategories: ['Ballon Decoration','Flower Decoration','Theme Decoration'],
+                              categoryEventCount: viewmodel.userEventCountResponse!.data!.dECORATION.toString(),
+
+                              categoryUrl:
+                              'https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png',
+                            ),
+                          ),
+
+
+                          //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: EventCategoryCard(
-                        category: 'DJ',
-                        subcategories: ['Mobile DJ ','Show DJ','Floor Show'],
-
-                        categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
-                      ),
-                    ),
-                    Expanded(
-                      child: EventCategoryCard(
-                        category: 'DECORATION',
-                        subcategories: ['Ballon Decoration','Flower Decoration','Theme Decoration'],
-
-                        categoryUrl:
-                        'https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png',
-                      ),
-                    ),
-
-
-                    //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                    topRight: Radius.circular(10))),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 1.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                          topRight: Radius.circular(10))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 1.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
 
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'TRAVEL',
-                            subcategories: ['Passenger Vehicle', 'Loading Vehicle'],
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'TRAVEL',
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.tRAVEL.toString(),
+
+                                  subcategories: ['Passenger Vehicle', 'Loading Vehicle'],
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/truck-e1714674238616.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'CATERING',
+                                  subcategories: ['PureVeg', 'NonVeg','Jain Food without garlic onion'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.cATERING.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'VARMALA-ENTRY',
+                                  subcategories: ['VARMALA-STAGE','VARMALA-THEME','COUPLE-ENTRY'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.vARMALAENTRY.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
+                                ),
+                              ),
+
+                              //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'CATERING',
-                            subcategories: ['PureVeg', 'NonVeg','Jain Food without garlic onion'],
 
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png',
+                          Row(
+                            children: [
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'TENTHOUSE',
+                                  subcategories: ['Pandal','Crockery','Cooler','Carpet','Cooler Fans','Carpets Mets','Chair & Sofa','Tables'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.tENTHOUSE.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'PHOTO-VIDEO',
+                                  subcategories: ['Pre Wedding Shoot','Wedding Shoot','Shoot All Purpose'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.pHOTOVIDEO.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png',
+                                ),
+                              ),
+
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'MAKEUP',
+                                  subcategories: ['Beautician','Make up artist','Hair dresser','Gromming'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.mAKEUP.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'VARMALA-ENTRY',
-                            subcategories: ['VARMALA-STAGE','VARMALA-THEME','COUPLE-ENTRY'],
 
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png',
+                          Row(
+                            children: [
+
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'HOTEL',
+                                  subcategories: ['Resorts','Hotels','Apartments','Halls','Rooms'],
+                                  categoryEventCount: '0',
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
+                                ),
+                              ),
+
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'PANDIT',
+                                  subcategories: ['Pandit'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.pANDIT.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/hindu.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'WEDDING DRESS',
+                                  subcategories: ['LadkeWale','LadkiWale','Bridal','Groom','All Purpose','Garba Dress'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.wEDDINGDRESS.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'ENTERTAINMENT',
+                                  subcategories: ['Band','DJ','Anchor','Choreographer','Dancer','Singer','Mehandi Artist'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.eNTERTAINMENT.toString(),
 
-                        //USE SIZED BOX WITH LIST-VIEW BUILDER IF WIDGET IS NOT RENDERING.
-                      ],
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'DHOL',
+                                  subcategories: ['Punjabi Dhol','Nashik Dhol','Local Dhol','Tasse'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.dHOL.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/drum.png',
+                                ),
+                              ),
+                              Expanded(
+                                child: EventCategoryCard(
+                                  category: 'BAND',
+                                  subcategories: ['Band','Ghodha Baggi'],
+                                  categoryEventCount: viewmodel.userEventCountResponse!.data!.bAND.toString(),
+
+                                  categoryUrl:
+                                  'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',
+                                ),
+                              ),
+                            ],
+                          )
+
+                        ],
+                      ),
                     ),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'TENTHOUSE',
-                            subcategories: ['Pandal','Crockery','Cooler','Carpet','Cooler Fans','Carpets Mets','Chair & Sofa','Tables'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png',
-                          ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'PHOTO-VIDEO',
-                            subcategories: ['Pre Wedding Shoot','Wedding Shoot','Shoot All Purpose'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png',
-                          ),
-                        ),
-
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'MAKEUP',
-                            subcategories: ['Beautician','Make up artist','Hair dresser','Gromming'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png',
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'HOTEL',
-                            subcategories: ['Resorts','Hotels','Apartments','Halls','Rooms'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/dj.png',
-                          ),
-                        ),
-
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'PANDIT',
-                            subcategories: ['Pandit'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/hindu.png',
-                          ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'WEDDING DRESS',
-                            subcategories: ['LadkeWale','LadkiWale','Bridal','Groom','All Purpose','Garba Dress'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/28807096_JEMA_GER_1454-01-removebg-preview.png',
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'ENTERTAINMENT',
-                            subcategories: ['Band','DJ','Anchor','Choreographer','Dancer','Singer','Mehandi Artist'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/popcorn.png',
-                          ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'DHOL',
-                            subcategories: ['Punjabi Dhol','Nashik Dhol','Local Dhol','Tasse'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/drum.png',
-                          ),
-                        ),
-                        Expanded(
-                          child: EventCategoryCard(
-                            category: 'BAND',
-                            subcategories: ['Band','Ghodha Baggi'],
-
-                            categoryUrl:
-                            'https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png',
-                          ),
-                        ),
-                      ],
-                    )
-
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
+          if(viewmodel.response.status == Status.LOADING)
+            LoadingDialog(),
 
         ],
       ),

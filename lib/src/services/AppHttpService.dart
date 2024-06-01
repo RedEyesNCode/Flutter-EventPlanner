@@ -1000,7 +1000,7 @@ class AppHttpService extends BaseService{
     try {
       final response = await http.post(
         Uri.parse(BaseUrl + 'megma/get-user-event-count'), // Adjust the endpoint accordingly
-        body: jsonEncode(resetPassword),
+        body: jsonEncode(userEventCount),
         headers: {
           'Content-Type': 'application/json',
         },

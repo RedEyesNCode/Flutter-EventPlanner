@@ -541,7 +541,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
                     ),
                   ],
                 ),
-                if(viewmodel.response.status == Status.LOADING)
+                if(viewmodel.response.status == Status.LOADING || viewmodel.uploadImageResponse==null)
                   LoadingDialog(),
               ],
 
@@ -937,11 +937,18 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> with Ro
 
     }
 
+    if(viewmodel.createEventResponse?.code==200)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Your Event Was Added Successfully !'.toString(),style: TextStyle(fontFamily: 'SFPro',color: Colors.white,fontSize: 21,fontWeight: FontWeight.w800),)),
+      );
 
-    if(viewmodel.response.status == Status.COMPLETED && viewmodel.uploadImageResponse!=null){
-      for (int i = 0; i < 2; i++) {
-        Navigator.pop(context);
-      }
+
+    if(viewmodel.response.status == Status.COMPLETED || viewmodel.uploadImageResponse!=null){
+      // for (int i = 0; i < 2; i++) {
+      //   Navigator.pop(context);
+      // }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             backgroundColor: Colors.green,

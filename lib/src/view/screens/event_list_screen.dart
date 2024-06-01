@@ -170,8 +170,6 @@ class _EventListScreen extends State<EventListScreen>{
             )
           ],
         ),
-
-
       ),
       body:
       SingleChildScrollView(

@@ -7,6 +7,7 @@ import 'package:flutter_eventplanner/src/view/screens/event_list_screen.dart';
 
 class EventCategoryCard extends StatelessWidget {
   final String category;
+  final String categoryEventCount;
 
   final String categoryUrl;
   final List<String> subcategories; // List of subcategories
@@ -14,7 +15,7 @@ class EventCategoryCard extends StatelessWidget {
 
 
 
-  const EventCategoryCard({super.key, required this.category, required this.categoryUrl,    required this.subcategories});
+  const EventCategoryCard({super.key, required this.category, required this.categoryEventCount,required this.categoryUrl,    required this.subcategories});
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +76,20 @@ class EventCategoryCard extends StatelessWidget {
                           child: Image.network(
                             categoryUrl, // Placeholder URL
                             fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(6), // Adjust padding as needed
+                          decoration: BoxDecoration(
+                            color: Colors.red, // Or any color you prefer
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            categoryEventCount, // Your notification count
+                            style: TextStyle(
+                              color: Colors.white, // Or any color that contrasts well
+                              fontSize: 12, // Adjust font size
+                            ),
                           ),
                         ),
                       ],
