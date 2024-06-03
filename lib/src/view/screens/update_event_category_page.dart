@@ -3,7 +3,21 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_band.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_catering.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_decoration.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_dhol.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_djband.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_entertainment.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_makeup.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_pandit.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_photovideo.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_tenthouse.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_travel.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_varmala.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_venue.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_weddingdress.dart';
+import 'package:flutter_eventplanner/src/model/create_pandit_response.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
@@ -35,6 +49,39 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
   final TextEditingController _controllerCategory = TextEditingController();
 
   late body_create_venue _body_create_venue;
+  late body_create_djband _body_create_djband;
+
+  late body_create_decoration _body_create_decoration;
+
+  late body_create_band _body_create_band;
+  late body_create_dhol _body_create_dhol;
+
+  late body_create_entertainment _body_create_entertainment;
+
+  late body_create_makeup _body_create_makeup;
+
+  late body_create_photovideo _body_photo_video;
+
+  late body_create_travel _body_create_travel;
+
+  late body_create_pandit _body_create_pandit;
+
+  late body_create_tenthouse _body_create_tenthouse;
+
+  late body_create_varmala _body_create_varmala;
+
+  late body_create_weddingdress _body_create_wedding_dress;
+
+  late body_create_catering _body_create_catering;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -55,23 +102,132 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
       //parse the json string received in key eventCategoryData.
       if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='VENUE'){
         //parse json string for venue.
-
         List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
-
         // Map the JSON data to a list of EventCategoryData objects
         List<body_create_venue> eventCategoryDataList = eventCategoryDataJson
             .map((item) => body_create_venue.fromJson(item))
             .toList();
         var categoryDetail = eventCategoryDataList[0];
-
         _body_create_venue = categoryDetail;
-
-
         print(categoryDetail.venueName);
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='DJ AND BAND'){
+        //parse json string for venue.
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_djband> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_djband.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_djband = categoryDetail;
+        print(categoryDetail.djBandName);
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='DECORATION'){
+
+        //parse json string for venue.
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_decoration> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_decoration.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_decoration = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='BAND'){
+
+        //parse json string for venue.
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_band> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_band.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_band = categoryDetail;
+
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='DHOL'){
+        //parse json string for venue.
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_dhol> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_dhol.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_dhol = categoryDetail;
 
 
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='ENTERTAINMENT'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_entertainment> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_entertainment.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_entertainment = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='MAKE-UP'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_makeup> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_makeup.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_makeup = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='PHOTO-VIDEO'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_photovideo> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_photovideo.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_photo_video = categoryDetail;
 
 
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='TRAVEL'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_travel> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_travel.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_travel = categoryDetail;
+
+
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='PANDIT'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_pandit> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_pandit.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_pandit = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='TENTHOUSE'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_tenthouse> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_tenthouse.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_tenthouse = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='VARMALA-ENTRY'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+
+        List<body_create_varmala> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_varmala.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_varmala = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='CATERING'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+
+        List<body_create_catering> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_catering.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_catering = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='WEDDING DRESS'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+
+        List<body_create_tenthouse> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_tenthouse.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_tenthouse = categoryDetail;
       }
     }
   }
@@ -373,18 +529,18 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   DjBandForm(initialData: {
-                    "dj_band_name": "",
+                    "dj_band_name": _body_create_djband.djBandName.toString(),
                     "djband_subcategory": "",
-                    "members": "",
-                    "genre": "",
-                    "description": "",
-                    "availability": "",
-                    "rate": "10000",
-                    "location": "",
-                    "equiment": "",
-                    "reviews": "",
-                    "rating": "",
-                    "contact_information": ""
+                    "members": _body_create_djband.members.toString(),
+                    "genre": _body_create_djband.genre.toString(),
+                    "description": _body_create_djband.description.toString(),
+                    "availability": _body_create_djband.availability.toString(),
+                    "rate": _body_create_djband.rate.toString(),
+                    "location": _body_create_djband.location.toString(),
+                    "equiment": _body_create_djband.equipment.toString(),
+                    "reviews": _body_create_djband.reviews.toString(),
+                    "rating": _body_create_djband.rating.toString(),
+                    "contact_information": _body_create_djband.contactInformation.toString()
                   },categoryEventID: category_id),
                 ],
               ),
