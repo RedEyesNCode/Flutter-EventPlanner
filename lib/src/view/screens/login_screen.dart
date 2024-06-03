@@ -39,8 +39,8 @@ class _LoginScreenUI extends State<LoginScreenUI> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _emailController.text = "new@mail.com";
-    _passwordController.text = "SF";
+    _emailController.text = "test";
+    _passwordController.text = "pass";
   }
 
   @override

@@ -18,6 +18,10 @@ abstract class BaseService {
 
   Future<dynamic> deleteEvent(Map<String,dynamic> createEventData);
 
+  Future<dynamic> updateEvent(Map<String,dynamic> updateEventData);
+
+
+
   Future<dynamic> getUserEventCount(Map<String,dynamic> userEventCount);
 
 

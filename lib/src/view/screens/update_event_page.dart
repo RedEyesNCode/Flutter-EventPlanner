@@ -112,8 +112,12 @@ class _UpdateEventPage extends State<UpdateEventPage> {
         _textControllers['location_id']?.text = eventDetails!.data!.locationId!.venueName.toString();
         _textControllers['description']?.text = eventDetails!.data!.description.toString();
         _textControllers['Status']?.text = eventDetails!.data!.status.toString();
+        _locationId = eventDetails!.data!.locationId!.sId.toString();
 
       });
+      
+
+
     }
   }
 
@@ -404,10 +408,13 @@ class _UpdateEventPage extends State<UpdateEventPage> {
 
   _handleEventSession(BuildContext buildContext,MainViewModel viewmodel) async {
 
+    // Call the update event api instead.
+
+
     String? sessionUserString = await SharedPrefManager().getString("USER_ID");
 
 
-    var eventData = body_create_event(
+    var updateEventData = body_create_event(
       eventname: _textControllers['event_name']?.text.toString(),
       eventtype: _textControllers['event_type']?.text.toString(),
       startdate: _textControllers['start_date']?.text.toString(),
@@ -418,37 +425,33 @@ class _UpdateEventPage extends State<UpdateEventPage> {
       // userId:'STATIC_FLUTTER',
       locationid: _locationId,
     );
-    await SharedPrefManager().setString('CREATE-EVENT', jsonEncode(eventData));
-    String? retrievedEvent =
-    await SharedPrefManager().getString('CREATE-EVENT');
-    if (retrievedEvent!=null) {
-      print(jsonDecode(retrievedEvent));
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => EventTypeScreen()),
-      );
-      // check the payment status of the user.
+    var eventDetails =Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse;
 
-      // viewmodel.getUserPaymentStatus({
-      //   'userId' : sessionUserString,
-      // });
-      // if(viewmodel.userPaymentStatus!.code==200){
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text('You have already paid ! '),
-      //     backgroundColor: Colors.green,
-      //   ));
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => EventTypeScreen()),
-      //   );
-      // }else if(viewmodel.userPaymentStatus!.code==400){
-      //   _showPaymentSheet(context);
-      //
-      // }
+    viewmodel.updateEventDetails({
+      "event_name": _textControllers['event_name']?.text.toString(),
+      "event_type": _textControllers['event_type']?.text.toString(),
+      "start_date": _textControllers['start_date']?.text.toString(),
+      "end_date": _textControllers['end_date']?.text.toString(),
+      "description": _textControllers['description']?.text.toString(),
+      "status": _textControllers['Status']?.text.toString(),
+      "userId":sessionUserString,
+      "eventId" : eventDetails?.data?.sId!.toString(),
+      // userId:'STATIC_FLUTTER',
+      "location_id" : _locationId,
+
+
+
+    });
+    if(viewmodel.updateEventResponse!=null) {
+
+      showAlertDialog(context, 'Event Updated Successfully !');
+    }
+
+
 
 
 
 
     }
   }
-}
+

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_venue.dart';
 import 'package:flutter_eventplanner/src/view/screens/myhome_page.dart';
 import 'package:flutter_eventplanner/src/view/widgets/CategorySheet.dart';
 import 'package:flutter_eventplanner/src/view/widgets/OptionsSheet.dart';
@@ -31,6 +34,9 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
 
   final TextEditingController _controllerCategory = TextEditingController();
 
+  late body_create_venue _body_create_venue;
+
+
 
   @override
   void initState() {
@@ -49,7 +55,23 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
       //parse the json string received in key eventCategoryData.
       if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='VENUE'){
         //parse json string for venue.
-        
+
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+
+        // Map the JSON data to a list of EventCategoryData objects
+        List<body_create_venue> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_venue.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+
+        _body_create_venue = categoryDetail;
+
+
+        print(categoryDetail.venueName);
+
+
+
+
       }
     }
   }
@@ -264,20 +286,21 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                   SizedBox(
                     height: 5.0,
                   ),
+
                   VenueForm(initialData: {
-                    "venue_name": "",
+                    "venue_name": _body_create_venue.venueName.toString(),
                     "venue_subcategory": "",
-                    "venue_address": "",
-                    "venue_capacity": "",
-                    "venue_contact_person": "",
-                    "contact_email_phone": "",
-                    "additional_services": "",
-                    "parking_facility": "",
-                    "accessibility": "",
-                    "alcohol_permission": "",
-                    "cost": "",
-                    "payment_terms": "",
-                    "security_needs": "",
+                    "venue_address": _body_create_venue.venueAddress.toString(),
+                    "venue_capacity": _body_create_venue.venueCapacity.toString(),
+                    "venue_contact_person": _body_create_venue.venueContactPerson.toString(),
+                    "contact_email_phone": _body_create_venue.contactEmailPhone.toString(),
+                    "additional_services": _body_create_venue.additionalServices.toString(),
+                    "parking_facility": _body_create_venue.parkingFacility.toString(),
+                    "accessibility": _body_create_venue.additionalServices.toString(),
+                    "alcohol_permission": _body_create_venue.alcoholPermission.toString(),
+                    "cost": _body_create_venue.cost.toString(),
+                    "payment_terms": _body_create_venue.paymentTerms.toString(),
+                    "security_needs": _body_create_venue.securityNeeds.toString(),
                   },categoryEventID: category_id,),
                   SizedBox(
                     height: 5.0,
