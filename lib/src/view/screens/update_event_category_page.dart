@@ -9,6 +9,7 @@ import 'package:flutter_eventplanner/src/model/body/body_create_decoration.dart'
 import 'package:flutter_eventplanner/src/model/body/body_create_dhol.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_djband.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_entertainment.dart';
+import 'package:flutter_eventplanner/src/model/body/body_create_hotel.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_makeup.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_pandit.dart';
 import 'package:flutter_eventplanner/src/model/body/body_create_photovideo.dart';
@@ -73,6 +74,8 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
   late body_create_weddingdress _body_create_wedding_dress;
 
   late body_create_catering _body_create_catering;
+
+  late body_create_hotel _body_create_hotel;
 
 
 
@@ -228,6 +231,14 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
             .toList();
         var categoryDetail = eventCategoryDataList[0];
         _body_create_tenthouse = categoryDetail;
+      }else if(Provider.of<MainViewModel>(context,listen: false).getEventDetailsResponse?.data?.categoryId!.categoriesName=='HOTEL'){
+        List<dynamic> eventCategoryDataJson = jsonDecode(eventDetails!.eventCategoryData!);
+
+        List<body_create_hotel> eventCategoryDataList = eventCategoryDataJson
+            .map((item) => body_create_hotel.fromJson(item))
+            .toList();
+        var categoryDetail = eventCategoryDataList[0];
+        _body_create_hotel = categoryDetail;
       }
     }
   }
@@ -410,14 +421,14 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                     height: 5.0,
                   ),
                   HotelForm(initialData: {
-                    "hotel_name": "",
-                    "hotel_subcategory": "",
-                    "hotel_address": "",
-                    "hotel_capacity": "",
-                    "hotel_number": "",
-                    "hotel_checkin": "",
-                    "hotel_checkout": "",
-                    "hotel_price": "",
+                    "hotel_name": _body_create_hotel.hotelName.toString(),
+                    "hotel_subcategory":'',
+                    "hotel_address": _body_create_hotel.hotelAddress.toString(),
+                    "hotel_capacity": _body_create_hotel.hotelCapacity.toString(),
+                    "hotel_number": _body_create_hotel.hotelNumber.toString(),
+                    "hotel_checkin": _body_create_hotel.hotelCheckin.toString(),
+                    "hotel_checkout": _body_create_hotel.hotelCheckout.toString(),
+                    "hotel_price": _body_create_hotel.hotelPrice.toString(),
                   },eventCategoryID: category_id,),
                   SizedBox(
                     height: 5.0,
@@ -476,18 +487,18 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   WeddingDressForm(initialData: {
-                    "name": "",
-                    "wedding_dress_subcategory" : "",
-                    "designer": "",
-                    "style": "",
-                    "color": "",
-                    "fabric": "",
-                    "size": "",
-                    "price": "",
-                    "description": "",
-                    "availability": "",
-                    "rating": "",
-                    "tags": "",
+                    "name": _body_create_wedding_dress.name.toString(),
+                    "wedding_dress_subcategory" :_body_create_wedding_dress.weddingDressSubcategory.toString(),
+                    "designer": _body_create_wedding_dress.designer.toString(),
+                    "style": _body_create_wedding_dress.style.toString(),
+                    "color": _body_create_wedding_dress.color.toString(),
+                    "fabric": _body_create_wedding_dress.fabric.toString(),
+                    "size": _body_create_wedding_dress.size.toString(),
+                    "price": _body_create_wedding_dress.price.toString(),
+                    "description": _body_create_wedding_dress.description.toString(),
+                    "availability": _body_create_wedding_dress.availability.toString(),
+                    "rating": _body_create_wedding_dress.rating.toString(),
+                    "tags": _body_create_wedding_dress.tags.toString(),
                   },eventCategoryID: category_id),
                 ],
               ),
@@ -505,12 +516,12 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   CateringForm(initialData: {
-                    "name": "",
-                    "catering_subcategory": "",
-                    "address": "",
-                    "contact": "",
-                    "description": "",
-                    "price": "",
+                    "name": _body_create_catering.name.toString(),
+                    "catering_subcategory": _body_create_catering.cateringSubcategory.toString(),
+                    "address": _body_create_catering.address.toString(),
+                    "contact": _body_create_catering.contact.toString(),
+                    "description": _body_create_catering.description.toString(),
+                    "price": _body_create_catering.price.toString(),
                   },eventCategoryID: category_id),
                 ],
               ),
@@ -558,13 +569,13 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   BandForm(initialData: {
-                    "band_name": "",
+                    "band_name": _body_create_band.bandName.toString(),
                     "band_subcategory": "",
-                    "genre": "",
-                    "contact_person": "",
-                    "contact_number": "",
-                    "email": "",
-                    "address": "",
+                    "genre": _body_create_band.genre.toString(),
+                    "contact_person":_body_create_band.contactPerson.toString(),
+                    "contact_number": _body_create_band.contactNumber.toString(),
+                    "email": _body_create_band.email.toString(),
+                    "address": _body_create_band.address.toString(),
                   },eventCategoryID: category_id),
                 ],
               ),
@@ -582,12 +593,12 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   EntertainmentForm(initialData: {
-                    "event_name": "",
-                    "entertainment_subcategory": "",
-                    "event_description": "",
-                    "event_type": "",
-                    "event_date_time": "",
-                    "duration": "",
+                    "event_name": _body_create_entertainment.eventName.toString(),
+                    "entertainment_subcategory": _body_create_entertainment.entertainmentSubcategory.toString(),
+                    "event_description": _body_create_entertainment.eventDescription.toString(),
+                    "event_type": _body_create_entertainment.eventType.toString(),
+                    "event_date_time": _body_create_entertainment.eventDateTime.toString(),
+                    "duration": _body_create_entertainment.duration.toString(),
                     "ticket_price": "",
                   },eventCategoryID: category_id),
                 ],
@@ -605,12 +616,12 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   DholForm(initialData: {
-                    "group_name": "",
-                    "dhol_subcategory": "",
-                    "contact_person": "",
-                    "contact_number": "",
-                    "email": "",
-                    "address": "",
+                    "group_name": _body_create_dhol.groupName.toString(),
+                    "dhol_subcategory": _body_create_dhol.dholSubcategory.toString(),
+                    "contact_person": _body_create_dhol.contactPerson.toString(),
+                    "contact_number": _body_create_dhol.contactNumber.toString(),
+                    "email": _body_create_dhol.email.toString(),
+                    "address": _body_create_dhol.address.toString(),
                   },eventCategoryID: category_id),
                 ],
               ),
@@ -629,15 +640,15 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   DecorationForm(initialData: {
-                    "decoration_name": "",
-                    "decor_subcategory": "",
-                    "members": "",
-                    "description": "",
-                    "hourly_rate": "",
-                    "min_hours": "",
-                    "rate": "10000",
-                    "location": "",
-                    "contact_information": ""
+                    "decoration_name":  _body_create_decoration.name.toString(),
+                    "decor_subcategory": _body_create_decoration.decorSubcategory.toString(),
+                    "members": _body_create_decoration.members.toString(),
+                    "description": _body_create_decoration.description.toString(),
+                    "hourly_rate": _body_create_decoration.hourlyRate.toString(),
+                    "min_hours": _body_create_decoration.minHours.toString(),
+                    "rate": _body_create_decoration.rate.toString(),
+                    "location": _body_create_decoration.location.toString(),
+                    "contact_information": ''
                   },categoryEventID: category_id),
                 ],
               ),
@@ -654,17 +665,17 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   MakeupForm(initialData: {
-                    "service_name": "",
-                    "makeup_subcategory": "",
-                    "first_name" : "",
-                    "last_name" : "",
-                    "members": "",
-                    "description": "",
-                    "hourly_rate": "",
-                    "min_hours": "",
-                    "rate": "10000",
-                    "location": "",
-                    "contact_information": ""
+                    "service_name": _body_create_makeup.serviceName.toString(),
+                    "makeup_subcategory": _body_create_makeup.makeupSubcategory.toString(),
+                    "first_name" : _body_create_makeup.firstName.toString(),
+                    "last_name" : _body_create_makeup.lastName.toString(),
+                    "members": _body_create_makeup.members.toString(),
+                    "description": _body_create_makeup.description.toString(),
+                    "hourly_rate": _body_create_makeup.hourlyRate.toString(),
+                    "min_hours": _body_create_makeup.minHours.toString(),
+                    "rate":  _body_create_makeup.rate.toString(),
+                    "location":  _body_create_makeup.location.toString(),
+                    "contact_information":  _body_create_makeup.contactInformation.toString()
                   },categoryEventID: category_id),
                 ],
               ),
@@ -681,13 +692,13 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   PhotoVideoForm(initialData: {
-                    "service_name": "",
-                    "photovideo_subcategory": "",
-                    "client_name" : "",
-                    "type_of_coverage" : "",
-                    "duration" : "",
-                    "hourly_rate" : "",
-                    "contact_information": ""
+                    "service_name": _body_photo_video.serviceName.toString(),
+                    "photovideo_subcategory": _body_photo_video.photovideoSubcategory.toString(),
+                    "client_name" : _body_photo_video.clientName.toString(),
+                    "type_of_coverage" : _body_photo_video.typeOfCoverage.toString(),
+                    "duration" : _body_photo_video.duration.toString(),
+                    "hourly_rate" : _body_photo_video.hourlyRate.toString(),
+                    "contact_information": _body_photo_video.contactInformation.toString()
                   },categoryEventID: category_id),
                 ],
               ),
@@ -704,16 +715,16 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   TravelForm(initialData: {
-                    "service_name": "",
-                    "travel_subcategory": "",
-                    "client_name" : "",
-                    "type_of_coverage" : "",
-                    "duration" : "",
-                    "hourly_rate" : "",
-                    "vehicle_type" : "",
-                    "pickup_location" : "",
-                    "drop_off_location" : "",
-                    "contact_information": ""
+                    "service_name": _body_create_travel.serviceName.toString(),
+                    "travel_subcategory": _body_create_travel.travelSubcategory.toString(),
+                    "client_name" : _body_create_travel.clientName.toString(),
+                    "type_of_coverage" : _body_create_travel.typeOfCoverage.toString(),
+                    "duration" : _body_create_travel.duration.toString(),
+                    "hourly_rate" : _body_create_travel.hourlyRate.toString(),
+                    "vehicle_type" : _body_create_travel.vehcileType.toString(),
+                    "pickup_location" : _body_create_travel.pickupLocation.toString(),
+                    "drop_off_location" : _body_create_travel.dropoffLocation.toString(),
+                    "contact_information": ''
                   },categoryEventID: category_id),
                 ],
               ),
@@ -730,14 +741,14 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   EntryVarmalaForm(initialData: {
-                    "name": "",
-                    "varmala_subcategory": "",
-                    "date" : "",
-                    "location" : "",
-                    "description" : "",
-                    "category" : "",
-                    "number_of_guests" : "",
-                    "requirements" : "",
+                    "name": _body_create_varmala.name.toString(),
+                    "varmala_subcategory": _body_create_varmala.varmalaSubcategory.toString(),
+                    "date" : _body_create_varmala.date.toString(),
+                    "location" : _body_create_varmala.location.toString(),
+                    "description" : _body_create_varmala.description.toString(),
+                    "category" : _body_create_varmala.category.toString(),
+                    "number_of_guests" :  _body_create_varmala.numberOfGuests.toString(),
+                    "requirements" : _body_create_varmala.requirements.toString(),
                   },categoryEventID: category_id),
                 ],
               ),
@@ -754,13 +765,13 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   TentHouseForm(initialData: {
-                    "name": "",
-                    "tenthouse_subcategory": "",
+                    "name": _body_create_tenthouse.name.toString(),
+                    "tenthouse_subcategory": _body_create_tenthouse.tenthouseSubcategory.toString(),
                     "number": "",
-                    "adderss" : "",
-                    "description" : "",
-                    "price" : "",
-                    "availability" : "",
+                    "adderss" : _body_create_tenthouse.adderss.toString(),
+                    "description" : _body_create_tenthouse.description.toString(),
+                    "price" : _body_create_tenthouse.price.toString(),
+                    "availability" : _body_create_tenthouse.availability.toString(),
                   },categoryEventID: category_id),
                 ],
               ),
@@ -776,13 +787,13 @@ class _UpdateEventCategoryPage extends State<UpdateEventCategoryPage>{
                         fontWeight: FontWeight.w700),
                   ),
                   PanditForm(initialData: {
-                    "name" : "",
-                    "pandit_subcategory" : "",
-                    "address" : "",
-                    "contact" : "",
-                    "description" : "",
-                    "speciality" : "",
-                    "years_of_experience" : "",
+                    "name" : _body_create_pandit.name.toString(),
+                    "pandit_subcategory" : _body_create_pandit.panditSubcateogry.toString(),
+                    "address" : _body_create_pandit.address.toString(),
+                    "contact" : _body_create_pandit.contact.toString(),
+                    "description" : _body_create_pandit.description.toString(),
+                    "speciality" : _body_create_pandit.speciality.toString(),
+                    "years_of_experience" : _body_create_pandit.yearsOfExperience.toString(),
                   },eventCategoryID : category_id),
                 ],
               )
