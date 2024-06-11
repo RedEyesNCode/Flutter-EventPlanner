@@ -837,6 +837,31 @@ class NavigationDrawer extends StatelessWidget {
               title: Text('Reset Password',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
             ),
           ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD144),
+                      Color(0xff6e3e14),
+                    ]
+                ),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+
+            ),
+            child: ListTile(
+              onTap: () => {
+
+
+              },
+              leading: Icon(Icons.contact_mail,color: Colors.white,),
+              title: Text('Contact Us \n +91 74892 25750 ',style: TextStyle(fontSize: 18,fontFamily: 'SFPro',color: Colors.white,fontWeight: FontWeight.w600),),
+            ),
+          ),
 
           Container(
             margin: EdgeInsets.all(5),
