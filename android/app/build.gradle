@@ -22,6 +22,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
 android {
     namespace "io.redeyesncode.flutter_eventplanner"
     compileSdk flutter.compileSdkVersion
@@ -34,21 +39,10 @@ android {
 
     signingConfigs {
         release {
-            // Load keystore properties from the file
-            def keystorePropertiesFile = rootProject.file("key.properties")
-            if (keystorePropertiesFile.exists()) {
-                println("Keystore file exists: " + keystorePropertiesFile(props['storeFile']).exists())
-
-                def props = new Properties()
-                props.load(new FileInputStream(keystorePropertiesFile))
-
-                storeFile file(props['storeFile'])
-                storePassword props['storePassword']
-                keyAlias props['keyAlias']
-                keyPassword props['keyPassword']
-            } else {
-                throw new GradleException("key.properties not found")  // Added for error handling
-            }
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
     buildTypes {
